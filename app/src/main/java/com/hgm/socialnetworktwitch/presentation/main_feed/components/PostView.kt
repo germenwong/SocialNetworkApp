@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.presentation.components
+package com.hgm.socialnetworktwitch.presentation.main_feed.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,6 +46,7 @@ import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.domain.model.Post
 import com.hgm.socialnetworktwitch.presentation.ui.theme.HintGray
 import com.hgm.socialnetworktwitch.presentation.ui.theme.MediumGray
+import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSize
 import com.hgm.socialnetworktwitch.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceSmall
@@ -60,7 +61,7 @@ import com.hgm.socialnetworktwitch.util.Constants.POST_DESCRIPTION_MAX_LINE
 @Composable
 fun PostView(
       post: Post,
-      profilePictureSize: Dp = 70.dp
+      onPostClick: () -> Unit={}
 ) {
       Box(
             modifier = Modifier
@@ -70,10 +71,11 @@ fun PostView(
             Column(
                   modifier = Modifier
                         .fillMaxWidth()
-                        .offset(y = profilePictureSize / 2f)//内容偏移头像的一半
+                        .offset(y = ProfilePictureSize / 2f)//内容偏移头像的一半
                         .clip(RoundedCornerShape(RoundedCornerMedium))
                         .shadow(5.dp)
                         .background(MediumGray)
+                        .clickable { onPostClick() }
             ) {
                   Image(
                         painter = painterResource(id = R.drawable.kermit),
@@ -148,7 +150,7 @@ fun PostView(
                   painter = painterResource(id = R.drawable.germen),
                   contentDescription = "Profile picture",
                   modifier = Modifier
-                        .size(profilePictureSize)
+                        .size(ProfilePictureSize)
                         .clip(CircleShape)
                         .align(Alignment.TopCenter)
             )

@@ -8,11 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.hgm.socialnetworktwitch.domain.model.Post
 import com.hgm.socialnetworktwitch.presentation.activity.ActivityScreen
 import com.hgm.socialnetworktwitch.presentation.chat.ChatScreen
 import com.hgm.socialnetworktwitch.presentation.create_post.CreatePostScreen
 import com.hgm.socialnetworktwitch.presentation.login.LoginScreen
 import com.hgm.socialnetworktwitch.presentation.main_feed.MainFeedScreen
+import com.hgm.socialnetworktwitch.presentation.post_detail.PostDetailScreen
 import com.hgm.socialnetworktwitch.presentation.profile.ProfileScreen
 import com.hgm.socialnetworktwitch.presentation.register.RegisterScreen
 import com.hgm.socialnetworktwitch.presentation.splash.SplashScreen
@@ -30,7 +32,9 @@ fun Navigation(
       NavHost(
             navController = navController,
             startDestination = Screen.MainFeedScreen.route,
-            modifier = Modifier.fillMaxSize().padding(paddingValues)
+            modifier = Modifier
+                  .fillMaxSize()
+                  .padding(paddingValues)
       ) {
             composable(Screen.SplashScreen.route) {
                   SplashScreen(navController = navController)
@@ -62,6 +66,22 @@ fun Navigation(
 
             composable(Screen.CreatePostScreen.route) {
                   CreatePostScreen(navController = navController)
+            }
+
+            composable(Screen.PostDetailScreen.route){
+                  PostDetailScreen(
+                        navController = navController,
+                        post = Post(
+                              username = "Germen Wong",
+                              imageUrl = "",
+                              profilePicture = "",
+                              description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed" +
+                                      "diam nonumy eirmod tempor invidunt ut labore et dolore " +
+                                      "magna aliquyam erat...",
+                              likeCount = 14,
+                              commentCount = 53
+                        )
+                  )
             }
       }
 }

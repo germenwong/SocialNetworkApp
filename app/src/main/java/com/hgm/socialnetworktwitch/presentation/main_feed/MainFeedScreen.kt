@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.domain.model.Post
-import com.hgm.socialnetworktwitch.presentation.components.PostView
+import com.hgm.socialnetworktwitch.presentation.main_feed.components.PostView
 import com.hgm.socialnetworktwitch.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.presentation.util.Screen
@@ -37,7 +36,7 @@ fun MainFeedScreen(
             modifier = Modifier.fillMaxSize(),
       ) {
             StandardTopBar(
-                  navController,
+                  navController = navController,
                   title = {
                         Text(
                               text = stringResource(id = R.string.your_feed),
@@ -46,7 +45,6 @@ fun MainFeedScreen(
                         )
                   },
                   modifier = Modifier.fillMaxWidth(),
-                  showBackIcon = true,
                   navAction = {
                         IconButton(onClick = {
                               navController.navigate(Screen.SearchScreen.route)
@@ -78,7 +76,9 @@ fun MainFeedScreen(
                                     likeCount = 14,
                                     commentCount = 53
                               )
-                        )
+                        ){
+                              navController.navigate(Screen.PostDetailScreen.route)
+                        }
                   }
             }
       }
