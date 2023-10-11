@@ -46,7 +46,7 @@ import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.domain.model.Post
 import com.hgm.socialnetworktwitch.presentation.ui.theme.HintGray
 import com.hgm.socialnetworktwitch.presentation.ui.theme.MediumGray
-import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSize
+import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureMediumSize
 import com.hgm.socialnetworktwitch.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceSmall
@@ -60,18 +60,20 @@ import com.hgm.socialnetworktwitch.util.Constants.POST_DESCRIPTION_MAX_LINE
  */
 @Composable
 fun PostView(
+      modifier: Modifier=Modifier,
       post: Post,
-      onPostClick: () -> Unit={}
+      showProfileImage: Boolean = true,
+      onPostClick: () -> Unit = {}
 ) {
       Box(
-            modifier = Modifier
+            modifier = modifier
                   .fillMaxWidth()
                   .padding(SpaceMedium)
       ) {
             Column(
                   modifier = Modifier
                         .fillMaxWidth()
-                        .offset(y = ProfilePictureSize / 2f)//内容偏移头像的一半
+                        .offset(y = if (showProfileImage) ProfilePictureMediumSize / 2f else 0.dp)//内容偏移头像的一半
                         .clip(RoundedCornerShape(RoundedCornerMedium))
                         .shadow(5.dp)
                         .background(MediumGray)
@@ -146,14 +148,16 @@ fun PostView(
                         }
                   }
             }
-            Image(
-                  painter = painterResource(id = R.drawable.germen),
-                  contentDescription = "Profile picture",
-                  modifier = Modifier
-                        .size(ProfilePictureSize)
-                        .clip(CircleShape)
-                        .align(Alignment.TopCenter)
-            )
+            if (showProfileImage) {
+                  Image(
+                        painter = painterResource(id = R.drawable.germen),
+                        contentDescription = "Profile picture",
+                        modifier = Modifier
+                              .size(ProfilePictureMediumSize)
+                              .clip(CircleShape)
+                              .align(Alignment.TopCenter)
+                  )
+            }
       }
 }
 

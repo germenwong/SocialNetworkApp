@@ -31,7 +31,7 @@ fun Navigation(
 ) {
       NavHost(
             navController = navController,
-            startDestination = Screen.MainFeedScreen.route,
+            startDestination = Screen.ProfileScreen.route,
             modifier = Modifier
                   .fillMaxSize()
                   .padding(paddingValues)
@@ -82,6 +82,11 @@ fun Navigation(
                               commentCount = 53
                         )
                   )
+            }
+
+
+            composable(Screen.EditProfileScreen.route){
+                  //EditProfileScreen
             }
       }
 }

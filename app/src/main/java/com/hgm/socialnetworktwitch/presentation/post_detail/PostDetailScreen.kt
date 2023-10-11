@@ -7,10 +7,8 @@ package com.hgm.socialnetworktwitch.presentation.post_detail
  */
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,16 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,8 +39,7 @@ import com.hgm.socialnetworktwitch.presentation.main_feed.components.ActionRow
 import com.hgm.socialnetworktwitch.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.presentation.post_detail.components.CommentView
 import com.hgm.socialnetworktwitch.presentation.ui.theme.MediumGray
-import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSize
-import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSmallSize
+import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureMediumSize
 import com.hgm.socialnetworktwitch.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
@@ -94,7 +84,7 @@ fun PostDetailScreen(
                                     Column(
                                           modifier = Modifier
                                                 .fillMaxSize()
-                                                .offset(y = ProfilePictureSize / 2f)//内容偏移头像的一半
+                                                .offset(y = ProfilePictureMediumSize / 2f)//内容偏移头像的一半
                                                 .clip(RoundedCornerShape(RoundedCornerMedium))
                                                 .shadow(5.dp)
                                                 .background(MediumGray)
@@ -145,7 +135,7 @@ fun PostDetailScreen(
                                           painter = painterResource(id = R.drawable.germen),
                                           contentDescription = "Profile picture",
                                           modifier = Modifier
-                                                .size(ProfilePictureSize)
+                                                .size(ProfilePictureMediumSize)
                                                 .clip(CircleShape)
                                                 .align(Alignment.TopCenter)
                                     )

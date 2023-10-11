@@ -45,6 +45,9 @@ class MainActivity : ComponentActivity() {
                                           Screen.ActivityScreen.route,
                                           Screen.ProfileScreen.route,
                                     ),
+                                    showFAB = navBackStackEntry?.destination?.route in listOf(
+                                          Screen.MainFeedScreen.route
+                                    ),
                                     onFabClick = {
                                           navController.navigate(Screen.CreatePostScreen.route)
                                     }
