@@ -6,9 +6,12 @@ package com.hgm.socialnetworktwitch.presentation.components
  * @desc：
  */
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Doorbell
 import androidx.compose.material.icons.filled.Home
@@ -19,11 +22,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.domain.model.BottomNavItem
 import com.hgm.socialnetworktwitch.presentation.ui.theme.MediumGray
+import com.hgm.socialnetworktwitch.presentation.ui.theme.TextWhite
 import com.hgm.socialnetworktwitch.presentation.util.Screen
 
 
@@ -58,7 +63,7 @@ fun StandardScaffold(
             ),
       ),
       onFabClick: () -> Unit = {},
-      content: @Composable () -> Unit
+      content: @Composable (padding: PaddingValues) -> Unit
 ) {
       Scaffold(
             bottomBar = {
@@ -99,8 +104,8 @@ fun StandardScaffold(
                   }
             },
             floatingActionButtonPosition = FabPosition.End,
-            modifier = modifier
+            modifier = modifier,
       ) {
-            content()
+            content(it)
       }
 }

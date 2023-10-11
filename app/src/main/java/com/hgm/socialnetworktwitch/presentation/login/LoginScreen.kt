@@ -65,6 +65,7 @@ fun LoginScreen(
                   StandardTextField(
                         text = viewModel.usernameText.value,
                         hint = stringResource(id = R.string.username_hint),
+                        keyboardType = KeyboardType.Email,
                         error = viewModel.usernameError.value,
                         onValueChange = {
                               viewModel.setUsernameText(it)
@@ -76,7 +77,7 @@ fun LoginScreen(
                         hint = stringResource(id = R.string.password_hint),
                         keyboardType = KeyboardType.Password,
                         error = viewModel.passwordError.value,
-                        showPasswordToggle = viewModel.showPassword.value,
+                        isShowPassword = viewModel.showPassword.value,
                         onValueChange = {
                               viewModel.setPasswordText(it)
                         },

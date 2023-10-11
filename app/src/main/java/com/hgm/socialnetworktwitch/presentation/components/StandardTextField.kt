@@ -34,15 +34,12 @@ fun StandardTextField(
       hint: String,
       error: String = "",
       keyboardType: KeyboardType = KeyboardType.Text,
-      showPasswordToggle: Boolean = false,
+      isShowPasswordToggle: Boolean = keyboardType == KeyboardType.Password,
+      isShowPassword: Boolean = false,
       onPasswordToggleClick: (Boolean) -> Unit = {},
       onValueChange: (String) -> Unit,
       modifier: Modifier = Modifier
 ) {
-      //是否显示密码开关
-      var passwordToggle by remember {
-            mutableStateOf(keyboardType == KeyboardType.Password)
-      }
 
       Column(
             modifier = modifier.fillMaxWidth()
@@ -58,14 +55,14 @@ fun StandardTextField(
                   keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType
                   ),
-                  visualTransformation = if (showPasswordToggle) PasswordVisualTransformation() else VisualTransformation.None,
+                  visualTransformation = if (isShowPassword) PasswordVisualTransformation() else VisualTransformation.None,
                   trailingIcon = {
-                        if (passwordToggle) {
+                        if (isShowPasswordToggle) {
                               IconButton(
-                                    onClick = { onPasswordToggleClick(!showPasswordToggle) },
+                                    onClick = { onPasswordToggleClick(!isShowPassword) },
                               ) {
                                     Icon(
-                                          imageVector = if (showPasswordToggle) {
+                                          imageVector = if (isShowPassword) {
                                                 Icons.Filled.Visibility
                                           } else {
                                                 Icons.Filled.VisibilityOff

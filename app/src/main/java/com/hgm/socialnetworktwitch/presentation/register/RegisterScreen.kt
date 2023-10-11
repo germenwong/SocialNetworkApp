@@ -26,7 +26,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.presentation.components.StandardTextField
-import com.hgm.socialnetworktwitch.presentation.login.LoginViewModel
 import com.hgm.socialnetworktwitch.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
 
@@ -66,6 +65,7 @@ fun RegisterScreen(
                         text = viewModel.emailText.value,
                         hint = stringResource(id = R.string.email),
                         error = viewModel.emailError.value,
+                        keyboardType = KeyboardType.Email,
                         onValueChange = {
                               viewModel.setEmailText(it)
                         }
@@ -85,7 +85,7 @@ fun RegisterScreen(
                         hint = stringResource(id = R.string.password),
                         keyboardType = KeyboardType.Password,
                         error = viewModel.passwordError.value,
-                        showPasswordToggle = viewModel.showPassword.value,
+                        isShowPassword = viewModel.showPassword.value,
                         onValueChange = {
                               viewModel.setPasswordText(it)
                         },

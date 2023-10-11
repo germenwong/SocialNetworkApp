@@ -25,8 +25,6 @@ private val DarkColorScheme = darkColorScheme(
 @Composable
 fun SocialNetworkTwitchTheme(
       darkTheme: Boolean = isSystemInDarkTheme(),
-      // Dynamic color is available on Android 12+
-      dynamicColor: Boolean = true,
       content: @Composable () -> Unit
 ) {
       val view = LocalView.current
@@ -34,7 +32,7 @@ fun SocialNetworkTwitchTheme(
             SideEffect {
                   val window = (view.context as Activity).window
                   window.statusBarColor = DarkColorScheme.background.toArgb()
-                  window.navigationBarColor=DarkColorScheme.background.toArgb()
+                  window.navigationBarColor = DarkColorScheme.background.toArgb()
                   WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
                         darkTheme
             }

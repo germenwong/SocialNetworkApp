@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -105,10 +106,14 @@ fun PostView(
                                     append(post.description)
                                     withStyle(
                                           SpanStyle(
-                                                color = HintGray
+                                                color = HintGray,
                                           )
                                     ) {
-                                          append(stringResource(id = R.string.read_more))
+                                          append(
+                                                LocalContext.current.getString(
+                                                      R.string.read_more
+                                                )
+                                          )
                                     }
                               },
                               style = MaterialTheme.typography.bodyMedium,
@@ -140,7 +145,7 @@ fun PostView(
                   }
             }
             Image(
-                  painter = painterResource(id = R.drawable.xxx),
+                  painter = painterResource(id = R.drawable.germen),
                   contentDescription = "Profile picture",
                   modifier = Modifier
                         .size(profilePictureSize)
