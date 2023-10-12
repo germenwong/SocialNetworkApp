@@ -28,7 +28,7 @@ import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.presentation.components.StandardTextField
 import com.hgm.socialnetworktwitch.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
-import com.hgm.socialnetworktwitch.presentation.util.Screen
+import com.hgm.socialnetworktwitch.presentation.route.Screen
 
 /**
  * @auth：HGM

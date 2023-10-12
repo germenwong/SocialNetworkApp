@@ -44,7 +44,6 @@ fun ProfileHeaderSection(
                   .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
       ) {
-
             Row(
                   verticalAlignment = Alignment.CenterVertically,
                   modifier = Modifier

@@ -2,6 +2,7 @@ package com.hgm.socialnetworktwitch.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -18,9 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.hgm.socialnetworktwitch.presentation.ui.theme.IconSizeSmall
 
 /**
  * @auth：HGM
@@ -30,9 +33,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardTextField(
-      text: String,
-      hint: String,
+      text: String="",
+      hint: String="",
       error: String = "",
+      maxLines:Int=1,
+      singleLine:Boolean=true,
+      leadingIcon: ImageVector? = null,
       keyboardType: KeyboardType = KeyboardType.Text,
       isShowPasswordToggle: Boolean = keyboardType == KeyboardType.Password,
       isShowPassword: Boolean = false,
@@ -50,12 +56,24 @@ fun StandardTextField(
                   placeholder = {
                         Text(text = hint, style = MaterialTheme.typography.bodyLarge)
                   },
-                  singleLine = true,
+                  maxLines = maxLines,
+                  singleLine = singleLine,
                   isError = error != "",
                   keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType
                   ),
                   visualTransformation = if (isShowPassword) PasswordVisualTransformation() else VisualTransformation.None,
+                  leadingIcon = if (leadingIcon != null) {
+                        val icon: @Composable () -> Unit = {
+                              Icon(
+                                    imageVector = leadingIcon,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground,
+                                    modifier = Modifier.size(IconSizeSmall)
+                              )
+                        }
+                        icon
+                  } else null,
                   trailingIcon = {
                         if (isShowPasswordToggle) {
                               IconButton(

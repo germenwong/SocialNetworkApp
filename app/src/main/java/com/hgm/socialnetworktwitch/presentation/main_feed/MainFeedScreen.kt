@@ -21,7 +21,7 @@ import com.hgm.socialnetworktwitch.domain.model.Post
 import com.hgm.socialnetworktwitch.presentation.main_feed.components.PostView
 import com.hgm.socialnetworktwitch.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
-import com.hgm.socialnetworktwitch.presentation.util.Screen
+import com.hgm.socialnetworktwitch.presentation.route.Screen
 
 /**
  * @auth：HGM

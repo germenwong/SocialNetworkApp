@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.domain.model.Comment
-import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSmallSize
+import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSizeSmall
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceSmall
 
@@ -68,7 +68,7 @@ fun CommentView(
                         contentDescription = null,
                         modifier = Modifier
                             .clip(CircleShape)
-                            .size(ProfilePictureSmallSize)
+                            .size(ProfilePictureSizeSmall)
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
                     Text(

@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.presentation.util
+package com.hgm.socialnetworktwitch.presentation.route
 
 /**
  * @auth：HGM

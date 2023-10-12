@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.presentation.util
+package com.hgm.socialnetworktwitch.presentation.route
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +12,10 @@ import com.hgm.socialnetworktwitch.domain.model.Post
 import com.hgm.socialnetworktwitch.presentation.activity.ActivityScreen
 import com.hgm.socialnetworktwitch.presentation.chat.ChatScreen
 import com.hgm.socialnetworktwitch.presentation.create_post.CreatePostScreen
+import com.hgm.socialnetworktwitch.presentation.edit_profile.EditProfileScreen
 import com.hgm.socialnetworktwitch.presentation.login.LoginScreen
 import com.hgm.socialnetworktwitch.presentation.main_feed.MainFeedScreen
+import com.hgm.socialnetworktwitch.presentation.person_list.PersonListScreen
 import com.hgm.socialnetworktwitch.presentation.post_detail.PostDetailScreen
 import com.hgm.socialnetworktwitch.presentation.profile.ProfileScreen
 import com.hgm.socialnetworktwitch.presentation.register.RegisterScreen
@@ -31,7 +33,7 @@ fun Navigation(
 ) {
       NavHost(
             navController = navController,
-            startDestination = Screen.ProfileScreen.route,
+            startDestination = Screen.CreatePostScreen.route,
             modifier = Modifier
                   .fillMaxSize()
                   .padding(paddingValues)
@@ -59,7 +61,6 @@ fun Navigation(
             composable(Screen.ProfileScreen.route) {
                   ProfileScreen(navController = navController)
             }
-
             composable(Screen.ActivityScreen.route) {
                   ActivityScreen(navController = navController)
             }
@@ -84,9 +85,12 @@ fun Navigation(
                   )
             }
 
-
             composable(Screen.EditProfileScreen.route){
-                  //EditProfileScreen
+                  EditProfileScreen(navController=navController)
+            }
+
+            composable(Screen.PersonListScreen.route){
+                  PersonListScreen(navController = navController)
             }
       }
 }

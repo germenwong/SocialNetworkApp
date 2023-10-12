@@ -1,24 +1,17 @@
 package com.hgm.socialnetworktwitch.presentation.profile
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,31 +19,28 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.domain.model.Post
 import com.hgm.socialnetworktwitch.domain.model.User
-import com.hgm.socialnetworktwitch.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.presentation.main_feed.components.PostView
 import com.hgm.socialnetworktwitch.presentation.profile.components.BannerSection
 import com.hgm.socialnetworktwitch.presentation.profile.components.ProfileHeaderSection
-import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureLargeSize
+import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSizeLarge
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceSmall
-import com.hgm.socialnetworktwitch.presentation.util.Screen
+import com.hgm.socialnetworktwitch.presentation.route.Screen
 import com.hgm.socialnetworktwitch.util.toPx
 
 /**
@@ -61,26 +51,26 @@ import com.hgm.socialnetworktwitch.util.toPx
 @Composable
 fun ProfileScreen(
       navController: NavController,
+      profilePictureSize: Dp =ProfilePictureSizeLarge,
       viewModel:ProfileViewModel= hiltViewModel()
 ) {
       val lazyListState = rememberLazyListState()
       val toolbarState = viewModel.toolbarState.value
-
       val iconHorizontalCenterLength =
             (LocalConfiguration.current.screenWidthDp.dp.toPx() / 4f -
-                    (ProfilePictureLargeSize / 4f).toPx() -
+                    (profilePictureSize / 4f).toPx() -
                     SpaceSmall.toPx()) / 2f
       val iconSizeExpanded = 35.dp
       val toolbarHeightCollapsed = 75.dp
       val imageCollapsedOffsetY = remember {
-            (toolbarHeightCollapsed - ProfilePictureLargeSize / 2f) / 2f
+            (toolbarHeightCollapsed - profilePictureSize / 2f) / 2f
       }
       val iconCollapsedOffsetY = remember {
             (toolbarHeightCollapsed - iconSizeExpanded) / 2f
       }
       val bannerHeight = (LocalConfiguration.current.screenWidthDp / 2.5f).dp
       val toolbarHeightExpanded = remember {
-            bannerHeight + ProfilePictureLargeSize
+            bannerHeight + profilePictureSize
       }
       val maxOffset = remember {
             toolbarHeightExpanded - toolbarHeightCollapsed
@@ -116,7 +106,7 @@ fun ProfileScreen(
             ) {
                   item {
                         Spacer(modifier = Modifier.height(
-                              toolbarHeightExpanded - ProfilePictureLargeSize / 2f
+                              toolbarHeightExpanded - profilePictureSize / 2f
                         ))
                   }
                   item {
@@ -131,7 +121,9 @@ fun ProfileScreen(
                                     followingCount = 534,
                                     postCount = 65
                               )
-                        )
+                        ){
+                              navController.navigate(Screen.EditProfileScreen.route)
+                        }
                   }
                   items(20) {
                         Spacer(
@@ -189,7 +181,7 @@ fun ProfileScreen(
                         modifier = Modifier
                               .align(CenterHorizontally)
                               .graphicsLayer {
-                                    translationY = -ProfilePictureLargeSize.toPx() / 2f -
+                                    translationY = -profilePictureSize.toPx() / 2f -
                                             (1f - toolbarState.expandedRatio) * imageCollapsedOffsetY.toPx()
                                     transformOrigin = TransformOrigin(
                                           pivotFractionX = 0.5f,
@@ -199,7 +191,7 @@ fun ProfileScreen(
                                     scaleX = scale
                                     scaleY = scale
                               }
-                              .size(ProfilePictureLargeSize)
+                              .size(profilePictureSize)
                               .clip(CircleShape)
                               .border(
                                     width = 1.dp,

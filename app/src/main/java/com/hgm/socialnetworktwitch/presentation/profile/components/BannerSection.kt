@@ -48,7 +48,7 @@ fun BannerSection(
             modifier = modifier
       ) {
             Image(
-                  painter = painterResource(id = R.drawable.channelart),
+                  painter = painterResource(id = R.drawable.channel),
                   contentDescription = stringResource(id = R.string.banner_image),
                   contentScale = ContentScale.Crop,
                   modifier = imageModifier

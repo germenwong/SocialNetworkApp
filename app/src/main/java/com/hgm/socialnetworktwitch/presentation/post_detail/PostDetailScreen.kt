@@ -39,7 +39,7 @@ import com.hgm.socialnetworktwitch.presentation.main_feed.components.ActionRow
 import com.hgm.socialnetworktwitch.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.presentation.post_detail.components.CommentView
 import com.hgm.socialnetworktwitch.presentation.ui.theme.MediumGray
-import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureMediumSize
+import com.hgm.socialnetworktwitch.presentation.ui.theme.ProfilePictureSizeMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SpaceMedium
@@ -84,7 +84,7 @@ fun PostDetailScreen(
                                     Column(
                                           modifier = Modifier
                                                 .fillMaxSize()
-                                                .offset(y = ProfilePictureMediumSize / 2f)//内容偏移头像的一半
+                                                .offset(y = ProfilePictureSizeMedium / 2f)//内容偏移头像的一半
                                                 .clip(RoundedCornerShape(RoundedCornerMedium))
                                                 .shadow(5.dp)
                                                 .background(MediumGray)
@@ -135,7 +135,7 @@ fun PostDetailScreen(
                                           painter = painterResource(id = R.drawable.germen),
                                           contentDescription = "Profile picture",
                                           modifier = Modifier
-                                                .size(ProfilePictureMediumSize)
+                                                .size(ProfilePictureSizeMedium)
                                                 .clip(CircleShape)
                                                 .align(Alignment.TopCenter)
                                     )

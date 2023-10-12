@@ -4,22 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hgm.socialnetworktwitch.presentation.components.StandardScaffold
 import com.hgm.socialnetworktwitch.presentation.ui.theme.SocialNetworkTwitchTheme
-import com.hgm.socialnetworktwitch.presentation.util.Navigation
-import com.hgm.socialnetworktwitch.presentation.util.Screen
+import com.hgm.socialnetworktwitch.presentation.route.Navigation
+import com.hgm.socialnetworktwitch.presentation.route.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

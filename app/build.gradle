@@ -71,6 +71,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended-android:1.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
     implementation "androidx.navigation:navigation-compose:2.7.2"
+    implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"
 
     // Dagger - Hilt
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

@@ -3,7 +3,6 @@ package com.hgm.socialnetworktwitch.presentation.splash
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
@@ -17,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.presentation.ui.theme.GreenAccent
-import com.hgm.socialnetworktwitch.presentation.util.Screen
+import com.hgm.socialnetworktwitch.presentation.route.Screen
 import com.hgm.socialnetworktwitch.util.Constants.SPLASH_SCREEN_DURATION
 import kotlinx.coroutines.delay
 
