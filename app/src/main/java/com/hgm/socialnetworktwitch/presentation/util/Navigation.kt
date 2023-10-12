@@ -74,7 +74,7 @@ fun Navigation(
                         post = Post(
                               username = "Germen Wong",
                               imageUrl = "",
-                              profilePicture = "",
+                              profilePictureUrl = "",
                               description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed" +
                                       "diam nonumy eirmod tempor invidunt ut labore et dolore " +
                                       "magna aliquyam erat...",

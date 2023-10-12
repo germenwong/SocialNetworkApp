@@ -66,6 +66,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
+    // Compose Dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
     implementation "androidx.compose.material:material-icons-extended-android:1.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
