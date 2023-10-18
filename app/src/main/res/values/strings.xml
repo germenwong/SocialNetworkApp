@@ -52,4 +52,16 @@
     <string name="description">description</string>
     <string name="post">Post</string>
     <string name="followed_you">Followed you</string>
+    <string name="email_cant_be_empty">This email can\'t be empty</string>
+    <string name="email_not_valid">This is not valid email</string>
+    <string name="username_cant_be_empty">This username can\'t be empty</string>
+    <string name="username_too_short">The minimum length is %d</string>
+    <string name="password_cant_be_empty">This password can\'t be empty</string>
+    <string name="password_too_short">The minimum length is %d</string>
+    <string name="password_not_valid">The password need to contain Upp/Low/Num char</string>
+    <string name="description_cant_be_empty">This description can\'t be empty</string>
+    <string name="github_url_cant_be_empty">The github url can\'t be empty</string>
+    <string name="instagram_url_cant_be_empty">The instagram url can\'t be empty</string>
+    <string name="linkedin_url_cant_be_empty">The linkedin url can\'t be empty</string>
+    <string name="bio_cant_be_empty">The bio can\'t be empty</string>
 </resources>
