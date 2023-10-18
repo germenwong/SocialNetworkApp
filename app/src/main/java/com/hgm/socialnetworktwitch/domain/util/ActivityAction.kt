@@ -11,4 +11,7 @@ sealed class ActivityAction {
 
       // 评论帖子
       object CommentOnPost : ActivityAction()
+
+      // 关注你
+      object FollowedYou : ActivityAction()
 }
