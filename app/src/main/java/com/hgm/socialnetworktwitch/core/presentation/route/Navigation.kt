@@ -45,7 +45,7 @@ fun Navigation(
             }
 
             composable(Screen.LoginScreen.route) {
-                  LoginScreen(navController = navController)
+                  LoginScreen(navController = navController,snackBarState=snackBarState)
             }
 
             composable(Screen.RegisterScreen.route) {

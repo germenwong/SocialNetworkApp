@@ -8,7 +8,7 @@ import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
  * @date：2023-10-19 10:09
  * @desc：注册返回的错误
  */
-data class RegisterError(
+data class RegisterResult(
       val emailError:AuthError?=null,
       val usernameError:AuthError?=null,
       val passwordError:AuthError?=null,

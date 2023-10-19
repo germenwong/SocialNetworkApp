@@ -1,9 +1,10 @@
 package com.hgm.socialnetworktwitch.core.data.dto
 
 /**
- * 用于响应请求，返回基础信息
+ * 通用响应请求，返回基础信息
  */
-data class BaseResponse(
-    val successful: Boolean,
-    val message: String? = null
+data class BaseResponse<T> (
+      val successful: Boolean,
+      val message: String? = null,
+      val data: T? = null
 )

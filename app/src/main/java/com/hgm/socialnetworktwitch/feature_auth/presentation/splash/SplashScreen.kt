@@ -13,12 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.GreenAccent
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
+import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Constants.SPLASH_SCREEN_DURATION
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 
 /**
  * @auth：HGM
@@ -27,7 +30,8 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun SplashScreen(
-      navController: NavController
+      navController: NavController,
+      viewModel:SplashViewModel= hiltViewModel()
 ) {
       //动画缩放值
       val scale = remember {
@@ -47,13 +51,26 @@ fun SplashScreen(
                         }
                   )
             )
-            delay(SPLASH_SCREEN_DURATION)
-            navController.navigate(Screen.LoginScreen.route){
-                  popUpTo(Screen.SplashScreen.route){
-                        inclusive=true
+      }
+
+
+      LaunchedEffect(key1 = true){
+            viewModel.eventFlow.collectLatest { event->
+                  when (event) {
+                        is UiEvent.Navigate -> {
+                              delay(SPLASH_SCREEN_DURATION)
+                              navController.navigate(event.route){
+                                    popUpTo(Screen.SplashScreen.route){
+                                          inclusive=true
+                                    }
+                              }
+                        }
+                        else -> Unit
                   }
             }
       }
+
+
 
       Box(
             modifier = Modifier.fillMaxSize(),

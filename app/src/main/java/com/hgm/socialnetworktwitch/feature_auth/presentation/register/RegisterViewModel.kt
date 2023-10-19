@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.states.PasswordTextFieldState
 import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
+import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Resource
-import com.hgm.socialnetworktwitch.core.util.UiText
+import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.feature_auth.domain.use_case.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -34,14 +35,12 @@ class RegisterViewModel @Inject constructor(
       val passwordState: State<PasswordTextFieldState> = _passwordState
 
       //注册状态
-      private val _state = mutableStateOf(RegisterState())
-      val state: State<RegisterState> = _state
+      private val _state = mutableStateOf(false)
+      val state: State<Boolean> = _state
 
       //事件流
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
-
-
 
 
 
@@ -85,7 +84,7 @@ class RegisterViewModel @Inject constructor(
                   _emailState.value = _emailState.value.copy(error = null)
                   _usernameState.value = _usernameState.value.copy(error = null)
                   _passwordState.value = _passwordState.value.copy(error = null)
-                  _state.value = RegisterState(isLoading = true)
+                  _state.value = true
 
                   //注册
                   val registerError = registerUseCase(
@@ -117,7 +116,7 @@ class RegisterViewModel @Inject constructor(
                               _eventFlow.emit(
                                     UiEvent.SnackBarEvent(UiText.StringResource(R.string.register_successful))
                               )
-                              _state.value = RegisterState(isLoading = false)
+                              _state.value = false
                               _emailState.value = StandardTextFieldState()
                               _usernameState.value = StandardTextFieldState()
                               _passwordState.value = PasswordTextFieldState()
@@ -130,19 +129,14 @@ class RegisterViewModel @Inject constructor(
                                                 ?: UiText.StringResource(R.string.error_unknown)
                                     )
                               )
-                              _state.value = RegisterState(isLoading = false)
+                              _state.value = false
                         }
 
                         null -> {
-                              _state.value = RegisterState(isLoading = false)
+                              _state.value = false
                         }
                   }
             }
       }
 
-
-      /** 传给UI的事件 */
-      sealed class UiEvent {
-            data class SnackBarEvent(val uiText: UiText) : UiEvent()
-      }
 }

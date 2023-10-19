@@ -3,7 +3,7 @@
 
     <!-- 登录页 -->
     <string name="login">Login</string>
-    <string name="username_hint">Username / E-mail</string>
+    <string name="email_hint">E-mail</string>
     <string name="password_hint">Enter your password...</string>
     <string name="dont_have_an_account_yet">Don\'t have an account yet?</string>
     <string name="sign_up">Sign up</string>

@@ -1,10 +1,9 @@
-package com.hgm.socialnetworktwitch.core.util
+package com.hgm.socialnetworktwitch.core.presentation.util
 
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.hgm.socialnetworktwitch.R
 
 /**
  * @auth：HGM

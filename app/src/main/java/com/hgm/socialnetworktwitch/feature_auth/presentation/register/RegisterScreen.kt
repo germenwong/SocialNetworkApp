@@ -34,6 +34,7 @@ import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTextField
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.RoundedCornerMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
+import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
 import kotlinx.coroutines.flow.collectLatest
@@ -49,14 +50,14 @@ fun RegisterScreen(
       val emailState = viewModel.emailState.value
       val usernameState = viewModel.usernameState.value
       val passwordState = viewModel.passwordState.value
-      val state = viewModel.state.value
+      val isLoading = viewModel.state.value
       val context= LocalContext.current
       val scope = rememberCoroutineScope()
 
       LaunchedEffect(key1 = true) {
             viewModel.eventFlow.collectLatest { event ->
                   when (event) {
-                        is RegisterViewModel.UiEvent.SnackBarEvent -> {
+                        is UiEvent.SnackBarEvent -> {
                               scope.launch {
                                     snackBarState.showSnackbar(
                                           event.uiText.asString(context),
@@ -64,6 +65,8 @@ fun RegisterScreen(
                                     )
                               }
                         }
+
+                        else -> {}
                   }
             }
       }
@@ -147,7 +150,7 @@ fun RegisterScreen(
                   Button(
                         modifier = Modifier.align(Alignment.End),
                         shape = RoundedCornerShape(RoundedCornerMedium),
-                        enabled = !state.isLoading,
+                        enabled = !isLoading,
                         onClick = {
                               viewModel.onEvent(RegisterEvent.Register)
                         }
@@ -157,7 +160,7 @@ fun RegisterScreen(
                               color = MaterialTheme.colorScheme.onPrimary
                         )
                   }
-                  if (state.isLoading) {
+                  if (isLoading) {
                         CircularProgressIndicator()
                   }
             }

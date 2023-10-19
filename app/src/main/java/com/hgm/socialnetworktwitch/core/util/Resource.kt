@@ -1,5 +1,7 @@
 package com.hgm.socialnetworktwitch.core.util
 
+import com.hgm.socialnetworktwitch.core.presentation.util.UiText
+
 /**
  * @auth：HGM
  * @date：2023-10-18 18:08

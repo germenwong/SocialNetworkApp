@@ -2,8 +2,12 @@ package com.hgm.socialnetworktwitch.feature_auth.data.remote
 
 import com.hgm.socialnetworktwitch.core.data.dto.BaseResponse
 import com.hgm.socialnetworktwitch.core.util.Resource
+import com.hgm.socialnetworktwitch.feature_auth.data.dto.AuthResponse
 import com.hgm.socialnetworktwitch.feature_auth.data.dto.CreateAccountRequest
+import com.hgm.socialnetworktwitch.feature_auth.data.dto.LoginRequest
+import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -17,9 +21,18 @@ interface AuthApi {
             const val BASE_URL = "http://10.0.2.2:8080"
       }
 
-      //注册
       @POST("/api/user/register")
       suspend fun register(
             @Body request: CreateAccountRequest
-      ): BaseResponse
+      ): BaseResponse<Unit>
+
+
+      @POST("/api/user/login")
+      suspend fun login(
+            @Body request: LoginRequest
+      ): BaseResponse<AuthResponse>
+
+
+      @GET("/api/user/authenticate")
+      suspend fun authenticate(): Response<Unit>
 }
