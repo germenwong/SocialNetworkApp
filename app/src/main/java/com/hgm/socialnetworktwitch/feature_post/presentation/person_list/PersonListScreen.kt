@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_auth.domain.User
+import com.hgm.socialnetworktwitch.feature_auth.domain.model.User
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.IconSizeMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge

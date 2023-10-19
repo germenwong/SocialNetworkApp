@@ -10,11 +10,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -30,6 +36,8 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.RoundedCornerMediu
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * @auth：HGM
@@ -39,11 +47,30 @@ import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
 @Composable
 fun RegisterScreen(
       navController: NavController,
+      snackBarState: SnackbarHostState,
       viewModel: RegisterViewModel = hiltViewModel()
 ) {
       val emailState = viewModel.emailState.value
       val usernameState = viewModel.usernameState.value
       val passwordState = viewModel.passwordState.value
+      val state = viewModel.state.value
+      val context= LocalContext.current
+      val scope = rememberCoroutineScope()
+
+      LaunchedEffect(key1 = true) {
+            viewModel.eventFlow.collectLatest { event ->
+                  when (event) {
+                        is RegisterViewModel.UiEvent.SnackBarEvent -> {
+                              scope.launch {
+                                    snackBarState.showSnackbar(
+                                          event.uiText.asString(context),
+                                          duration = SnackbarDuration.Long
+                                    )
+                              }
+                        }
+                  }
+            }
+      }
 
       Box(
             modifier = Modifier
@@ -90,6 +117,7 @@ fun RegisterScreen(
                                     id = R.string.username_too_short,
                                     Constants.MIN_USERNAME_LENGTH
                               )
+
                               else -> ""
                         },
                         onValueChange = {
@@ -107,6 +135,7 @@ fun RegisterScreen(
                                     id = R.string.password_too_short,
                                     Constants.MIN_PASSWORD_LENGTH
                               )
+
                               AuthError.InvalidPassword -> stringResource(id = R.string.password_not_valid)
                               else -> ""
                         },
@@ -122,6 +151,7 @@ fun RegisterScreen(
                   Button(
                         modifier = Modifier.align(Alignment.End),
                         shape = RoundedCornerShape(RoundedCornerMedium),
+                        enabled = !state.isLoading,
                         onClick = {
                               viewModel.onEvent(RegisterEvent.Register)
                         }
@@ -130,6 +160,9 @@ fun RegisterScreen(
                               text = stringResource(id = R.string.register),
                               color = MaterialTheme.colorScheme.onPrimary
                         )
+                  }
+                  if (state.isLoading) {
+                        CircularProgressIndicator()
                   }
             }
 

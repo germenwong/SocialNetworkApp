@@ -16,7 +16,8 @@ private val DarkColorScheme = darkColorScheme(
       onBackground = TextWhite,
       onPrimary = DarkGray,
       surface = MediumGray,
-      onSurface = LightGray
+      onSurface = LightGray,
+      inverseSurface = LightGray
 )
 
 @Composable

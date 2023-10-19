@@ -4,11 +4,20 @@ import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.states.PasswordTextFieldState
 import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
 import com.hgm.socialnetworktwitch.core.util.Constants
+import com.hgm.socialnetworktwitch.core.util.Resource
+import com.hgm.socialnetworktwitch.core.util.UiText
+import com.hgm.socialnetworktwitch.feature_auth.domain.use_case.RegisterUseCase
 import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -18,7 +27,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-
+      private val registerUseCase: RegisterUseCase
 ) : ViewModel() {
       //邮箱
       private val _emailState = mutableStateOf(StandardTextFieldState())
@@ -32,6 +41,15 @@ class RegisterViewModel @Inject constructor(
       private val _passwordState = mutableStateOf(PasswordTextFieldState())
       val passwordState: State<PasswordTextFieldState> = _passwordState
 
+      //注册状态
+      private val _state = mutableStateOf(RegisterState())
+      val state: State<RegisterState> = _state
+
+      //事件流
+      private val _eventFlow = MutableSharedFlow<UiEvent>()
+      val eventFlow = _eventFlow.asSharedFlow()
+
+      //------------------------------------------------------------------------------------------
       fun onEvent(event: RegisterEvent) {
             when (event) {
                   is RegisterEvent.EnteredEmail -> {
@@ -63,7 +81,7 @@ class RegisterViewModel @Inject constructor(
                         validateEmail(emailState.value.text)
                         validatePassword(passwordState.value.text)
 
-                        //TODO：调用注册接口
+                        register()
                   }
             }
       }
@@ -137,4 +155,44 @@ class RegisterViewModel @Inject constructor(
             )
       }
 
+      private fun register() {
+            if (emailState.value.error != null || usernameState.value.error != null || passwordState.value.error != null) {
+                  return
+            }
+            viewModelScope.launch {
+                  _state.value = RegisterState(isLoading = true)
+                  delay(3000L)
+                  val result = registerUseCase(
+                        email = emailState.value.text,
+                        username = usernameState.value.text,
+                        password = passwordState.value.text
+                  )
+                  when (result) {
+                        is Resource.Success -> {
+                              _state.value = RegisterState(isLoading = false)
+                              _eventFlow.emit(
+                                    UiEvent.SnackBarEvent(UiText.StringResource(R.string.register_successful))
+                              )
+                        }
+
+                        is Resource.Error -> {
+                              _state.value = RegisterState(isLoading = false)
+                              _eventFlow.emit(
+                                    UiEvent.SnackBarEvent(
+                                          result.uiText
+                                                ?: UiText.StringResource(R.string.error_unknown)
+                                    )
+                              )
+                        }
+                  }
+            }
+      }
+
+
+      //------------------------------------------------------------------------------------------
+
+
+      sealed class UiEvent {
+            data class SnackBarEvent(val uiText: UiText) : UiEvent()
+      }
 }

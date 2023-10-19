@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_auth.domain.User
+import com.hgm.socialnetworktwitch.feature_auth.domain.model.User
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.RoundedCornerSmall
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall

@@ -3,6 +3,7 @@ package com.hgm.socialnetworktwitch.core.presentation.route
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -28,8 +29,9 @@ import com.hgm.socialnetworktwitch.feature_auth.presentation.splash.SplashScreen
  */
 @Composable
 fun Navigation(
+      paddingValues: PaddingValues,
       navController: NavHostController,
-      paddingValues:PaddingValues
+      snackBarState: SnackbarHostState
 ) {
       NavHost(
             navController = navController,
@@ -47,7 +49,7 @@ fun Navigation(
             }
 
             composable(Screen.RegisterScreen.route) {
-                  RegisterScreen(navController = navController)
+                  RegisterScreen(navController = navController, snackBarState = snackBarState)
             }
 
             composable(Screen.MainFeedScreen.route) {
@@ -69,7 +71,7 @@ fun Navigation(
                   CreatePostScreen(navController = navController)
             }
 
-            composable(Screen.PostDetailScreen.route){
+            composable(Screen.PostDetailScreen.route) {
                   PostDetailScreen(
                         navController = navController,
                         post = Post(
@@ -85,11 +87,11 @@ fun Navigation(
                   )
             }
 
-            composable(Screen.EditProfileScreen.route){
-                  EditProfileScreen(navController=navController)
+            composable(Screen.EditProfileScreen.route) {
+                  EditProfileScreen(navController = navController)
             }
 
-            composable(Screen.PersonListScreen.route){
+            composable(Screen.PersonListScreen.route) {
                   PersonListScreen(navController = navController)
             }
       }

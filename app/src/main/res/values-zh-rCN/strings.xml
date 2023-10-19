@@ -64,4 +64,8 @@
     <string name="instagram_url_cant_be_empty">The instagram url can\'t be empty</string>
     <string name="linkedin_url_cant_be_empty">The linkedin url can\'t be empty</string>
     <string name="bio_cant_be_empty">The bio can\'t be empty</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_couldnt_reach_srver">哎呀无法访问服务器，请检查你的网络！</string>
+    <string name="error_something_wrong">哎呀出了点小问题，请再试一次！</string>
+    <string name="register_successful">Register successfull You can login now</string>
 </resources>

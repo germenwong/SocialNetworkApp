@@ -30,6 +30,7 @@ import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 fun StandardScaffold(
       navController: NavController,
       modifier: Modifier = Modifier,
+      snackBarState:SnackbarHostState,
       showBottomBar: Boolean = true,
       showFAB: Boolean = true,
       bottomNavItems: List<BottomNavItem> = listOf(
@@ -97,6 +98,7 @@ fun StandardScaffold(
                   }
             },
             floatingActionButtonPosition = FabPosition.End,
+            snackbarHost = { SnackbarHost(hostState = snackBarState)},
             modifier = modifier,
       ) {
             content(it)

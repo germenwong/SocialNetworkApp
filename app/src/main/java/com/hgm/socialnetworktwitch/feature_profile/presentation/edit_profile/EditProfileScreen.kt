@@ -130,7 +130,7 @@ fun EditProfileScreen(
                                     .fillMaxWidth(),
                               text = viewModel.instagramTextFieldState.value.text,
                               hint = stringResource(id = R.string.instagram_profile_url),
-                              error =when (viewModel.instagramTextFieldState.value.error) {
+                              error = when (viewModel.instagramTextFieldState.value.error) {
                                     is EditProfileError.FieldEmpty -> stringResource(id = R.string.instagram_url_cant_be_empty)
                                     else -> ""
                               },
@@ -206,8 +206,8 @@ fun EditProfileScreen(
                                     Chip(
                                           text = it,
                                           selected = Random.nextInt(2) == 0,
-                                    ){
-                                      //TODO
+                                    ) {
+                                          //TODO
                                     }
                               }
                         }

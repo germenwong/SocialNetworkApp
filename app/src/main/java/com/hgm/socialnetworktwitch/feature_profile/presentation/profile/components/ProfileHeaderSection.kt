@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_auth.domain.User
+import com.hgm.socialnetworktwitch.feature_auth.domain.model.User
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
