@@ -39,11 +39,7 @@ import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-/**
- * @auth：HGM
- * @date：2023-09-22 14:46
- * @desc：
- */
+
 @Composable
 fun RegisterScreen(
       navController: NavController,

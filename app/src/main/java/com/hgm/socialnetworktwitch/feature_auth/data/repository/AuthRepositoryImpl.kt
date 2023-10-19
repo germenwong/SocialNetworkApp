@@ -35,9 +35,13 @@ class AuthRepositoryImpl(
                         } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
                   }
             } catch (e: IOException) {
-                  Resource.Error(UiText.StringResource(R.string.error_couldnt_reach_srver))
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
             } catch (e: HttpException) {
-                  Resource.Error(UiText.StringResource(R.string.error_something_wrong))
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
             }
       }
 }
