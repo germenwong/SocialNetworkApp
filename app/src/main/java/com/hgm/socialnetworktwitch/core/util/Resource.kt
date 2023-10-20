@@ -7,7 +7,6 @@ import com.hgm.socialnetworktwitch.core.presentation.util.UiText
  * @date：2023-10-18 18:08
  * @desc：全局的网络处理类
  */
-
 //使用别名区分一下
 typealias SimpleResource = Resource<Unit>
 

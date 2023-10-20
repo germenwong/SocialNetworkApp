@@ -145,7 +145,7 @@ fun LoginScreen(
                         )
                   }
                   if (isLoading) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
                   }
             }
 

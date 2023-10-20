@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_post.domain.Comment
-import com.hgm.socialnetworktwitch.feature_post.domain.Post
-import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.ActionRow
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.ActionRow
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.MediumGray
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeMedium

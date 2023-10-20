@@ -17,10 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_post.domain.Post
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
+import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
 
 /**
  * @auth：HGM
@@ -31,6 +32,8 @@ import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 fun MainFeedScreen(
       navController: NavController
 ) {
+
+
       Column(
             modifier = Modifier.fillMaxSize(),
       ) {

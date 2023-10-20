@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed
+package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component
 
 /**
  * @auth：HGM

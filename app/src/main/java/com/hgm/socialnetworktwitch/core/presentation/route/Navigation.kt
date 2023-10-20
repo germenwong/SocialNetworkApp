@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.hgm.socialnetworktwitch.feature_post.domain.Post
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_activity.presentation.ActivityScreen
 import com.hgm.socialnetworktwitch.feature_chat.presentation.ChatScreen
 import com.hgm.socialnetworktwitch.feature_post.presentation.create_post.CreatePostScreen

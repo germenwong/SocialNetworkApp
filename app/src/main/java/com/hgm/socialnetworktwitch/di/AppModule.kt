@@ -1,8 +1,10 @@
 package com.hgm.socialnetworktwitch.di
 
 import android.app.Application
+import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.core.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -12,11 +14,7 @@ import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-/**
- * @auth：HGM
- * @date：2023-09-22 15:52
- * @desc：
- */
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -48,4 +46,11 @@ object AppModule {
                   MODE_PRIVATE
             )
       }
+
+      @Provides
+      @Singleton
+      fun provideGson(): Gson {
+            return Gson()
+      }
+
 }

@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_post.domain.Post
-import com.hgm.socialnetworktwitch.feature_auth.domain.model.User
-import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.PostView
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.User
+import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components.BannerSection
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components.ProfileHeaderSection
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge

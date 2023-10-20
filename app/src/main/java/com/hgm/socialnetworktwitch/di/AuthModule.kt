@@ -16,11 +16,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-/**
- * @auth：HGM
- * @date：2023-10-18 18:03
- * @desc：
- */
 @Module
 @InstallIn(SingletonComponent::class)
 object AuthModule {

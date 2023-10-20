@@ -8,7 +8,7 @@ import com.hgm.socialnetworktwitch.core.domain.model.Error
  * @date：2023-10-18 17:06
  * @desc：
  */
-sealed class AuthError:Error(){
+sealed class AuthError : Error() {
       object FieldEmpty : AuthError()
       object FieldTooShort : AuthError()
       object InvalidEmail : AuthError()

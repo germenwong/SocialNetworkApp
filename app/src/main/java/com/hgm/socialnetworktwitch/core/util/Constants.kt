@@ -12,4 +12,5 @@ object Constants {
       const val MIN_PASSWORD_LENGTH = 8
       const val SHARED_PREF_NAME = "shared_pref"
       const val KEY_JWT_TOKEN = "jwt_token"
+      const val PAGE_SIZE_POST = 20
 }

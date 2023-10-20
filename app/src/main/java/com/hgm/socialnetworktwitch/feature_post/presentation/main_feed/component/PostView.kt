@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed
+package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_post.domain.Post
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.HintGray
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.MediumGray
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeMedium
@@ -40,6 +40,7 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.RoundedCornerMediu
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.util.Constants.POST_DESCRIPTION_MAX_LINE
+import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.ActionRow
 
 /**
  * @auth：HGM

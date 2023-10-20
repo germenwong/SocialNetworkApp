@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HW</string>
+    <string name="app_name">CodersHub</string>
 
     <!-- 登录页 -->
     <string name="login">Login</string>
@@ -68,4 +68,8 @@
     <string name="error_couldnt_reach_srver">哎呀无法访问服务器，请检查你的网络！</string>
     <string name="error_something_wrong">哎呀出了点小问题，请再试一次！</string>
     <string name="register_successful">Register successfull You can login now</string>
+    <string name="error_file_not_found">The file is not found</string>
+    <string name="post_image">Post image</string>
+    <string name="error_no_image_picked">No image picked</string>
+    <string name="error_description_blank">The description is blank</string>
 </resources>
