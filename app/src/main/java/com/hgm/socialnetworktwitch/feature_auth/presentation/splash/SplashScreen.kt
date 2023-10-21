@@ -20,18 +20,18 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.GreenAccent
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Constants.SPLASH_SCREEN_DURATION
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.withContext
 
-/**
- * @auth：HGM
- * @date：2023-09-22 14:17
- * @desc：
- */
+
 @Composable
 fun SplashScreen(
-      navController: NavController,
-      viewModel:SplashViewModel= hiltViewModel()
+      onNavigate: (String) -> Unit = {},
+      viewModel: SplashViewModel = hiltViewModel(),
+      dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) {
       //动画缩放值
       val scale = remember {
@@ -41,30 +41,31 @@ fun SplashScreen(
       val overshootInterpolator = remember {
             OvershootInterpolator(2f)
       }
+
+
       LaunchedEffect(key1 = true) {
-            scale.animateTo(
-                  targetValue = 0.8f,
-                  animationSpec = tween(
-                        durationMillis = 500,
-                        easing = {
-                              overshootInterpolator.getInterpolation(it)
-                        }
+            withContext(dispatcher) {
+                  scale.animateTo(
+                        targetValue = 0.8f,
+                        animationSpec = tween(
+                              durationMillis = 500,
+                              easing = {
+                                    overshootInterpolator.getInterpolation(it)
+                              }
+                        )
                   )
-            )
+            }
       }
 
 
-      LaunchedEffect(key1 = true){
-            viewModel.eventFlow.collectLatest { event->
+      LaunchedEffect(key1 = true) {
+            viewModel.eventFlow.collectLatest { event ->
                   when (event) {
                         is UiEvent.Navigate -> {
                               delay(SPLASH_SCREEN_DURATION)
-                              navController.navigate(event.route){
-                                    popUpTo(Screen.SplashScreen.route){
-                                          inclusive=true
-                                    }
-                              }
+                              onNavigate(event.route)
                         }
+
                         else -> Unit
                   }
             }

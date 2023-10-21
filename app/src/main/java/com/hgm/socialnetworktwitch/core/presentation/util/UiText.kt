@@ -10,17 +10,6 @@ import androidx.compose.ui.res.stringResource
  * @date：2023-10-18 19:15
  * @desc：方便全局的文本可以使用到资源文件中的字符串
  */
-//sealed class UiText {
-//      data class DynamicString(val value: String) : UiText()
-//      data class StringResource(@StringRes val id: Int) : UiText()
-//
-//      companion object {
-//            fun unknownError(): UiText {
-//                  return UiText.StringResource(R.string.error_unknown)
-//            }
-//      }
-//}
-
 sealed class UiText {
       data class DynamicString(val value: String): UiText()
       class StringResource(

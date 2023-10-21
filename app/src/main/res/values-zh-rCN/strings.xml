@@ -16,13 +16,13 @@
     <string name="sign_in">去登录</string>
     <!-- 帖子页 -->
     <string name="read_more">更多</string>
-    <string name="liked_by_x_people">点赞量 %d</string>
-    <string name="x_comments">%d 评论量</string>
+    <string name="liked_by_x_people">点赞 %d</string>
+    <string name="x_comments">%d 评论</string>
     <string name="home">首页</string>
     <string name="chat">消息</string>
     <string name="activity">动态</string>
     <string name="profile">我的</string>
-    <string name="make_post">Make post</string>
+    <string name="make_post">写帖子</string>
     <string name="back">返回</string>
     <string name="your_feed">Your feed</string>
     <string name="search_post">搜索帖子</string>
@@ -37,7 +37,7 @@
     <string name="edit">编辑</string>
     <string name="follower">关注</string>
     <string name="following">粉丝</string>
-    <string name="posts">帖子</string>
+    <string name="posts">发布</string>
     <string name="unfollow">取消关注</string>
     <string name="edit_your_profile">编辑你的资料</string>
     <string name="save_changes">保存</string>
@@ -64,12 +64,15 @@
     <string name="instagram_url_cant_be_empty">The instagram url can\'t be empty</string>
     <string name="linkedin_url_cant_be_empty">The linkedin url can\'t be empty</string>
     <string name="bio_cant_be_empty">The bio can\'t be empty</string>
-    <string name="error_unknown">Unknown error</string>
+    <string name="error_unknown">未知错误</string>
     <string name="error_couldnt_reach_srver">哎呀无法访问服务器，请检查你的网络！</string>
     <string name="error_something_wrong">哎呀出了点小问题，请再试一次！</string>
-    <string name="register_successful">Register successfull You can login now</string>
+    <string name="register_successful">Nice 注册成功了！</string>
     <string name="error_file_not_found">The file is not found</string>
-    <string name="post_image">Post image</string>
-    <string name="error_no_image_picked">No image picked</string>
-    <string name="error_description_blank">The description is blank</string>
+    <string name="post_image">帖子照片</string>
+    <string name="error_no_image_picked">你还没有添加照片</string>
+    <string name="error_description_blank">你的内容是空的哟，不写一点吗？</string>
+    <string name="create_post_successful">发布成功！</string>
+    <string name="search">Search</string>
+    <string name="search_for_users">Search for users</string>
 </resources>

@@ -1,10 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_post.presentation.person_list
 
-/**
- * @auth：HGM
- * @date：2023-10-12 16:39
- * @desc：
- */
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -31,13 +27,14 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 
 @Composable
 fun PersonListScreen(
-      navController: NavController
+      onNavigateUp: () -> Unit = {},
+      onNavigate: (String) -> Unit = {},
 ) {
       Column(
             modifier = Modifier.fillMaxSize()
       ) {
             StandardTopBar(
-                  navController = navController,
+                  onNavigateUp = onNavigateUp,
                   showBackIcon = true,
                   title = {
                         Text(
@@ -54,6 +51,7 @@ fun PersonListScreen(
                   items(10) {
                         UserProfileItem(
                               user = User(
+                                    userId = "",
                                     profilePictureUrl = "",
                                     username = "Philipp Lackner",
                                     description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +

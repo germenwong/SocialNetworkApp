@@ -4,7 +4,6 @@ package com.hgm.socialnetworktwitch.feature_post.presentation.create_post
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -20,10 +19,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,27 +44,55 @@ import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
+import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.feature_post.util.CropActivityResultContract
 import com.hgm.socialnetworktwitch.feature_post.util.PostError
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun CreatePostScreen(
-      navController: NavController,
+      onNavigateUp: () -> Unit = {},
+      onNavigate: (String) -> Unit = {},
+      snackBarState: SnackbarHostState,
       viewModel: CreatePostViewModel = hiltViewModel()
 ) {
-      val context= LocalContext.current
+      val context = LocalContext.current
       val imageUri = viewModel.pickedImageUri.value
       //裁剪启动器
-      val cropActivityLauncher= rememberLauncherForActivityResult(
-            contract = CropActivityResultContract(16f,9f)
-      ){
+      val cropActivityLauncher = rememberLauncherForActivityResult(
+            contract = CropActivityResultContract(16f, 9f)
+      ) {
             viewModel.onEvent(CreatePostEvent.CropImage(it))
       }
       //图片启动器
       val photoPickerLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia(),
-      ) {
-            cropActivityLauncher.launch(it)
+      ) { uri ->
+            uri?.let {
+                  cropActivityLauncher.launch(it)
+            }
+      }
+
+      LaunchedEffect(key1 = true) {
+            viewModel.eventFlow.collectLatest { event ->
+                  when (event) {
+                        is UiEvent.NavigateUp -> onNavigateUp()
+
+                        is UiEvent.ShowSnackBar -> {
+                              GlobalScope.launch {
+                                    snackBarState.showSnackbar(
+                                          message = event.uiText.asString(context)
+                                    )
+                              }
+                        }
+
+                        else -> Unit
+                  }
+            }
       }
 
 
@@ -69,7 +100,7 @@ fun CreatePostScreen(
             modifier = Modifier.fillMaxSize()
       ) {
             StandardTopBar(
-                  navController = navController,
+                  onNavigateUp = onNavigateUp,
                   showBackIcon = true,
                   title = {
                         Text(
@@ -110,9 +141,9 @@ fun CreatePostScreen(
                               contentDescription = stringResource(id = R.string.choose_image),
                               tint = MaterialTheme.colorScheme.onBackground
                         )
-                        imageUri?.let {uri->
+                        imageUri?.let { uri ->
                               AsyncImage(
-                                    model =uri,
+                                    model = uri,
                                     contentDescription = stringResource(id = R.string.post_image),
                                     //imageLoader = ,
                                     modifier = Modifier.matchParentSize()
@@ -149,7 +180,9 @@ fun CreatePostScreen(
                               color = MaterialTheme.colorScheme.onPrimary
                         )
                         Spacer(modifier = Modifier.width(SpaceSmall))
-                        Icon(imageVector = Icons.Default.Send, contentDescription = null)
+                        if (viewModel.isLoading.value) {
+                              CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
+                        }
                   }
             }
       }

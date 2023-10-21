@@ -72,4 +72,7 @@
     <string name="post_image">Post image</string>
     <string name="error_no_image_picked">No image picked</string>
     <string name="error_description_blank">The description is blank</string>
+    <string name="create_post_successful">Create post successful</string>
+    <string name="search">Search</string>
+    <string name="search_for_users">Search for users</string>
 </resources>

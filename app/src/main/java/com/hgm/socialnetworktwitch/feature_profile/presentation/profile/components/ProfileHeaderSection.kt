@@ -37,7 +37,7 @@ fun ProfileHeaderSection(
       user: User,
       modifier: Modifier = Modifier,
       isOwnProfile: Boolean = true,
-      onEditClick: () -> Unit={}
+      onEditClick: () -> Unit = {}
 ) {
       Column(
             modifier = modifier
@@ -75,13 +75,15 @@ fun ProfileHeaderSection(
                   }
             }
             Spacer(modifier = Modifier.height(SpaceMedium))
-            Text(
-                  text = user.description,
-                  style = MaterialTheme.typography.bodyMedium,
-                  textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(SpaceLarge))
-            ProfileStats(user = user, isOwnProfile = isOwnProfile)
+            if (user.description.isNotBlank()) {
+                  Text(
+                        text = user.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center
+                  )
+                  Spacer(modifier = Modifier.height(SpaceLarge))
+                  ProfileStats(user = user, isOwnProfile = isOwnProfile)
+            }
       }
 
 }

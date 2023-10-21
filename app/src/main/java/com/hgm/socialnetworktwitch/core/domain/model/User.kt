@@ -6,10 +6,11 @@ package com.hgm.socialnetworktwitch.core.domain.model
  * @desc：
  */
 data class User(
+      val userId: String,
       val profilePictureUrl: String,
       val username: String,
       val description: String,
       val followerCount: Int,
       val followingCount: Int,
-      val postCount: Int,
+      val postCount: Int
 )

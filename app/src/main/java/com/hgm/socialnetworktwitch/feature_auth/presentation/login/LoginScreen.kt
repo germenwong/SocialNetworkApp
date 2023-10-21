@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-      navController: NavController,
+      onNavigate: (String) -> Unit = {},
       snackBarState: SnackbarHostState,
       viewModel: LoginViewModel = hiltViewModel()
 ) {
@@ -58,10 +58,10 @@ fun LoginScreen(
             viewModel.eventFlow.collectLatest { event ->
                   when (event) {
                         is UiEvent.Navigate -> {
-                              navController.navigate(event.route)
+                              onNavigate(event.route)
                         }
 
-                        is UiEvent.SnackBarEvent -> {
+                        is UiEvent.ShowSnackBar -> {
                               scope.launch {
                                     snackBarState.showSnackbar(
                                           event.uiText.asString(context),
@@ -69,6 +69,8 @@ fun LoginScreen(
                                     )
                               }
                         }
+
+                        else -> Unit
                   }
             }
       }
@@ -166,7 +168,7 @@ fun LoginScreen(
                   modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .clickable {
-                              navController.navigate(Screen.RegisterScreen.route)
+                              onNavigate(Screen.RegisterScreen.route)
                         }
             )
       }

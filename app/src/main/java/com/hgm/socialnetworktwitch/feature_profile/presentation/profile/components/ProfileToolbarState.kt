@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.feature_profile.presentation.profile
+package com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components
 
 /**
  * @auth：HGM

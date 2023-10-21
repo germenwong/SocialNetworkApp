@@ -8,14 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
-/**
- * @auth：HGM
- * @date：2023-10-10 16:14
- * @desc：
- */
+
 @Composable
 fun ChatScreen(
-      navController: NavController
+      onNavigateUp: () -> Unit = {},
+      onNavigate: (String) -> Unit = {}
 ) {
       Box(
             modifier = Modifier.fillMaxSize(),

@@ -23,21 +23,17 @@ import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import kotlin.random.Random
 
-/**
- * @auth：HGM
- * @date：2023-10-10 16:16
- * @desc：
- */
+
 @Composable
 fun ActivityScreen(
-      navController: NavController,
+      onNavigateUp: () -> Unit = {},
+      onNavigate: (String) -> Unit = {},
       viewModel: ActivityViewModel = hiltViewModel()
 ) {
       Column(
             modifier = Modifier.fillMaxSize(),
       ) {
             StandardTopBar(
-                  navController = navController,
                   title = {
                         Text(
                               text = stringResource(id = R.string.your_activity),

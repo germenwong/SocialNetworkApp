@@ -46,14 +46,15 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 
 @Composable
 fun PostDetailScreen(
-      navController: NavController,
-      post: Post
+      post: Post,
+      onNavigateUp: () -> Unit = {},
+      onNavigate: (String) -> Unit = {},
 ) {
       Column(
             modifier = Modifier.fillMaxSize(),
       ) {
             StandardTopBar(
-                  navController = navController,
+                  onNavigateUp=onNavigateUp,
                   title = {
                         Text(
                               text = stringResource(id = R.string.your_feed),

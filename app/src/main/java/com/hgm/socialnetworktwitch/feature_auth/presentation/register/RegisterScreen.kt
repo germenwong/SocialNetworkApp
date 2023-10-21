@@ -58,7 +58,7 @@ fun RegisterScreen(
       LaunchedEffect(key1 = true) {
             viewModel.eventFlow.collectLatest { event ->
                   when (event) {
-                        is UiEvent.SnackBarEvent -> {
+                        is UiEvent.ShowSnackBar -> {
                               scope.launch {
                                     snackBarState.showSnackbar(
                                           event.uiText.asString(context),

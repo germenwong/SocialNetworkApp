@@ -23,22 +23,18 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
 
-/**
- * @auth：HGM
- * @date：2023-10-10 11:22
- * @desc：
- */
+
 @Composable
 fun MainFeedScreen(
-      navController: NavController
+      onNavigateUp: () -> Unit = {},
+      onNavigate: (String) -> Unit = {}
 ) {
-
-
       Column(
             modifier = Modifier.fillMaxSize(),
       ) {
             StandardTopBar(
-                  navController = navController,
+                  modifier = Modifier.fillMaxWidth(),
+                  onNavigateUp = onNavigateUp,
                   title = {
                         Text(
                               text = stringResource(id = R.string.your_feed),
@@ -46,10 +42,9 @@ fun MainFeedScreen(
                               color = MaterialTheme.colorScheme.onBackground
                         )
                   },
-                  modifier = Modifier.fillMaxWidth(),
                   navAction = {
                         IconButton(onClick = {
-                              navController.navigate(Screen.SearchScreen.route)
+                              onNavigate(Screen.SearchScreen.route)
                         }) {
                               Icon(
                                     imageVector = Icons.Default.Search,
@@ -78,8 +73,8 @@ fun MainFeedScreen(
                                     likeCount = 14,
                                     commentCount = 53
                               )
-                        ){
-                              navController.navigate(Screen.PostDetailScreen.route)
+                        ) {
+                              onNavigate(Screen.PostDetailScreen.route)
                         }
                   }
             }

@@ -7,8 +7,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import coil.annotation.ExperimentalCoilApi
 import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_activity.presentation.ActivityScreen
 import com.hgm.socialnetworktwitch.feature_chat.presentation.ChatScreen
@@ -21,12 +24,13 @@ import com.hgm.socialnetworktwitch.feature_post.presentation.post_detail.PostDet
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.ProfileScreen
 import com.hgm.socialnetworktwitch.feature_auth.presentation.register.RegisterScreen
 import com.hgm.socialnetworktwitch.feature_auth.presentation.splash.SplashScreen
+import com.hgm.socialnetworktwitch.feature_profile.presentation.search.SearchScreen
 
 /**
  * @auth：HGM
- * @date：2023-09-22 13:58
- * @desc：
+ * @desc：导航主机
  */
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun Navigation(
       paddingValues: PaddingValues,
@@ -40,40 +44,77 @@ fun Navigation(
                   .fillMaxSize()
                   .padding(paddingValues)
       ) {
+            //闪屏页
             composable(Screen.SplashScreen.route) {
-                  SplashScreen(navController = navController)
+                  SplashScreen(
+                        onNavigate = { route ->
+                              navController.navigate(route) {
+                                    popUpTo(Screen.SplashScreen.route) {
+                                          inclusive = true
+                                    }
+                              }
+                        }
+                  )
             }
 
+            //登录页
             composable(Screen.LoginScreen.route) {
-                  LoginScreen(navController = navController,snackBarState=snackBarState)
+                  LoginScreen(
+                        snackBarState = snackBarState,
+                        onNavigate = navController::navigate
+                  )
             }
 
+            //注册页
             composable(Screen.RegisterScreen.route) {
                   RegisterScreen(navController = navController, snackBarState = snackBarState)
             }
 
+            //首页
             composable(Screen.MainFeedScreen.route) {
-                  MainFeedScreen(navController = navController)
+                  MainFeedScreen(
+                        onNavigate = navController::navigate,
+                        onNavigateUp = navController::navigateUp
+                  )
             }
 
+            //聊天页
             composable(Screen.ChatScreen.route) {
-                  ChatScreen(navController = navController)
+                  ChatScreen()
             }
 
-            composable(Screen.ProfileScreen.route) {
-                  ProfileScreen(navController = navController)
+            //个人页
+            composable(
+                  route = Screen.ProfileScreen.route + "?userId={userId}",
+                  arguments = listOf(
+                        navArgument("userId") {
+                              nullable = true
+                              defaultValue = null
+                              type = NavType.StringType
+                        }
+                  )
+            ) {
+                  ProfileScreen(
+                        onNavigate = navController::navigate
+                  )
             }
+
+            //动态页
             composable(Screen.ActivityScreen.route) {
-                  ActivityScreen(navController = navController)
+                  ActivityScreen()
             }
 
+            //创建帖子页
             composable(Screen.CreatePostScreen.route) {
-                  CreatePostScreen(navController = navController)
+                  CreatePostScreen(
+                        snackBarState = snackBarState,
+                        onNavigateUp = navController::navigateUp
+                  )
             }
 
+            //帖子详情页
             composable(Screen.PostDetailScreen.route) {
                   PostDetailScreen(
-                        navController = navController,
                         post = Post(
                               username = "Germen Wong",
                               imageUrl = "",
@@ -83,16 +124,31 @@ fun Navigation(
                                       "magna aliquyam erat...",
                               likeCount = 14,
                               commentCount = 53
-                        )
+                        ),
+                        onNavigateUp = navController::navigateUp
                   )
             }
 
+            //编辑个人页
             composable(Screen.EditProfileScreen.route) {
-                  EditProfileScreen(navController = navController)
+                  EditProfileScreen(
+                        onNavigateUp = navController::navigateUp
+                  )
             }
 
+            //用户列表页
             composable(Screen.PersonListScreen.route) {
-                  PersonListScreen(navController = navController)
+                  PersonListScreen(
+                        onNavigateUp = navController::navigateUp
+                  )
+            }
+
+            //查询用户页
+            composable(Screen.SearchScreen.route) {
+                  SearchScreen(
+                        onNavigateUp = navController::navigateUp,
+                        onNavigate = navController::navigate
+                  )
             }
       }
 }

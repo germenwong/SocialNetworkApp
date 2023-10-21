@@ -25,11 +25,11 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.TextWhite
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardTopBar(
-      navController: NavController,
       modifier: Modifier = Modifier,
       showBackIcon: Boolean = false,
-      navAction: @Composable RowScope.() -> Unit = {},
+      onNavigateUp:()->Unit={},
       title: @Composable () -> Unit = {},
+      navAction: @Composable RowScope.() -> Unit = {},
 ) {
       TopAppBar(
             modifier = modifier,
@@ -37,7 +37,7 @@ fun StandardTopBar(
             navigationIcon =  {
                   if (showBackIcon) {
                         IconButton(onClick = {
-                              navController.navigateUp()
+                              onNavigateUp()
                         }) {
                               Icon(
                                     imageVector = Icons.Default.ArrowBack,
