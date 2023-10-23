@@ -75,4 +75,8 @@
     <string name="create_post_successful">Create post successful</string>
     <string name="search">Search</string>
     <string name="search_for_users">Search for users</string>
+    <string name="error_couldnt_load_profile">Can\'t load profile</string>
+    <string name="error_couldnt_load_skills">Can\'t load skills</string>
+    <string name="update_profile_data_fail">Update profile data fail</string>
+    <string name="update_profile_successful">Update profile successful</string>
 </resources>

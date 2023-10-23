@@ -124,7 +124,7 @@ fun ProfileScreen(
                                     ),
                                     isOwnProfile = profile.isOwnProfile
                               ) {
-                                    onNavigate(Screen.EditProfileScreen.route)
+                                    onNavigate(Screen.EditProfileScreen.route+"/${profile.userId}")
                               }
                         }
                   }
@@ -179,7 +179,7 @@ fun ProfileScreen(
                                                   -iconHorizontalCenterLength
                                     },
                               bannerUrl = profile.bannerUrl,
-                              topSkillUrls = profile.topSkills,
+                              topSkillUrls = profile.topSkills.map { it.imageUrl },
                               hasGithub = profile.gitHubUrl != null,
                               hasInstagram = profile.instagramUrl != null,
                               hasLinkedIn = profile.linkedInUrl != null,

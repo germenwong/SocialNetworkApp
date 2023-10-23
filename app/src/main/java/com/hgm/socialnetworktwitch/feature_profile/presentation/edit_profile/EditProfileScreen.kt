@@ -1,10 +1,9 @@
 package com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile
 
-/**
- * @auth：HGM
- * @date：2023-10-12 10:39
- * @desc：编辑个人信息界面
- */
+
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,39 +19,92 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTextField
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
-import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
-import com.hgm.socialnetworktwitch.feature_post.util.PostError
+import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
+import com.hgm.socialnetworktwitch.feature_post.util.CropActivityResultContract
+import com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile.components.BannerEditSection
+import com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile.components.Chip
 import com.hgm.socialnetworktwitch.feature_profile.util.EditProfileError
-import kotlin.random.Random
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditProfileScreen(
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
+      snackBarState: SnackbarHostState,
       profilePictureSize: Dp = ProfilePictureSizeLarge,
       viewModel: EditProfileViewModel = hiltViewModel()
 ) {
+      val context = LocalContext.current
+      val skillState = viewModel.skills.value
+      val profileState = viewModel.state.value
+
+      val cropBannerLauncher = rememberLauncherForActivityResult(
+            contract = CropActivityResultContract(5f, 2f)
+      ) {
+            viewModel.onEvent(EditProfileEvent.CropBannerPicture(it))
+      }
+      val cropProfileLauncher = rememberLauncherForActivityResult(
+            contract = CropActivityResultContract(1f, 1f)
+      ) {
+            viewModel.onEvent(EditProfileEvent.CropProfilePicture(it))
+      }
+      val bannerLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+      ) { uri ->
+            uri?.let {
+                  cropBannerLauncher.launch(it)
+            }
+      }
+      val profileLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+      ) { uri ->
+            uri?.let {
+                  cropProfileLauncher.launch(it)
+            }
+      }
+
+      LaunchedEffect(key1 = true) {
+            viewModel.eventFlow.collectLatest { event ->
+                  when (event) {
+                        is UiEvent.NavigateUp -> {
+                              onNavigateUp()
+                        }
+                        is UiEvent.ShowSnackBar -> {
+                              snackBarState.showSnackbar(
+                                    duration = SnackbarDuration.Long,
+                                    message = event.uiText.asString(context)
+                              )
+                        }
+                        else -> Unit
+                  }
+            }
+      }
+
+
+
       Column(
             modifier = Modifier.fillMaxSize()
       ) {
@@ -60,7 +112,9 @@ fun EditProfileScreen(
                   onNavigateUp = onNavigateUp,
                   showBackIcon = true,
                   navAction = {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = {
+                              viewModel.onEvent(EditProfileEvent.UpdateProfile)
+                        }) {
                               Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = stringResource(id = R.string.save_changes),
@@ -82,9 +136,23 @@ fun EditProfileScreen(
                         .verticalScroll(rememberScrollState())
             ) {
                   BannerEditSection(
-                        bannerImage = painterResource(id = R.drawable.channel),
-                        profileImage = painterResource(id = R.drawable.germen),
-                        profilePictureSize = profilePictureSize
+                        bannerImageUrl =viewModel.bannerPictureUri.value ?: profileState.profile?.bannerUrl,
+                        profileImageUrl = viewModel.profilePictureUri.value ?: profileState.profile?.profilePictureUrl,
+                        profilePictureSize = profilePictureSize,
+                        onBannerClick = {
+                              bannerLauncher.launch(
+                                    PickVisualMediaRequest(
+                                          ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                              )
+                        },
+                        onProfileImageClick = {
+                              profileLauncher.launch(
+                                    PickVisualMediaRequest(
+                                          ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                              )
+                        }
                   )
                   Column(
                         modifier = Modifier
@@ -103,60 +171,52 @@ fun EditProfileScreen(
                               },
                               leadingIcon = Icons.Default.Person,
                               onValueChange = {
-                                    viewModel.setUsernameState(
-                                          StandardTextFieldState(text = it)
-                                    )
+                                    viewModel.onEvent(EditProfileEvent.EnteredUsername(it))
                               }
                         )
                         Spacer(modifier = Modifier.height(SpaceMedium))
                         StandardTextField(
                               modifier = Modifier
                                     .fillMaxWidth(),
-                              text = viewModel.githubTextFieldState.value.text,
+                              text = viewModel.githubUrlState.value.text,
                               hint = stringResource(id = R.string.github_profile_url),
-                              error = when (viewModel.githubTextFieldState.value.error) {
+                              error = when (viewModel.githubUrlState.value.error) {
                                     is EditProfileError.FieldEmpty -> stringResource(id = R.string.github_url_cant_be_empty)
                                     else -> ""
                               },
                               leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_github_icon_1),
                               onValueChange = {
-                                    viewModel.setGithubTextFieldState(
-                                          StandardTextFieldState(text = it)
-                                    )
+                                    viewModel.onEvent(EditProfileEvent.EnteredGitHubUrl(it))
                               }
                         )
                         Spacer(modifier = Modifier.height(SpaceMedium))
                         StandardTextField(
                               modifier = Modifier
                                     .fillMaxWidth(),
-                              text = viewModel.instagramTextFieldState.value.text,
+                              text = viewModel.instagramUrlState.value.text,
                               hint = stringResource(id = R.string.instagram_profile_url),
-                              error = when (viewModel.instagramTextFieldState.value.error) {
+                              error = when (viewModel.instagramUrlState.value.error) {
                                     is EditProfileError.FieldEmpty -> stringResource(id = R.string.instagram_url_cant_be_empty)
                                     else -> ""
                               },
                               leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_instagram_glyph_1),
                               onValueChange = {
-                                    viewModel.setInstagramTextFieldState(
-                                          StandardTextFieldState(text = it)
-                                    )
+                                    viewModel.onEvent(EditProfileEvent.EnteredInstagramUrl(it))
                               }
                         )
                         Spacer(modifier = Modifier.height(SpaceMedium))
                         StandardTextField(
                               modifier = Modifier
                                     .fillMaxWidth(),
-                              text = viewModel.linkedInTextFieldState.value.text,
+                              text = viewModel.linkedInUrlState.value.text,
                               hint = stringResource(id = R.string.linked_in_profile_url),
-                              error = when (viewModel.linkedInTextFieldState.value.error) {
+                              error = when (viewModel.linkedInUrlState.value.error) {
                                     is EditProfileError.FieldEmpty -> stringResource(id = R.string.linkedin_url_cant_be_empty)
                                     else -> ""
                               },
                               leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_linkedin_icon_1),
                               onValueChange = {
-                                    viewModel.setLinkedInTextFieldState(
-                                          StandardTextFieldState(text = it)
-                                    )
+                                    viewModel.onEvent(EditProfileEvent.EnteredLinkedInUrl(it))
                               }
                         )
                         Spacer(modifier = Modifier.height(SpaceMedium))
@@ -173,9 +233,7 @@ fun EditProfileScreen(
                               maxLines = 3,
                               leadingIcon = Icons.Default.Description,
                               onValueChange = {
-                                    viewModel.setBioState(
-                                          StandardTextFieldState(text = it)
-                                    )
+                                    viewModel.onEvent(EditProfileEvent.EnteredBio(it))
                               }
                         )
                         Spacer(modifier = Modifier.height(SpaceMedium))
@@ -193,20 +251,10 @@ fun EditProfileScreen(
                               mainAxisSpacing = SpaceMedium,
                               crossAxisSpacing = SpaceMedium
                         ) {
-                              listOf(
-                                    "Kotlin",
-                                    "JavaScript",
-                                    "Assembly",
-                                    "C++",
-                                    "C",
-                                    "C#",
-                                    "Dart",
-                                    "TypeScript",
-                                    "Python",
-                              ).forEach {
+                              skillState.skills.forEach {
                                     Chip(
-                                          text = it,
-                                          selected = Random.nextInt(2) == 0,
+                                          text = it.name,
+                                          selected = it in skillState.selectedSkills,
                                     ) {
                                           //TODO
                                     }

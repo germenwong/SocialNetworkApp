@@ -1,6 +1,7 @@
 package com.hgm.socialnetworktwitch.feature_profile.data.dto
 
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
+import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
 
 data class ProfileResponse(
     val userId:String,
@@ -8,7 +9,7 @@ data class ProfileResponse(
     val profilePictureUrl: String,
     val bannerUrl:String,
     val bio: String,//个人履历
-    val topSkillUrls: List<String>,
+    val topSkillUrls: List<SkillDto>,
     val githubUrl: String?,
     val instagramUrl: String?,
     val linkedInUrl: String?,
@@ -28,7 +29,7 @@ data class ProfileResponse(
             postCount = postCount,
             profilePictureUrl = profilePictureUrl,
             bannerUrl = bannerUrl,
-            topSkills = topSkillUrls,
+            topSkills = topSkillUrls.map { it.toSkill() },
             gitHubUrl = githubUrl,
             instagramUrl = instagramUrl,
             linkedInUrl = linkedInUrl,

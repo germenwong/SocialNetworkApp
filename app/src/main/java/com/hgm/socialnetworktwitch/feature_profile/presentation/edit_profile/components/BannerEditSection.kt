@@ -1,11 +1,7 @@
-package com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile
+package com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile.components
 
-/**
- * @auth：HGM
- * @date：2023-10-12 11:28
- * @desc：Banner编辑模块
- */
-import androidx.compose.foundation.Image
+
+import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,22 +14,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge
 
 @Composable
 fun BannerEditSection(
-      bannerImage: Painter,
-      profileImage: Painter,
-      profilePictureSize: Dp = ProfilePictureSizeLarge,
-      onBannerClick: () -> Unit = {},
-      onProfileImageClick: () -> Unit = {}
+    bannerImageUrl: Any?,
+    profileImageUrl: Any?,
+    profilePictureSize: Dp = ProfilePictureSizeLarge,
+    onBannerClick: () -> Unit = {},
+    onProfileImageClick: () -> Unit = {}
 ) {
     val bannerHeight = (LocalConfiguration.current.screenWidthDp / 2.5f).dp
 
@@ -42,8 +38,8 @@ fun BannerEditSection(
             .fillMaxWidth()
             .height(bannerHeight + profilePictureSize / 2f)
     ) {
-        Image(
-            painter = bannerImage,
+        AsyncImage(
+            model =bannerImageUrl,
             contentDescription = stringResource(id = R.string.banner_image),
             modifier = Modifier
                 .fillMaxWidth()
@@ -51,8 +47,8 @@ fun BannerEditSection(
                 .clickable { onBannerClick() },
             contentScale = ContentScale.Crop
         )
-        Image(
-            painter = profileImage,
+        AsyncImage(
+            model =profileImageUrl,
             contentDescription = stringResource(id = R.string.profile_image),
             modifier = Modifier
                 .align(Alignment.BottomCenter)

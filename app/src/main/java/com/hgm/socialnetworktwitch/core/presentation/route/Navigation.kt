@@ -130,9 +130,17 @@ fun Navigation(
             }
 
             //编辑个人页
-            composable(Screen.EditProfileScreen.route) {
+            composable(
+                  route = Screen.EditProfileScreen.route+"/{userId}",
+                  arguments = listOf(
+                        navArgument("userId") {
+                              type = NavType.StringType
+                        }
+                  )
+            ) {
                   EditProfileScreen(
-                        onNavigateUp = navController::navigateUp
+                        snackBarState = snackBarState,
+                        onNavigateUp = navController::navigateUp,
                   )
             }
 
