@@ -94,7 +94,6 @@ fun EditProfileScreen(
                         }
                         is UiEvent.ShowSnackBar -> {
                               snackBarState.showSnackbar(
-                                    duration = SnackbarDuration.Long,
                                     message = event.uiText.asString(context)
                               )
                         }
@@ -256,7 +255,7 @@ fun EditProfileScreen(
                                           text = it.name,
                                           selected = it in skillState.selectedSkills,
                                     ) {
-                                          //TODO
+                                          viewModel.onEvent(EditProfileEvent.SetSkillSelected(it))
                                     }
                               }
                         }

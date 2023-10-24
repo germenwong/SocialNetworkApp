@@ -95,6 +95,7 @@ fun Navigation(
                   )
             ) {
                   ProfileScreen(
+                        userId = it.arguments?.getString("userId") ?: "",
                         onNavigate = navController::navigate
                   )
             }
@@ -131,7 +132,7 @@ fun Navigation(
 
             //编辑个人页
             composable(
-                  route = Screen.EditProfileScreen.route+"/{userId}",
+                  route = Screen.EditProfileScreen.route + "/{userId}",
                   arguments = listOf(
                         navArgument("userId") {
                               type = NavType.StringType

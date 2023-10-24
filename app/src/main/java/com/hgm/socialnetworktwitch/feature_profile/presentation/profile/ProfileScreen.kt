@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -24,12 +26,14 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.core.domain.model.User
@@ -45,11 +49,13 @@ import com.hgm.socialnetworktwitch.core.util.toPx
 
 @Composable
 fun ProfileScreen(
+      userId: String,
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
       viewModel: ProfileViewModel = hiltViewModel(),
       profilePictureSize: Dp = ProfilePictureSizeLarge
 ) {
+      val context = LocalContext.current
       val lazyListState = rememberLazyListState()
       val toolbarState = viewModel.toolbarState.value
       val iconHorizontalCenterLength =
@@ -93,6 +99,11 @@ fun ProfileScreen(
       val state = viewModel.state.value
 
 
+      LaunchedEffect(key1 = true) {
+            viewModel.getProfile(userId)
+      }
+
+
       Box(
             modifier = Modifier
                   .fillMaxSize()
@@ -124,7 +135,7 @@ fun ProfileScreen(
                                     ),
                                     isOwnProfile = profile.isOwnProfile
                               ) {
-                                    onNavigate(Screen.EditProfileScreen.route+"/${profile.userId}")
+                                    onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
                               }
                         }
                   }
@@ -157,6 +168,7 @@ fun ProfileScreen(
             ) {
                   state.profile?.let { profile ->
                         BannerSection(
+                              context = context,
                               modifier = Modifier
                                     .height(
                                           (bannerHeight * toolbarState.expandedRatio).coerceIn(
@@ -180,12 +192,15 @@ fun ProfileScreen(
                                     },
                               bannerUrl = profile.bannerUrl,
                               topSkillUrls = profile.topSkills.map { it.imageUrl },
-                              hasGithub = profile.gitHubUrl != null,
-                              hasInstagram = profile.instagramUrl != null,
-                              hasLinkedIn = profile.linkedInUrl != null,
+                              hasGithub = !profile.gitHubUrl.isNullOrBlank(),
+                              hasInstagram = !profile.instagramUrl.isNullOrEmpty(),
+                              hasLinkedIn = !profile.linkedInUrl.isNullOrEmpty(),
                         )
                         AsyncImage(
-                              model =profile.profilePictureUrl,
+                              model = ImageRequest.Builder(context)
+                                    .data(profile.profilePictureUrl)
+                                    .crossfade(true)
+                                    .build(),
                               contentDescription = stringResource(id = R.string.profile_image),
                               modifier = Modifier
                                     .align(CenterHorizontally)

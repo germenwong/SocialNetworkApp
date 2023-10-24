@@ -20,7 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
       private val profileUseCases: ProfileUseCases,
-      savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
       private val _toolbarState = mutableStateOf(ProfileToolbarState())
@@ -32,12 +31,6 @@ class ProfileViewModel @Inject constructor(
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
 
-      init {
-            savedStateHandle.get<String>("userId")?.let { userId ->
-                  getProfile(userId)
-            }
-      }
-
       fun setExpandedRatio(ratio: Float) {
             _toolbarState.value = _toolbarState.value.copy(expandedRatio = ratio)
       }
@@ -46,15 +39,7 @@ class ProfileViewModel @Inject constructor(
             _toolbarState.value = _toolbarState.value.copy(toolbarOffsetY = value)
       }
 
-      fun onEvent(event: ProfileEvent) {
-            when (event) {
-                  is ProfileEvent.GetProfile -> {
-
-                  }
-            }
-      }
-
-      private fun getProfile(userId: String) {
+       fun getProfile(userId: String) {
             viewModelScope.launch {
                   _state.value = _state.value.copy(
                         isLoading = true

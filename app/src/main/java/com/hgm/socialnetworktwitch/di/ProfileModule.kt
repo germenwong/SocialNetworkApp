@@ -8,6 +8,7 @@ import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepo
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetProfileUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetSkillsUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.ProfileUseCases
+import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SetSkillSelectedUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateProfileUseCase
 import dagger.Module
 import dagger.Provides
@@ -46,7 +47,8 @@ object ProfileModule {
             return ProfileUseCases(
                   getProfileUseCase = GetProfileUseCase(repository),
                   getSkillsUseCase = GetSkillsUseCase(repository),
-                  updateProfileUseCase = UpdateProfileUseCase(repository)
+                  updateProfileUseCase = UpdateProfileUseCase(repository),
+                  selectedUseCase = SetSkillSelectedUseCase()
             )
       }
 }

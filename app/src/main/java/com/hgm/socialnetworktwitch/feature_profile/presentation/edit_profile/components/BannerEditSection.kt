@@ -1,7 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile.components
 
 
-import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

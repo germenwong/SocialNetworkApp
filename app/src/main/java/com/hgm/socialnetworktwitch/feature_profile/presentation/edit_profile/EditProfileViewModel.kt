@@ -77,8 +77,6 @@ class EditProfileViewModel @Inject constructor(
                                     return@launch
                               }
                               //填充所有信息
-                              //_bannerPictureUri.value = profile.bannerUrl?.toUri()
-                              //_profilePictureUri.value=profile.profilePictureUrl.toUri()
                               _usernameState.value = _usernameState.value.copy(
                                     text = profile.username
                               )
@@ -218,6 +216,39 @@ class EditProfileViewModel @Inject constructor(
 
                   is EditProfileEvent.UpdateProfile -> {
                         updateProfile()
+                  }
+
+                  is EditProfileEvent.SetSkillSelected -> {
+                        val result = profileUseCases.selectedUseCase(
+                              skills.value.selectedSkills,
+                              event.skill
+                        )
+                        viewModelScope.launch {
+                              when (result) {
+                                    is Resource.Error -> {
+                                          _eventFlow.emit(
+                                                UiEvent.ShowSnackBar(
+                                                      uiText = result.uiText
+                                                            ?: UiText.StringResource(R.string.error_unknown)
+                                                )
+                                          )
+                                          return@launch
+                                    }
+
+                                    is Resource.Success -> {
+                                          _skills.value = _skills.value.copy(
+                                                selectedSkills = result.data ?: kotlin.run {
+                                                      _eventFlow.emit(
+                                                            UiEvent.ShowSnackBar(
+                                                                  uiText = UiText.StringResource(R.string.error_unknown)
+                                                            )
+                                                      )
+                                                      return@launch
+                                                }
+                                          )
+                                    }
+                              }
+                        }
                   }
             }
       }

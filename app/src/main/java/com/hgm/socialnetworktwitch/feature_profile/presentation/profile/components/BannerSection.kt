@@ -5,6 +5,7 @@ package com.hgm.socialnetworktwitch.feature_profile.presentation.profile.compone
  * @date：2023-10-11 15:28
  * @desc：背景图模块组件
  */
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,37 +24,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.util.toPx
 
 @Composable
 fun BannerSection(
+      context: Context,
+      bannerUrl: String?,
+      iconSize: Dp = 35.dp,
+      topSkillUrls: List<String>,
+      hasGithub: Boolean = false,
+      hasLinkedIn: Boolean = false,
+      hasInstagram: Boolean = false,
+      onGithubClick: () -> Unit = {},
+      onLinkedInClick: () -> Unit = {},
+      onInstagramClick: () -> Unit = {},
       modifier: Modifier = Modifier,
-      iconSize: Dp = 30.dp,
       imageModifier: Modifier = Modifier,
       leftIconModifier: Modifier = Modifier,
       rightIconModifier: Modifier = Modifier,
-      bannerUrl:String?,
-      topSkillUrls:List<String>,
-      hasGithub:Boolean=false,
-      hasInstagram:Boolean=false,
-      hasLinkedIn:Boolean=false,
-      onGithubClick: () -> Unit = {},
-      onInstagramClick: () -> Unit = {},
-      onLinkedInClick: () -> Unit = {},
 ) {
 
       BoxWithConstraints(
             modifier = modifier
       ) {
             AsyncImage(
-                  model =bannerUrl,
+                  model = ImageRequest.Builder(context)
+                        .data(bannerUrl)
+                        .crossfade(true)
+                        .build(),
                   contentDescription = stringResource(id = R.string.banner_image),
                   contentScale = ContentScale.Crop,
                   modifier = imageModifier
@@ -78,10 +86,14 @@ fun BannerSection(
                         .align(Alignment.BottomStart)
                         .padding(SpaceSmall)
             ) {
-                  topSkillUrls.forEach { skillUrl->
+                  topSkillUrls.forEach { skillUrl ->
                         Spacer(modifier = Modifier.width(SpaceSmall))
                         AsyncImage(
-                              model = skillUrl,
+                              model = ImageRequest.Builder(context)
+                                    .data(skillUrl)
+                                    .crossfade(true)
+                                    .decoderFactory(SvgDecoder.Factory())
+                                    .build(),
                               contentDescription = null,
                               modifier = Modifier.height(iconSize)
                         )
@@ -94,7 +106,7 @@ fun BannerSection(
                         .align(Alignment.BottomEnd)
                         .padding(SpaceSmall)
             ) {
-                  if (hasGithub){
+                  if (hasGithub) {
                         IconButton(
                               onClick = onGithubClick,
                               modifier = Modifier.size(iconSize)
@@ -106,7 +118,7 @@ fun BannerSection(
                               )
                         }
                   }
-                  if (hasInstagram){
+                  if (hasInstagram) {
                         IconButton(
                               onClick = onInstagramClick,
                               modifier = Modifier.size(iconSize)
@@ -118,7 +130,7 @@ fun BannerSection(
                               )
                         }
                   }
-                  if (hasLinkedIn){
+                  if (hasLinkedIn) {
                         IconButton(
                               onClick = onLinkedInClick,
                               modifier = Modifier.size(iconSize)
