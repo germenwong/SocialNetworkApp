@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardScaffold
@@ -36,13 +37,7 @@ class MainActivity : ComponentActivity() {
                                     navController = navController,
                                     modifier = Modifier.fillMaxSize(),
                                     snackBarState = snackBarState,
-                                    showBottomBar = navBackStackEntry?.destination?.route in listOf(
-                                          // 当前路由属于以下类型的就显示底部栏
-                                          Screen.MainFeedScreen.route,
-                                          Screen.ChatScreen.route,
-                                          Screen.ActivityScreen.route,
-                                          Screen.ProfileScreen.route,
-                                    ),
+                                    showBottomBar = shouldShowBottomBar(navBackStackEntry),
                                     showFAB = navBackStackEntry?.destination?.route in listOf(
                                           Screen.MainFeedScreen.route
                                     ),
@@ -59,5 +54,16 @@ class MainActivity : ComponentActivity() {
                         }
                   }
             }
+      }
+
+      private fun shouldShowBottomBar(backStackEntry: NavBackStackEntry?): Boolean {
+            val doesRouteMatch = backStackEntry?.destination?.route in listOf(
+                  Screen.MainFeedScreen.route,
+                  Screen.ChatScreen.route,
+                  Screen.ActivityScreen.route
+            )
+            val isOwnProfile = backStackEntry?.destination?.route == "${Screen.ProfileScreen.route}?userId={userId}" &&
+                    backStackEntry.arguments?.getString("userId") == null
+            return doesRouteMatch || isOwnProfile
       }
 }

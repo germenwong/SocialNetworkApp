@@ -68,15 +68,14 @@ fun StandardScaffold(
                               bottomNavItems.forEachIndexed { index, item ->
                                     // 判断当前Item路由是否和控制器路由一致
                                     val selected =
-                                          item.route == navController.currentDestination?.route
-
+                                          navController.currentDestination?.route?.startsWith(item.route) == true
                                     StandardNavBarItem(
                                           icon = item.icon,
                                           contentDescription = item.contentDescription,
                                           selected = selected,
                                           alertCount = item.alertCount
                                     ) {
-                                          if (!selected) {
+                                          if (navController.currentDestination?.route != item.route) {
                                                 navController.navigate(item.route)
                                           }
                                     }

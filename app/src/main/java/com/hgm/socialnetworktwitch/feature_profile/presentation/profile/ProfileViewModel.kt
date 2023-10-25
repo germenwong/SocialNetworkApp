@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.hgm.socialnetworktwitch.R
+import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
       private val profileUseCases: ProfileUseCases,
+      private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
       savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -36,7 +38,7 @@ class ProfileViewModel @Inject constructor(
 
       val posts =
             profileUseCases.getPostsForProfileUseCase(
-                  savedStateHandle.get<String>("userId") ?: ""
+                  savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
             ).cachedIn(viewModelScope)
 
 
@@ -48,12 +50,14 @@ class ProfileViewModel @Inject constructor(
             _toolbarState.value = _toolbarState.value.copy(toolbarOffsetY = value)
       }
 
-      fun getProfile(userId: String) {
+      fun getProfile(userId: String?) {
             viewModelScope.launch {
                   _state.value = _state.value.copy(
                         isLoading = true
                   )
-                  val result = profileUseCases.getProfileUseCase(userId)
+                  val result = profileUseCases.getProfileUseCase(
+                        userId ?: getOwnUserIdUseCase()
+                  )
                   when (result) {
                         is Resource.Success -> {
                               _state.value = _state.value.copy(

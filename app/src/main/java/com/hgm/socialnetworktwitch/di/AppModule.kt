@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
 import com.hgm.socialnetworktwitch.core.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -46,6 +47,12 @@ object AppModule {
       @Singleton
       fun provideGson(): Gson {
             return Gson()
+      }
+
+      @Provides
+      @Singleton
+      fun provideGetOwnUserIdUseCase(sharedPreferences: SharedPreferences): GetOwnUserIdUseCase {
+            return GetOwnUserIdUseCase(sharedPreferences)
       }
 
 }

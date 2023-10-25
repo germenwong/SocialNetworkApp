@@ -55,10 +55,10 @@ class AuthRepositoryImpl(
                   val request = LoginRequest(email, password)
                   val response = api.login(request)
                   if (response.successful) {
-                        //保存token
-                        response.data?.token?.let { token ->
+                        response.data?.let { authResponse ->
                               sharedPreference.edit()
-                                    .putString(Constants.KEY_JWT_TOKEN, token)
+                                    .putString(Constants.KEY_USER_ID, authResponse.userId)
+                                    .putString(Constants.KEY_JWT_TOKEN, authResponse.token)
                                     .apply()
                         }
                         Resource.Success(Unit)
