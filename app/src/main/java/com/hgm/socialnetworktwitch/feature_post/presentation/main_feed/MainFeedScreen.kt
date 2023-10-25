@@ -15,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
@@ -27,8 +30,12 @@ import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component
 @Composable
 fun MainFeedScreen(
       onNavigateUp: () -> Unit = {},
-      onNavigate: (String) -> Unit = {}
+      onNavigate: (String) -> Unit = {},
+      viewModel:MainFeedViewModel= hiltViewModel()
 ) {
+      val posts = viewModel.posts.collectAsLazyPagingItems()
+
+
       Column(
             modifier = Modifier.fillMaxSize(),
       ) {
@@ -61,24 +68,22 @@ fun MainFeedScreen(
                         .weight(1f),
                   verticalArrangement = Arrangement.spacedBy(SpaceMedium)
             ) {
-                  items(3) {
+                  items(posts) {post->
                         PostView(
                               post = Post(
-                                    username = "Germen Wong",
-                                    imageUrl = "",
-                                    profilePictureUrl = "",
-                                    description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed" +
-                                            "diam nonumy eirmod tempor invidunt ut labore et dolore " +
-                                            "magna aliquyam erat...",
-                                    likeCount = 14,
-                                    commentCount = 53
-                              )
-                        ) {
-                              onNavigate(Screen.PostDetailScreen.route)
-                        }
+                                    username =post?.username ?: "",
+                                    imageUrl = post?.imageUrl ?: "",
+                                    profilePictureUrl = post?.profilePictureUrl ?: "",
+                                    description = post?.description ?: "",
+                                    likeCount = post?.likeCount ?: 0,
+                                    commentCount = post?.commentCount ?: 0,
+                              ),
+                              showProfileImage = true,
+                              onPostClick = {
+                                    onNavigate(Screen.PostDetailScreen.route)
+                              },
+                        )
                   }
             }
       }
-
-
 }

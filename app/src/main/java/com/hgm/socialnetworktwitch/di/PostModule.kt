@@ -1,7 +1,7 @@
 package com.hgm.socialnetworktwitch.di
 
 import com.google.gson.Gson
-import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
+import com.hgm.socialnetworktwitch.core.data.remote.PostApi
 import com.hgm.socialnetworktwitch.feature_post.data.repository.PostRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.CreatePostUseCase
@@ -34,7 +34,7 @@ object PostModule {
 
       @Provides
       @Singleton
-      fun providePostRepository(api: PostApi,gson: Gson): PostRepository {
+      fun providePostRepository(api: PostApi, gson: Gson): PostRepository {
             return PostRepositoryImpl(api,gson)
       }
 

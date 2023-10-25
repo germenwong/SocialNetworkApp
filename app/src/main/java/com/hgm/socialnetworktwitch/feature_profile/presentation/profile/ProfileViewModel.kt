@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
@@ -14,12 +15,14 @@ import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.componen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
       private val profileUseCases: ProfileUseCases,
+      savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
       private val _toolbarState = mutableStateOf(ProfileToolbarState())
@@ -31,6 +34,12 @@ class ProfileViewModel @Inject constructor(
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
 
+      val posts =
+            profileUseCases.getPostsForProfileUseCase(
+                  savedStateHandle.get<String>("userId") ?: ""
+            ).cachedIn(viewModelScope)
+
+
       fun setExpandedRatio(ratio: Float) {
             _toolbarState.value = _toolbarState.value.copy(expandedRatio = ratio)
       }
@@ -39,7 +48,7 @@ class ProfileViewModel @Inject constructor(
             _toolbarState.value = _toolbarState.value.copy(toolbarOffsetY = value)
       }
 
-       fun getProfile(userId: String) {
+      fun getProfile(userId: String) {
             viewModelScope.launch {
                   _state.value = _state.value.copy(
                         isLoading = true

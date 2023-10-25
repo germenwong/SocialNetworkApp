@@ -65,7 +65,6 @@ fun SplashScreen(
                               delay(SPLASH_SCREEN_DURATION)
                               onNavigate(event.route)
                         }
-
                         else -> Unit
                   }
             }

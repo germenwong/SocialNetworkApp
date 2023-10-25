@@ -2,16 +2,24 @@ package com.hgm.socialnetworktwitch.feature_profile.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.R
+import com.hgm.socialnetworktwitch.core.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
+import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
+import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.UpdateProfileData
 import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
@@ -19,12 +27,13 @@ import java.io.IOException
 
 
 class ProfileRepositoryImpl(
-      private val api: ProfileApi,
-      private val gson: Gson
+      private val gson: Gson,
+      private val profileApi: ProfileApi,
+      private val postApi: PostApi
 ) : ProfileRepository {
       override suspend fun getProfile(userId: String): Resource<Profile> {
             return try {
-                  val response = api.getProfile(userId)
+                  val response = profileApi.getProfile(userId)
                   if (response.successful) {
                         Resource.Success(response.data?.toProfile())
                   } else {
@@ -43,10 +52,17 @@ class ProfileRepositoryImpl(
             }
       }
 
+      override  fun getPostsForProfile(userId: String): Flow<PagingData<Post>> {
+            return Pager(
+                  config = PagingConfig(pageSize = Constants.PAGE_SIZE_POST)
+            ) {
+                  PostPagingSource(postApi, PostPagingSource.Source.Profile(userId))
+            }.flow
+      }
 
       override suspend fun getSkills(): Resource<List<Skill>> {
             return try {
-                  val response = api.getSkills()
+                  val response = profileApi.getSkills()
                   Resource.Success(response.map { it.toSkill() })
             } catch (e: IOException) {
                   Resource.Error(
@@ -69,7 +85,7 @@ class ProfileRepositoryImpl(
             val profileFile = profilePictureUri?.toFile()
 
             return try {
-                  val response = api.updateProfile(
+                  val response = profileApi.updateProfile(
                         bannerPicture = bannerFile?.let {
                               MultipartBody.Part
                                     .createFormData(

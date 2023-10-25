@@ -1,10 +1,11 @@
 package com.hgm.socialnetworktwitch.di
 
 import com.google.gson.Gson
-import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
+import com.hgm.socialnetworktwitch.core.data.remote.PostApi
 import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
 import com.hgm.socialnetworktwitch.feature_profile.data.repository.ProfileRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
+import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetPostsForProfileUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetProfileUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetSkillsUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.ProfileUseCases
@@ -37,8 +38,12 @@ object ProfileModule {
 
       @Provides
       @Singleton
-      fun provideProfileRepository(api: ProfileApi,gson: Gson): ProfileRepository {
-            return ProfileRepositoryImpl(api,gson)
+      fun provideProfileRepository(
+            profileApi: ProfileApi,
+            postApi: PostApi,
+            gson: Gson
+      ): ProfileRepository {
+            return ProfileRepositoryImpl(gson, profileApi, postApi)
       }
 
       @Provides
@@ -48,7 +53,8 @@ object ProfileModule {
                   getProfileUseCase = GetProfileUseCase(repository),
                   getSkillsUseCase = GetSkillsUseCase(repository),
                   updateProfileUseCase = UpdateProfileUseCase(repository),
-                  selectedUseCase = SetSkillSelectedUseCase()
+                  selectedUseCase = SetSkillSelectedUseCase(),
+                  getPostsForProfileUseCase = GetPostsForProfileUseCase(repository)
             )
       }
 }

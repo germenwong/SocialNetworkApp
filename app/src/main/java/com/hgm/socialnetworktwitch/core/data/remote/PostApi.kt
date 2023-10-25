@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.feature_post.data.remote
+package com.hgm.socialnetworktwitch.core.data.remote
 
 import com.hgm.socialnetworktwitch.core.data.dto.BaseResponse
 import com.hgm.socialnetworktwitch.feature_post.data.dto.CreatePostRequest
@@ -29,8 +29,15 @@ interface PostApi {
             @Query("pageSize") pageSize: Int
       ): List<Post>
 
-      //多部分上传
-      @Multipart
+      @GET("/api/user/post")
+      suspend fun getPostsForProfile(
+            @Query("userId") userId: String,
+            @Query("page") page: Int,
+            @Query("pageSize") pageSize: Int
+      ): List<Post>
+
+
+      @Multipart//多部分上传
       @POST("/api/post/create")
       suspend fun createPost(
             @Part postData:MultipartBody.Part,

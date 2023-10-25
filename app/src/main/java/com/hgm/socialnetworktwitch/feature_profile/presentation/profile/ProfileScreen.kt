@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.paging.compose.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
@@ -97,6 +97,7 @@ fun ProfileScreen(
             }
       }
       val state = viewModel.state.value
+      val posts = viewModel.posts.collectAsLazyPagingItems()
 
 
       LaunchedEffect(key1 = true) {
@@ -139,21 +140,19 @@ fun ProfileScreen(
                               }
                         }
                   }
-                  items(3) {
+                  items(posts){post->
                         Spacer(
                               modifier = Modifier
                                     .height(SpaceMedium)
                         )
                         PostView(
                               post = Post(
-                                    username = "Philipp Lackner",
-                                    imageUrl = "",
-                                    profilePictureUrl = "",
-                                    description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
-                                            "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
-                                            "magna aliquyam erat, sed diam voluptua...",
-                                    likeCount = 17,
-                                    commentCount = 7,
+                                    username =post?.username ?: "",
+                                    imageUrl = post?.imageUrl ?: "",
+                                    profilePictureUrl = post?.profilePictureUrl ?: "",
+                                    description = post?.description ?: "",
+                                    likeCount = post?.likeCount ?: 0,
+                                    commentCount = post?.commentCount ?: 0,
                               ),
                               showProfileImage = false,
                               onPostClick = {

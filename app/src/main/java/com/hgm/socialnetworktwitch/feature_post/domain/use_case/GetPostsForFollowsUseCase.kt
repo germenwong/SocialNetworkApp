@@ -1,9 +1,11 @@
 package com.hgm.socialnetworktwitch.feature_post.domain.use_case
 
+import androidx.paging.PagingData
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @auth：HGM
@@ -14,10 +16,7 @@ class GetPostsForFollowsUseCase(
       private val repository: PostRepository
 ) {
 
-      suspend operator fun invoke(
-            page: Int,
-            pageSize: Int = Constants.PAGE_SIZE_POST
-      ): Resource<List<Post>> {
-            return repository.getPostsForFollows(page, pageSize)
+       operator fun invoke(): Flow<PagingData<Post>> {
+            return repository.getPostsForFollows()
       }
 }
