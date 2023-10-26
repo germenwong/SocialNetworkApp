@@ -67,7 +67,7 @@ fun ProfileStats(
                               text = if (isFollowing) {
                                     stringResource(id = R.string.unfollow)
                               } else {
-                                    stringResource(id = R.string.following)
+                                    stringResource(id = R.string.follower)
                               },
                               color = if (isFollowing) {
                                     Color.White

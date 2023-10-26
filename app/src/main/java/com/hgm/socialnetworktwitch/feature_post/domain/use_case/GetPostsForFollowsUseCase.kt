@@ -1,9 +1,7 @@
 package com.hgm.socialnetworktwitch.feature_post.domain.use_case
 
 import androidx.paging.PagingData
-import com.hgm.socialnetworktwitch.core.util.Constants
-import com.hgm.socialnetworktwitch.core.util.Resource
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import kotlinx.coroutines.flow.Flow
 

@@ -1,7 +1,7 @@
 package com.hgm.socialnetworktwitch.feature_profile.domain.use_case
 
 import androidx.paging.PagingData
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
 import kotlinx.coroutines.flow.Flow
 

@@ -3,6 +3,7 @@ package com.hgm.socialnetworktwitch.core.presentation.ui.theme
 import androidx.compose.ui.unit.dp
 
 
+val SpaceSS = 4.dp
 val SpaceSmall = 8.dp
 val SpaceMedium = 16.dp
 val SpaceLarge = 24.dp

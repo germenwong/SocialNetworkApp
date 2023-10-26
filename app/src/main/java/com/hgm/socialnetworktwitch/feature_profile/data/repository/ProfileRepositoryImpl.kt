@@ -13,7 +13,9 @@ import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
 import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.UserItem
+import com.hgm.socialnetworktwitch.feature_profile.data.dto.FollowUpdateRequest
 import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
@@ -52,7 +54,7 @@ class ProfileRepositoryImpl(
             }
       }
 
-      override  fun getPostsForProfile(userId: String): Flow<PagingData<Post>> {
+      override fun getPostsForProfile(userId: String): Flow<PagingData<Post>> {
             return Pager(
                   config = PagingConfig(pageSize = Constants.PAGE_SIZE_POST)
             ) {
@@ -113,6 +115,68 @@ class ProfileRepositoryImpl(
                   } else {
                         response.message?.let {
                               Resource.Error(UiText.DynamicString(it))
+                        } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
+                  }
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun searchUser(query: String): Resource<List<UserItem>> {
+            return try {
+                  val userItems = profileApi.searchUser(query)
+                  Resource.Success(userItems.map { it.toUserItem() })
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun followUser(userId: String): SimpleResource {
+            return try {
+                  val request = FollowUpdateRequest(userId)
+                  val response = profileApi.followUser(request)
+                  if (response.successful) {
+                        Resource.Success(Unit)
+                  } else {
+                        response.message?.let {
+                              Resource.Error(
+                                    uiText = UiText.DynamicString(it)
+                              )
+                        } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
+                  }
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun unfollowUser(userId: String): SimpleResource {
+            return try {
+                  val response = profileApi.unfollowUser(userId)
+                  if (response.successful) {
+                        Resource.Success(Unit)
+                  } else {
+                        response.message?.let {
+                              Resource.Error(
+                                    uiText = UiText.DynamicString(it)
+                              )
                         } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
                   }
             } catch (e: IOException) {

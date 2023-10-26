@@ -13,14 +13,12 @@ class SetSkillSelectedUseCase {
             selectedSkills: List<Skill>,
             skillToToggle: Skill
       ): Resource<List<Skill>> {
-            if (skillToToggle in selectedSkills) {
-                  return Resource.Success(selectedSkills - skillToToggle)
+            val skillInList = selectedSkills.find { it.name == skillToToggle.name }
+            if(skillInList != null) {
+                  return Resource.Success(selectedSkills - skillInList)
             }
-
-            return if (selectedSkills.size >= ProfileConstants.MAX_SELECTED_CHIP_COUNT) {
-                  Resource.Error(
-                        uiText = UiText.StringResource(R.string.error_max_selected_is_3)
-                  )
+            return if(selectedSkills.size >= ProfileConstants.MAX_SELECTED_CHIP_COUNT) {
+                  Resource.Error(uiText = UiText.StringResource(R.string.error_max_selected_is_3))
             } else {
                   Resource.Success(selectedSkills + skillToToggle)
             }

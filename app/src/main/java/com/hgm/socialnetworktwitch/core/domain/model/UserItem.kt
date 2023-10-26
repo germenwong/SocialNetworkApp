@@ -1,10 +1,6 @@
-package com.hgm.socialnetworktwitch.feature_profile.domain.model
+package com.hgm.socialnetworktwitch.core.domain.model
 
-/**
- * @auth：HGM
- * @date：2023-10-20 18:01
- * @desc：
- */
+
 data class UserItem(
       val userId: String,
       val username: String,

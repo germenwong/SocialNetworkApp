@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import coil.annotation.ExperimentalCoilApi
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_activity.presentation.ActivityScreen
 import com.hgm.socialnetworktwitch.feature_chat.presentation.ChatScreen
 import com.hgm.socialnetworktwitch.feature_post.presentation.create_post.CreatePostScreen
@@ -155,6 +155,7 @@ fun Navigation(
             //查询用户页
             composable(Screen.SearchScreen.route) {
                   SearchScreen(
+                        snackBarState = snackBarState,
                         onNavigateUp = navController::navigateUp,
                         onNavigate = navController::navigate
                   )

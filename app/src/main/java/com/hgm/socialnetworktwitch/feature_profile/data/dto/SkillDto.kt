@@ -1,6 +1,5 @@
 package com.hgm.socialnetworktwitch.feature_profile.data.dto
 
-import com.google.gson.annotations.SerializedName
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
 
 

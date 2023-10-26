@@ -12,7 +12,6 @@ import androidx.paging.compose.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -29,7 +28,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,9 +35,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.domain.model.User
-import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components.BannerSection
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components.ProfileHeaderSection
@@ -136,6 +133,7 @@ fun ProfileScreen(
                                           followingCount = profile.followingCount,
                                           postCount = profile.postCount
                                     ),
+                                    isFollowing =profile.isFollowing,
                                     isOwnProfile = profile.isOwnProfile
                               ) {
                                     onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")

@@ -1,11 +1,8 @@
 package com.hgm.socialnetworktwitch.core.data.remote
 
 import com.hgm.socialnetworktwitch.core.data.dto.BaseResponse
-import com.hgm.socialnetworktwitch.feature_post.data.dto.CreatePostRequest
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -20,7 +17,7 @@ import retrofit2.http.Query
 interface PostApi {
 
       companion object {
-            const val BASE_URL = "http://10.0.2.2:8080"
+            const val BASE_URL = "http://192.168.31.164:8080"
       }
 
       @GET("/api/post/get")

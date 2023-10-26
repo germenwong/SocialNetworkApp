@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.feature_post.domain.model
+package com.hgm.socialnetworktwitch.core.domain.model
 
 /**
  * @auth：HGM

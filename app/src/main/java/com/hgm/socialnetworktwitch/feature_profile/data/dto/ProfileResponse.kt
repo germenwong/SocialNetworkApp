@@ -7,7 +7,7 @@ data class ProfileResponse(
     val userId:String,
     val username: String,
     val profilePictureUrl: String,
-    val bannerUrl:String,
+    val bannerUrl:String?,
     val bio: String,//个人履历
     val topSkillUrls: List<SkillDto>,
     val githubUrl: String?,

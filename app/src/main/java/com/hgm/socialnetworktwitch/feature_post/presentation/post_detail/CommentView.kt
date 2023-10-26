@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
+import com.hgm.socialnetworktwitch.core.domain.model.Comment
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall

@@ -9,7 +9,9 @@ import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetPostsForPr
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetProfileUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetSkillsUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.ProfileUseCases
+import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SearchUserUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SetSkillSelectedUseCase
+import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateFollowStateUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateProfileUseCase
 import dagger.Module
 import dagger.Provides
@@ -53,8 +55,10 @@ object ProfileModule {
                   getProfileUseCase = GetProfileUseCase(repository),
                   getSkillsUseCase = GetSkillsUseCase(repository),
                   updateProfileUseCase = UpdateProfileUseCase(repository),
-                  selectedUseCase = SetSkillSelectedUseCase(),
-                  getPostsForProfileUseCase = GetPostsForProfileUseCase(repository)
+                  setSkillSelectedUseCase = SetSkillSelectedUseCase(),
+                  getPostsForProfileUseCase = GetPostsForProfileUseCase(repository),
+                  searchUserUseCase = SearchUserUseCase(repository),
+                  updateFollowStateUseCase = UpdateFollowStateUseCase(repository)
             )
       }
 }

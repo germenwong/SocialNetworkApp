@@ -4,7 +4,9 @@ import android.net.Uri
 import androidx.paging.PagingData
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.UserItem
+import com.hgm.socialnetworktwitch.feature_profile.data.dto.FollowUpdateRequest
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.UpdateProfileData
@@ -15,7 +17,7 @@ interface ProfileRepository {
 
       suspend fun getProfile(userId: String): Resource<Profile>
 
-       fun getPostsForProfile(userId: String): Flow<PagingData<Post>>
+      fun getPostsForProfile(userId: String): Flow<PagingData<Post>>
 
       suspend fun getSkills(): Resource<List<Skill>>
 
@@ -24,4 +26,10 @@ interface ProfileRepository {
             profilePictureUri: Uri?,
             updateProfileData: UpdateProfileData
       ): SimpleResource
+
+      suspend fun searchUser(query: String): Resource<List<UserItem>>
+
+      suspend fun followUser(userId: String): SimpleResource
+
+      suspend fun unfollowUser(userId: String): SimpleResource
 }

@@ -48,30 +48,30 @@ fun PersonListScreen(
                   modifier = Modifier.fillMaxSize(),
                   contentPadding = PaddingValues(SpaceLarge)
             ) {
-                  items(10) {
-                        UserProfileItem(
-                              user = User(
-                                    userId = "",
-                                    profilePictureUrl = "",
-                                    username = "Philipp Lackner",
-                                    description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
-                                            "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
-                                            "magna aliquyam erat, sed diam voluptua",
-                                    followerCount = 234,
-                                    followingCount = 534,
-                                    postCount = 65
-                              ),
-                              actionIcon = {
-                                    Icon(
-                                          imageVector = Icons.Default.PersonAdd,
-                                          contentDescription = null,
-                                          tint = MaterialTheme.colorScheme.onBackground,
-                                          modifier = Modifier.size(IconSizeMedium)
-                                    )
-                              }
-                        )
-                        Spacer(modifier = Modifier.height(SpaceMedium))
-                  }
+                  //items(10) {
+                  //      UserProfileItem(
+                  //            user = User(
+                  //                  userId = "",
+                  //                  profilePictureUrl = "",
+                  //                  username = "Philipp Lackner",
+                  //                  description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
+                  //                          "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
+                  //                          "magna aliquyam erat, sed diam voluptua",
+                  //                  followerCount = 234,
+                  //                  followingCount = 534,
+                  //                  postCount = 65
+                  //            ),
+                  //            actionIcon = {
+                  //                  Icon(
+                  //                        imageVector = Icons.Default.PersonAdd,
+                  //                        contentDescription = null,
+                  //                        tint = MaterialTheme.colorScheme.onBackground,
+                  //                        modifier = Modifier.size(IconSizeMedium)
+                  //                  )
+                  //            }
+                  //      )
+                  //      Spacer(modifier = Modifier.height(SpaceMedium))
+                  //}
             }
       }
 }

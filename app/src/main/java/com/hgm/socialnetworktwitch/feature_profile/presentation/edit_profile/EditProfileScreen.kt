@@ -58,7 +58,6 @@ fun EditProfileScreen(
       viewModel: EditProfileViewModel = hiltViewModel()
 ) {
       val context = LocalContext.current
-      val skillState = viewModel.skills.value
       val profileState = viewModel.state.value
 
       val cropBannerLauncher = rememberLauncherForActivityResult(
@@ -92,11 +91,13 @@ fun EditProfileScreen(
                         is UiEvent.NavigateUp -> {
                               onNavigateUp()
                         }
+
                         is UiEvent.ShowSnackBar -> {
                               snackBarState.showSnackbar(
                                     message = event.uiText.asString(context)
                               )
                         }
+
                         else -> Unit
                   }
             }
@@ -135,8 +136,10 @@ fun EditProfileScreen(
                         .verticalScroll(rememberScrollState())
             ) {
                   BannerEditSection(
-                        bannerImageUrl =viewModel.bannerPictureUri.value ?: profileState.profile?.bannerUrl,
-                        profileImageUrl = viewModel.profilePictureUri.value ?: profileState.profile?.profilePictureUrl,
+                        bannerImageUrl = viewModel.bannerPictureUri.value
+                              ?: profileState.profile?.bannerUrl,
+                        profileImageUrl = viewModel.profilePictureUri.value
+                              ?: profileState.profile?.profilePictureUrl,
                         profilePictureSize = profilePictureSize,
                         onBannerClick = {
                               bannerLauncher.launch(
@@ -250,13 +253,14 @@ fun EditProfileScreen(
                               mainAxisSpacing = SpaceMedium,
                               crossAxisSpacing = SpaceMedium
                         ) {
-                              skillState.skills.forEach {
+                              viewModel.skills.value.skills.forEach { skill ->
                                     Chip(
-                                          text = it.name,
-                                          selected = it in skillState.selectedSkills,
-                                    ) {
-                                          viewModel.onEvent(EditProfileEvent.SetSkillSelected(it))
-                                    }
+                                          text = skill.name,
+                                          selected = viewModel.skills.value.selectedSkills.any { it.name == skill.name },
+                                          onChipClick = {
+                                                viewModel.onEvent(EditProfileEvent.SetSkillSelected(skill))
+                                          }
+                                    )
                               }
                         }
                   }

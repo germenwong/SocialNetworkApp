@@ -14,7 +14,7 @@ import com.hgm.socialnetworktwitch.feature_post.data.dto.CreatePostRequest
 import com.hgm.socialnetworktwitch.core.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody

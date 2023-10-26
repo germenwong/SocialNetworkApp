@@ -37,19 +37,15 @@ fun ProfileHeaderSection(
       user: User,
       modifier: Modifier = Modifier,
       isOwnProfile: Boolean = true,
+      isFollowing: Boolean = true,
       onEditClick: () -> Unit = {}
 ) {
       Column(
-            modifier = modifier
-                  .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
       ) {
             Row(
-                  verticalAlignment = Alignment.CenterVertically,
-                  modifier = Modifier
-                        .offset(
-                              x =
-                              if (isOwnProfile) {
+                  verticalAlignment = Alignment.CenterVertically, modifier = Modifier.offset(
+                              x = if (isOwnProfile) {
                                     (30.dp + SpaceSmall) / 2f
                               } else 0.dp
                         )
@@ -64,8 +60,7 @@ fun ProfileHeaderSection(
                   if (isOwnProfile) {
                         Spacer(modifier = Modifier.width(SpaceSmall))
                         IconButton(
-                              onClick = onEditClick,
-                              modifier = Modifier.size(30.dp)
+                              onClick = onEditClick, modifier = Modifier.size(30.dp)
                         ) {
                               Icon(
                                     imageVector = Icons.Default.Edit,
@@ -83,7 +78,7 @@ fun ProfileHeaderSection(
                   )
                   Spacer(modifier = Modifier.height(SpaceLarge))
             }
-            ProfileStats(user = user, isOwnProfile = isOwnProfile)
+            ProfileStats(user = user, isOwnProfile = isOwnProfile, isFollowing = isFollowing)
       }
 
 }

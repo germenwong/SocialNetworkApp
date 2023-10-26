@@ -1,9 +1,9 @@
-package com.hgm.socialnetworktwitch.feature_profile.data.dto
+package com.hgm.socialnetworktwitch.core.data.dto
 
-import com.hgm.socialnetworktwitch.feature_profile.domain.model.UserItem
+import com.hgm.socialnetworktwitch.core.domain.model.UserItem
 
 
-data class UserItemResponse(
+data class UserItemDto(
       val userId: String,
       val username: String,
       val profilePictureUrl: String,

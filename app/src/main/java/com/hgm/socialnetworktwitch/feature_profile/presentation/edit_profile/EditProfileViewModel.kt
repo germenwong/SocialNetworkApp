@@ -179,7 +179,6 @@ class EditProfileViewModel @Inject constructor(
                         _bioState.value = _bioState.value.copy(
                               text = event.value
                         )
-
                   }
 
                   is EditProfileEvent.EnteredGitHubUrl -> {
@@ -219,9 +218,9 @@ class EditProfileViewModel @Inject constructor(
                   }
 
                   is EditProfileEvent.SetSkillSelected -> {
-                        val result = profileUseCases.selectedUseCase(
-                              skills.value.selectedSkills,
-                              event.skill
+                        val result = profileUseCases.setSkillSelectedUseCase(
+                              selectedSkills = skills.value.selectedSkills,
+                              skillToToggle = event.skill
                         )
                         viewModelScope.launch {
                               when (result) {
@@ -232,7 +231,6 @@ class EditProfileViewModel @Inject constructor(
                                                             ?: UiText.StringResource(R.string.error_unknown)
                                                 )
                                           )
-                                          return@launch
                                     }
 
                                     is Resource.Success -> {
@@ -240,7 +238,9 @@ class EditProfileViewModel @Inject constructor(
                                                 selectedSkills = result.data ?: kotlin.run {
                                                       _eventFlow.emit(
                                                             UiEvent.ShowSnackBar(
-                                                                  uiText = UiText.StringResource(R.string.error_unknown)
+                                                                  UiText.StringResource(
+                                                                        R.string.error_unknown
+                                                                  )
                                                             )
                                                       )
                                                       return@launch

@@ -1,6 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed
 
-import com.hgm.socialnetworktwitch.feature_post.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.Post
 
 /**
  * @auth：HGM
