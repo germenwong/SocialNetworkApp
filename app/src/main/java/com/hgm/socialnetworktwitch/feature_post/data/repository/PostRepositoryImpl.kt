@@ -30,7 +30,7 @@ class PostRepositoryImpl(
 
       override fun getPostsForFollows(): Flow<PagingData<Post>> {
             return Pager(
-                  config = PagingConfig(pageSize = Constants.PAGE_SIZE_POST)
+                  config = PagingConfig(pageSize = Constants.PAGE_DEFAULT_SIZE)
             ) {
                   PostPagingSource(postApi, PostPagingSource.Source.Follows)
             }.flow

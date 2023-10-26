@@ -24,8 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.feature_activity.domain.Activity
-import com.hgm.socialnetworktwitch.feature_activity.domain.ActivityAction
+import com.hgm.socialnetworktwitch.feature_activity.domain.model.Activity
+import com.hgm.socialnetworktwitch.feature_activity.domain.model.ActivityType
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 
 @Composable
@@ -33,7 +33,6 @@ fun ActivityItem(
       activity: Activity,
       modifier: Modifier = Modifier
 ) {
-
       Card(
             modifier = modifier,
             elevation = CardDefaults.cardElevation(5.dp),
@@ -47,15 +46,17 @@ fun ActivityItem(
                   verticalAlignment = Alignment.CenterVertically
             ) {
                   // 判读用户的操作显示对应的文本
-                  val fillerText = when (activity.actionType) {
-                        ActivityAction.CommentOnPost -> stringResource(id = R.string.comment_on)
-                        ActivityAction.LikedPost -> stringResource(id = R.string.liked)
-                        ActivityAction.FollowedYou-> stringResource(id = R.string.followed_you)
+                  val fillerText = when (activity.activityType) {
+                        ActivityType.LikedPost -> stringResource(id = R.string.liked)
+                        ActivityType.LikedComment -> stringResource(id = R.string.liked)
+                        ActivityType.CommentedOnPost -> stringResource(id = R.string.comment_on)
+                        ActivityType.FollowedYou-> stringResource(id = R.string.followed_you)
                   }
-                  val actionText = when (activity.actionType) {
-                        ActivityAction.CommentOnPost -> stringResource(id = R.string.your_post)
-                        ActivityAction.LikedPost -> stringResource(id = R.string.your_post)
-                        ActivityAction.FollowedYou-> ""
+                  val actionText = when (activity.activityType) {
+                        ActivityType.LikedPost -> stringResource(id = R.string.your_post)
+                        ActivityType.LikedComment -> stringResource(id = R.string.your_comment)
+                        ActivityType.CommentedOnPost -> stringResource(id = R.string.your_post)
+                        ActivityType.FollowedYou-> ""
                   }
                   Text(
                         text = buildAnnotatedString {

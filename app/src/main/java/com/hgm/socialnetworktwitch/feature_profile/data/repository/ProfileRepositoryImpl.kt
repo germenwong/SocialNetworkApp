@@ -56,7 +56,7 @@ class ProfileRepositoryImpl(
 
       override fun getPostsForProfile(userId: String): Flow<PagingData<Post>> {
             return Pager(
-                  config = PagingConfig(pageSize = Constants.PAGE_SIZE_POST)
+                  config = PagingConfig(pageSize = Constants.PAGE_DEFAULT_SIZE)
             ) {
                   PostPagingSource(postApi, PostPagingSource.Source.Profile(userId))
             }.flow
