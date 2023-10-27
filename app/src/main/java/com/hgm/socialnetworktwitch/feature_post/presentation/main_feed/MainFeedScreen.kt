@@ -30,7 +30,7 @@ import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component
 fun MainFeedScreen(
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
-      viewModel:MainFeedViewModel= hiltViewModel()
+      viewModel: MainFeedViewModel = hiltViewModel()
 ) {
       val posts = viewModel.posts.collectAsLazyPagingItems()
 
@@ -67,21 +67,16 @@ fun MainFeedScreen(
                         .weight(1f),
                   verticalArrangement = Arrangement.spacedBy(SpaceMedium)
             ) {
-                  items(posts) {post->
-                        PostView(
-                              post = Post(
-                                    username =post?.username ?: "",
-                                    imageUrl = post?.imageUrl ?: "",
-                                    profilePictureUrl = post?.profilePictureUrl ?: "",
-                                    description = post?.description ?: "",
-                                    likeCount = post?.likeCount ?: 0,
-                                    commentCount = post?.commentCount ?: 0,
-                              ),
-                              showProfileImage = true,
-                              onPostClick = {
-                                    onNavigate(Screen.PostDetailScreen.route)
-                              },
-                        )
+                  items(posts) { post ->
+                        post?.let {
+                              PostView(
+                                    post = it,
+                                    showProfileImage = true,
+                                    onPostClick = {
+                                          onNavigate(Screen.PostDetailScreen.route+"/${it.id}")
+                                    },
+                              )
+                        }
                   }
             }
       }

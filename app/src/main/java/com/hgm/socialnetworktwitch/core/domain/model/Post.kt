@@ -1,15 +1,15 @@
 package com.hgm.socialnetworktwitch.core.domain.model
 
-/**
- * @auth：HGM
- * @date：2023-10-10 11:02
- * @desc：
- */
+
 data class Post(
+      val id: String,
+      val userId: String,
       val username: String,
       val imageUrl: String,
       val profilePictureUrl: String,
       val description: String,
       val likeCount: Int,
-      val commentCount: Int
+      val commentCount: Int,
+      val isLiked: Boolean,
+      val isOwnPost: Boolean
 )

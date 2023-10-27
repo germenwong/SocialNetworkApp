@@ -28,7 +28,6 @@ import com.hgm.socialnetworktwitch.feature_activity.presentation.components.Acti
 
 @Composable
 fun ActivityScreen(
-      onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
       viewModel: ActivityViewModel = hiltViewModel()
 ) {
@@ -68,7 +67,8 @@ fun ActivityScreen(
                                                 parentId = activity.parentId,
                                                 activityType = activity.activityType,
                                                 formattedTime = activity.formattedTime
-                                          )
+                                          ),
+                                          onNavigate = onNavigate
                                     )
                               }
                         }

@@ -5,7 +5,7 @@ package com.hgm.socialnetworktwitch.feature_post.presentation.post_detail
  * @date：2023-10-11 15:27
  * @desc：评论区组件
  */
-import androidx.compose.foundation.Image
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,92 +29,106 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.core.domain.model.Comment
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
+import com.hgm.socialnetworktwitch.core.presentation.ui.theme.TextWhite
+import com.hgm.socialnetworktwitch.core.util.DateFormattedUtil
 
 @Composable
 fun CommentView(
+      context: Context,
+      comment: Comment,
       modifier: Modifier = Modifier,
-      comment: Comment = Comment(),
       onLikeClick: (Boolean) -> Unit = {}
 ) {
-    Card(
-        modifier = modifier,
-        elevation = CardDefaults.cardElevation(5.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSurface)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(SpaceMedium)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+      Card(
+            modifier = modifier,
+            elevation = CardDefaults.cardElevation(5.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onSurface)
+      ) {
+            Column(
+                  modifier = Modifier
+                        .fillMaxSize()
+                        .padding(SpaceMedium)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.germen),
-                        contentDescription = null,
+                  Row(
                         modifier = Modifier
-                            .clip(CircleShape)
-                            .size(ProfilePictureSizeSmall)
-                    )
-                    Spacer(modifier = Modifier.width(SpaceSmall))
-                    Text(
-                        text = comment.username,
+                              .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                  ) {
+                        Row(
+                              verticalAlignment = Alignment.CenterVertically
+                        ) {
+                              AsyncImage(
+                                    model = ImageRequest.Builder(context)
+                                          .data(comment.profilePictureUrl)
+                                          .crossfade(true)
+                                          .build(),
+                                    contentDescription = stringResource(id = R.string.profile_image),
+                                    modifier = Modifier
+                                          .clip(CircleShape)
+                                          .size(ProfilePictureSizeSmall)
+                              )
+                              Spacer(modifier = Modifier.width(SpaceSmall))
+                              Column {
+                                    Text(
+                                          text = comment.username,
+                                          fontWeight = FontWeight.Bold,
+                                          style = MaterialTheme.typography.bodyMedium,
+                                          color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                    Text(
+                                          text = comment.formattedTime,
+                                          style = MaterialTheme.typography.bodyMedium
+                                    )
+                              }
+                        }
+                        Column {
+                              IconButton(
+                                    onClick = {
+                                          onLikeClick(comment.isLiked)
+                                    },
+                              ) {
+                                    Icon(
+                                          imageVector = Icons.Default.Favorite,
+                                          tint = if (comment.isLiked) {
+                                                MaterialTheme.colorScheme.primary
+                                          } else {
+                                                TextWhite
+                                          },
+                                          contentDescription = stringResource(id = R.string.like)
+                                    )
+                              }
+                        }
+                  }
+
+                  Spacer(modifier = Modifier.height(SpaceMedium))
+
+                  Text(
+                        text = comment.comment,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.fillMaxWidth()
+                  )
+                  Spacer(modifier = Modifier.height(SpaceMedium))
+                  Text(
+                        text = stringResource(id = R.string.liked_by_x_people, comment.likeCount),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-                Text(
-                    text = "2 days ago",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                  )
             }
-            Spacer(modifier = Modifier.height(SpaceMedium))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = comment.comment,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.weight(9f)
-                )
-                Spacer(modifier = Modifier.width(SpaceMedium))
-                IconButton(
-                    onClick = {
-                        onLikeClick(comment.isLiked)
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = stringResource(id = R.string.like)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(SpaceMedium))
-            Text(
-                text = stringResource(id = R.string.liked_by_x_people, comment.likeCount),
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-    }
+      }
 }
 
 

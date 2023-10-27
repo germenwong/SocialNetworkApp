@@ -1,6 +1,7 @@
 package com.hgm.socialnetworktwitch.core.data.remote
 
 import com.hgm.socialnetworktwitch.core.data.dto.BaseResponse
+import com.hgm.socialnetworktwitch.feature_post.data.dto.CommentDto
 import com.hgm.socialnetworktwitch.core.domain.model.Post
 import okhttp3.MultipartBody
 import retrofit2.http.GET
@@ -15,10 +16,6 @@ import retrofit2.http.Query
  * @desc：
  */
 interface PostApi {
-
-      companion object {
-            const val BASE_URL = "http://192.168.31.164:8080"
-      }
 
       @GET("/api/post/get")
       suspend fun getPostsForFollows(
@@ -37,7 +34,17 @@ interface PostApi {
       @Multipart//多部分上传
       @POST("/api/post/create")
       suspend fun createPost(
-            @Part postData:MultipartBody.Part,
-            @Part postImage:MultipartBody.Part
+            @Part postData: MultipartBody.Part,
+            @Part postImage: MultipartBody.Part
       ): BaseResponse<Unit>
+
+      @GET("/api/post/detail")
+      suspend fun getPostDetail(
+            @Query("postId") postId: String
+      ): BaseResponse<Post>
+
+      @GET("/api/comment/get")
+      suspend fun getCommentForPost(
+            @Query("postId") postId: String
+      ): List<CommentDto>
 }

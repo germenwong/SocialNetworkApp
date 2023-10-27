@@ -12,6 +12,7 @@ import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
 import com.hgm.socialnetworktwitch.feature_post.data.dto.CreatePostRequest
 import com.hgm.socialnetworktwitch.core.data.remote.PostApi
+import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
 import com.hgm.socialnetworktwitch.core.domain.model.Post
@@ -39,7 +40,7 @@ class PostRepositoryImpl(
 
       override suspend fun createPost(description: String, imageUri: Uri): SimpleResource {
             val request = CreatePostRequest(description)
-            val file=imageUri.toFile()
+            val file = imageUri.toFile()
 
             return try {
                   val response = postApi.createPost(
@@ -60,6 +61,42 @@ class PostRepositoryImpl(
                               Resource.Error(UiText.DynamicString(msg))
                         } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
                   }
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun getPostDetail(postId: String): Resource<Post> {
+            return try {
+                  val response = postApi.getPostDetail(postId = postId)
+                  if (response.successful) {
+                        Resource.Success(response.data)
+                  } else {
+                        response.message?.let { msg ->
+                              Resource.Error(UiText.DynamicString(msg))
+                        } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
+                  }
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun getCommentForPost(postId: String): Resource<List<Comment>> {
+            return try {
+                  val comments = postApi.getCommentForPost(postId = postId).map { it.toComment() }
+                  Resource.Success(comments)
             } catch (e: IOException) {
                   Resource.Error(
                         uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)

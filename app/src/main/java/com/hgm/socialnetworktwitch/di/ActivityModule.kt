@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.di
 
+import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_activity.data.remote.ActivityApi
 import com.hgm.socialnetworktwitch.feature_activity.data.repository.ActivityRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_activity.domain.repository.ActivityRepository
@@ -22,7 +23,7 @@ object ActivityModule {
       @Singleton
       fun provideActivityApi(client: OkHttpClient): ActivityApi {
             return Retrofit.Builder()
-                  .baseUrl(AuthApi.BASE_URL)
+                  .baseUrl(BASE_URL)
                   .client(client)
                   .addConverterFactory(GsonConverterFactory.create())
                   .build()

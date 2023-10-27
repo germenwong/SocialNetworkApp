@@ -75,7 +75,7 @@ dependencies {
 
     // Paging3
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha18"//版本太高LazyColumn的items会丢失
 
     // Dagger - Hilt
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

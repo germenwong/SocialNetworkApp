@@ -1,6 +1,7 @@
 package com.hgm.socialnetworktwitch.di
 
 import android.content.SharedPreferences
+import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_auth.data.remote.AuthApi
 import com.hgm.socialnetworktwitch.feature_auth.data.repository.AuthRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_auth.domain.repository.AuthRepository
@@ -24,7 +25,7 @@ object AuthModule {
       @Singleton
       fun provideAuthApi(client: OkHttpClient): AuthApi {
             return Retrofit.Builder()
-                  .baseUrl(AuthApi.BASE_URL)
+                  .baseUrl(BASE_URL)
                   .client(client)
                   .addConverterFactory(GsonConverterFactory.create())
                   .build()

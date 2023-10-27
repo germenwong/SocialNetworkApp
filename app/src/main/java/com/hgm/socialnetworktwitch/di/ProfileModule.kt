@@ -2,6 +2,7 @@ package com.hgm.socialnetworktwitch.di
 
 import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.core.data.remote.PostApi
+import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
 import com.hgm.socialnetworktwitch.feature_profile.data.repository.ProfileRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
@@ -31,7 +32,7 @@ object ProfileModule {
       @Singleton
       fun provideProfileApi(client: OkHttpClient): ProfileApi {
             return Retrofit.Builder()
-                  .baseUrl(ProfileApi.BASE_URL)
+                  .baseUrl(BASE_URL)
                   .client(client)
                   .addConverterFactory(GsonConverterFactory.create())
                   .build()

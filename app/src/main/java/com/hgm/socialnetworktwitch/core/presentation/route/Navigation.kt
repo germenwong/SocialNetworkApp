@@ -102,7 +102,7 @@ fun Navigation(
 
             //动态页
             composable(Screen.ActivityScreen.route) {
-                  ActivityScreen()
+                  ActivityScreen(onNavigate = navController::navigate)
             }
 
             //创建帖子页
@@ -114,18 +114,16 @@ fun Navigation(
             }
 
             //帖子详情页
-            composable(Screen.PostDetailScreen.route) {
+            composable(
+                  route = Screen.PostDetailScreen.route+"/{postId}",
+                  arguments = listOf(
+                        navArgument("postId"){
+                              type = NavType.StringType
+                        }
+                  )
+            ) {
                   PostDetailScreen(
-                        post = Post(
-                              username = "Germen Wong",
-                              imageUrl = "",
-                              profilePictureUrl = "",
-                              description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed" +
-                                      "diam nonumy eirmod tempor invidunt ut labore et dolore " +
-                                      "magna aliquyam erat...",
-                              likeCount = 14,
-                              commentCount = 53
-                        ),
+                        snackBarState = snackBarState,
                         onNavigateUp = navController::navigateUp
                   )
             }

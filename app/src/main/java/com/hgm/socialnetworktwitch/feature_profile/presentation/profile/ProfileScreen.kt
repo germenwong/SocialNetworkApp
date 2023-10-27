@@ -140,25 +140,59 @@ fun ProfileScreen(
                               }
                         }
                   }
-                  items(posts) { post ->
-                        Spacer(
-                              modifier = Modifier
-                                    .height(SpaceMedium)
-                        )
-                        PostView(
-                              post = Post(
-                                    username = post?.username ?: "",
-                                    imageUrl = post?.imageUrl ?: "",
-                                    profilePictureUrl = post?.profilePictureUrl ?: "",
-                                    description = post?.description ?: "",
-                                    likeCount = post?.likeCount ?: 0,
-                                    commentCount = post?.commentCount ?: 0,
-                              ),
-                              showProfileImage = false,
-                              onPostClick = {
-                                    onNavigate(Screen.PostDetailScreen.route)
-                              },
-                        )
+                  //items(posts) { post ->
+                  //      post?.let {
+                  //            Spacer(
+                  //                  modifier = Modifier
+                  //                        .height(SpaceMedium)
+                  //            )
+                  //            PostView(
+                  //                  post = Post(
+                  //                        id = it.id,
+                  //                        userId=it.userId,
+                  //                        username = it.username,
+                  //                        imageUrl = it.imageUrl,
+                  //                        profilePictureUrl = it.profilePictureUrl,
+                  //                        description = it.description,
+                  //                        likeCount = it.likeCount,
+                  //                        commentCount = it.commentCount,
+                  //                        isLiked = it.isLiked,
+                  //                        isOwnPost = it.isOwnPost
+                  //                  ),
+                  //                  showProfileImage = false,
+                  //                  onPostClick = {
+                  //                        onNavigate(Screen.PostDetailScreen.route+"/${it.id}")
+                  //                  },
+                  //            )
+                  //      }
+                  //}
+                  items(posts) {post ->
+                        //val post = pagingState.items[i]
+                        //if (i >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
+                        //      viewModel.loadNextPosts()
+                        //}
+                        post?.let {
+                              PostView(
+                                    post = it,
+                                    //imageLoader = imageLoader,
+                                    showProfileImage = false,
+                                    onPostClick = {
+                                          onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
+                                    },
+                                    //onCommentClick = {
+                                    //      onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                                    //},
+                                    //onLikeClick = {
+                                    //      viewModel.onEvent(ProfileEvent.LikePost(post.id))
+                                    //},
+                                    //onShareClick = {
+                                    //      context.sendSharePostIntent(post.id)
+                                    //},
+                                    //onDeleteClick = {
+                                    //      viewModel.onEvent(ProfileEvent.DeletePost(post))
+                                    //}
+                              )
+                        }
                   }
             }
             Column(

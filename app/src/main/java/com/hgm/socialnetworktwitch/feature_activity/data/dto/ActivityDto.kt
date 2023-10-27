@@ -26,7 +26,7 @@ data class ActivityDto(
                   },
                   formattedTime = DateFormattedUtil.timestampToString(
                         timestamp = timestamp,
-                        pattern = "MMM dd HH:mm"
+                        pattern = "yyyy-MM-dd HH:mm"
                   )
             )
       }

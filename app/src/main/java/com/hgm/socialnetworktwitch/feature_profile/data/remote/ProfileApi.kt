@@ -19,10 +19,6 @@ import retrofit2.http.Query
 
 interface ProfileApi {
 
-      companion object {
-            const val BASE_URL = "http://192.168.31.164:8080"
-      }
-
       @GET("/api/user/profile")
       suspend fun getProfile(
             @Query("userId") userId: String

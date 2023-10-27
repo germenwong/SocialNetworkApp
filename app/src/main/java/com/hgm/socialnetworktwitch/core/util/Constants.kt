@@ -6,6 +6,8 @@ package com.hgm.socialnetworktwitch.core.util
  * @desc：常量
  */
 object Constants {
+      const val BASE_URL = "http://192.168.31.161:8080"
+
       const val SPLASH_SCREEN_DURATION = 2000L
       const val POST_DESCRIPTION_MAX_LINE = 3
       const val MIN_USERNAME_LENGTH = 3

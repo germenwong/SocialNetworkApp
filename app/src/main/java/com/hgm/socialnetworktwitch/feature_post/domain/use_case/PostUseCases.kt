@@ -6,6 +6,8 @@ package com.hgm.socialnetworktwitch.feature_post.domain.use_case
  * @desc：
  */
 data class PostUseCases(
+      val createPostUseCase: CreatePostUseCase,
+      val getPostDetailUseCase: GetPostDetailUseCase,
       val getPostsForFollowsUseCase: GetPostsForFollowsUseCase,
-      val createPostUseCase: CreatePostUseCase
+      val getCommentForPostUseCase:GetCommentForPostUseCase
 )
