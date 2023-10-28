@@ -13,8 +13,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -29,22 +31,24 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.IconSizeSmall
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StandardTextField(
-      text: String="",
-      hint: String="",
+      text: String = "",
+      hint: String = "",
       error: String = "",
-      maxLines:Int=1,
-      singleLine:Boolean=true,
-      leadingIcon: ImageVector? = null,
-      keyboardType: KeyboardType = KeyboardType.Text,
-      isShowPasswordToggle: Boolean = keyboardType == KeyboardType.Password,
-      isShowPassword: Boolean = true,
-      onPasswordToggleClick: (Boolean) -> Unit = {},
+      maxLines: Int = 1,
+      singleLine: Boolean = true,
+      modifier: Modifier = Modifier,
       onValueChange: (String) -> Unit,
-      modifier: Modifier = Modifier
+      isShowPassword: Boolean = true,
+      leadingIcon: ImageVector? = null,
+      onPasswordToggleClick: (Boolean) -> Unit = {},
+      backgroundColor:Color=MaterialTheme.colorScheme.surface,
+      keyboardType: KeyboardType = KeyboardType.Text,
+      isShowPasswordToggle: Boolean = keyboardType == KeyboardType.Password
 ) {
-
       Column(
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier
+                  .fillMaxWidth()
+                  .then(modifier)
       ) {
             TextField(
                   value = text,
@@ -55,6 +59,9 @@ fun StandardTextField(
                   maxLines = maxLines,
                   singleLine = singleLine,
                   isError = error != "",
+                  colors = TextFieldDefaults.textFieldColors(
+                        containerColor = backgroundColor
+                  ),
                   keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType
                   ),
@@ -97,7 +104,5 @@ fun StandardTextField(
                   )
             }
       }
-
-
 }
 

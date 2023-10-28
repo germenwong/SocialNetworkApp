@@ -16,6 +16,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
 import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.feature_post.data.dto.AddCommentRequest
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -97,6 +98,29 @@ class PostRepositoryImpl(
             return try {
                   val comments = postApi.getCommentForPost(postId = postId).map { it.toComment() }
                   Resource.Success(comments)
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun addComment(postId: String, comment: String): SimpleResource {
+            return try {
+                  val response = postApi.addComment(
+                        AddCommentRequest(postId, comment)
+                  )
+                  if (response.successful) {
+                        Resource.Success(response.data)
+                  } else {
+                        response.message?.let { msg ->
+                              Resource.Error(UiText.DynamicString(msg))
+                        } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
+                  }
             } catch (e: IOException) {
                   Resource.Error(
                         uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)

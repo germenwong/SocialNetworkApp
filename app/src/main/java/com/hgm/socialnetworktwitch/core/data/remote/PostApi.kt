@@ -3,7 +3,9 @@ package com.hgm.socialnetworktwitch.core.data.remote
 import com.hgm.socialnetworktwitch.core.data.dto.BaseResponse
 import com.hgm.socialnetworktwitch.feature_post.data.dto.CommentDto
 import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.feature_post.data.dto.AddCommentRequest
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -47,4 +49,10 @@ interface PostApi {
       suspend fun getCommentForPost(
             @Query("postId") postId: String
       ): List<CommentDto>
+
+
+      @POST("/api/comment/add")
+      suspend fun addComment(
+            @Body request:AddCommentRequest
+      ):BaseResponse<Unit>
 }

@@ -16,5 +16,8 @@ interface PostRepository {
       suspend fun createPost(description: String,imageUri: Uri): SimpleResource
 
       suspend fun getPostDetail(postId: String): Resource<Post>
+
+      suspend fun addComment(postId: String,comment:String): SimpleResource
+
       suspend fun getCommentForPost(postId: String): Resource<List<Comment>>
 }

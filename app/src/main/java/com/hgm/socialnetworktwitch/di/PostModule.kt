@@ -5,6 +5,7 @@ import com.hgm.socialnetworktwitch.core.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_post.data.repository.PostRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.AddCommentUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.CreatePostUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetCommentForPostUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostDetailUseCase
@@ -47,6 +48,7 @@ object PostModule {
       fun providePostUseCase(repository: PostRepository): PostUseCases {
             return PostUseCases(
                   createPostUseCase = CreatePostUseCase(repository),
+                  addCommentUseCase = AddCommentUseCase(repository),
                   getPostDetailUseCase = GetPostDetailUseCase(repository),
                   getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository),
                   getCommentForPostUseCase = GetCommentForPostUseCase(repository)

@@ -84,4 +84,8 @@
     <string name="error_invalid_github_url">无效的 GitHub 链接</string>
     <string name="error_invalid_instagram_url">无效的 Instagram 链接</string>
     <string name="error_invalid_linked_in_url">无效的 LinkedIn 链接</string>
+    <string name="send_comment">发表评论</string>
+    <string name="comment_hint">写点东西...</string>
+    <string name="comment_is_empty">你的评论内容是空的呢</string>
+    <string name="send_comment_successful">发表评论成功</string>
 </resources>
