@@ -19,13 +19,13 @@ import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun ActionRow(
-    modifier: Modifier = Modifier,
-    isLike: Boolean = false,
     username: String,
-    onLikeClick: (Boolean) -> Unit = {},
-    onCommentClick: () -> Unit = {},
+    isLike: Boolean = false,
+    modifier: Modifier = Modifier,
     onShareClick: () -> Unit = {},
-    onUsernameClick: (String) -> Unit = {}
+    onCommentClick: () -> Unit = {},
+    onLikeClick: () -> Unit = {},
+    onUsernameClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -38,9 +38,8 @@ fun ActionRow(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             ),
-            modifier = Modifier.clickable { onUsernameClick(username) }
+            modifier = Modifier.clickable { onUsernameClick() }
         )
-
         EngagementButton(
             isLike = isLike,
             onLikeClick = onLikeClick,

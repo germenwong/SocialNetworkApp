@@ -14,13 +14,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.TextWhite
 
@@ -29,7 +33,7 @@ fun EngagementButton(
     modifier: Modifier = Modifier,
     isLike: Boolean = false,
     iconSize: Dp = 30.dp,
-    onLikeClick: (Boolean) -> Unit = {},
+    onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {}
 ) {
@@ -39,15 +43,15 @@ fun EngagementButton(
     ) {
         IconButton(
             onClick = {
-                onLikeClick(!isLike)
+                onLikeClick()
             },
             modifier = Modifier.size(iconSize)
         ) {
             Icon(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = "Like button",
+                imageVector = Icons.Outlined.Favorite,
+                contentDescription = stringResource(id = R.string.like_button),
                 tint = if (isLike) {
-                    Color.Red
+                    MaterialTheme.colorScheme.primary
                 } else {
                     TextWhite
                 }
@@ -62,7 +66,7 @@ fun EngagementButton(
         ) {
             Icon(
                 imageVector = Icons.Filled.Comment,
-                contentDescription = "Comment button"
+                contentDescription =stringResource(id = R.string.comment_button),
             )
         }
         Spacer(modifier = Modifier.width(SpaceMedium))
@@ -74,7 +78,7 @@ fun EngagementButton(
         ) {
             Icon(
                 imageVector = Icons.Filled.Share,
-                contentDescription = "Share button"
+                contentDescription =stringResource(id = R.string.share_button)
             )
         }
     }

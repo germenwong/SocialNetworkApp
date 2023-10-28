@@ -88,4 +88,7 @@
     <string name="comment_hint">写点东西...</string>
     <string name="comment_is_empty">你的评论内容是空的呢</string>
     <string name="send_comment_successful">发表评论成功</string>
+    <string name="like_button">点赞按钮</string>
+    <string name="comment_button">评论按钮</string>
+    <string name="share_button">分享按钮</string>
 </resources>

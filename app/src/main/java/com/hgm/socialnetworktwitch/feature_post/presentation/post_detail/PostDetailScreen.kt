@@ -133,17 +133,18 @@ fun PostDetailScreen(
                                                       ActionRow(
                                                             username = post.username,
                                                             modifier = Modifier.fillMaxWidth(),
-                                                            onUsernameClick = { username ->
-                                                                  //onNavigate(Screen.ProfileScreen.route + "?userId=${activity.userId}")
+                                                            isLike = post.isLiked,
+                                                            onUsernameClick = {
+                                                                  onNavigate(Screen.ProfileScreen.route + "?userId=${post.userId}")
                                                             },
-                                                            onLikeClick = { isLiked ->
-
+                                                            onLikeClick = {
+                                                                  viewModel.onEvent(PostDetailEvent.LikePost)
                                                             },
                                                             onCommentClick = {
 
                                                             },
                                                             onShareClick = {
-
+                                                                  viewModel.onEvent(PostDetailEvent.SharedPost)
                                                             }
                                                       )
                                                       Spacer(modifier = Modifier.height(SpaceSmall))
@@ -179,6 +180,9 @@ fun PostDetailScreen(
                         CommentView(
                               context = context,
                               comment = comment,
+                              onLikeClick = {
+                                    viewModel.onEvent(PostDetailEvent.LikeComment(comment.id))
+                              },
                               modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(

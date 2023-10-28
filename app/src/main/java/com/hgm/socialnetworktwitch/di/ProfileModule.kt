@@ -1,7 +1,7 @@
 package com.hgm.socialnetworktwitch.di
 
 import com.google.gson.Gson
-import com.hgm.socialnetworktwitch.core.data.remote.PostApi
+import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
 import com.hgm.socialnetworktwitch.feature_profile.data.repository.ProfileRepositoryImpl
@@ -12,7 +12,7 @@ import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetSkillsUseC
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.ProfileUseCases
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SearchUserUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SetSkillSelectedUseCase
-import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateFollowStateUseCase
+import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateFollowUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateProfileUseCase
 import dagger.Module
 import dagger.Provides
@@ -59,7 +59,7 @@ object ProfileModule {
                   setSkillSelectedUseCase = SetSkillSelectedUseCase(),
                   getPostsForProfileUseCase = GetPostsForProfileUseCase(repository),
                   searchUserUseCase = SearchUserUseCase(repository),
-                  updateFollowStateUseCase = UpdateFollowStateUseCase(repository)
+                  updateFollowUseCase = UpdateFollowUseCase(repository)
             )
       }
 }

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -48,7 +49,7 @@ fun CommentView(
       context: Context,
       comment: Comment,
       modifier: Modifier = Modifier,
-      onLikeClick: (Boolean) -> Unit = {}
+      onLikeClick: () -> Unit = {}
 ) {
       Card(
             modifier = modifier,
@@ -61,8 +62,7 @@ fun CommentView(
                         .padding(SpaceMedium)
             ) {
                   Row(
-                        modifier = Modifier
-                              .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                   ) {
@@ -93,40 +93,42 @@ fun CommentView(
                                     )
                               }
                         }
-                        Column {
-                              IconButton(
-                                    onClick = {
-                                          onLikeClick(comment.isLiked)
-                                    },
-                              ) {
-                                    Icon(
-                                          imageVector = Icons.Default.Favorite,
-                                          tint = if (comment.isLiked) {
-                                                MaterialTheme.colorScheme.primary
-                                          } else {
-                                                TextWhite
-                                          },
-                                          contentDescription = stringResource(id = R.string.like)
-                                    )
-                              }
+
+                        IconButton(
+                              modifier = Modifier.align(Alignment.Top),
+                              onClick = { onLikeClick() }
+                        ) {
+                              Icon(
+                                    imageVector = if (comment.isLiked) Icons.Filled.Favorite else Icons.Outlined.Favorite,
+                                    tint = if (comment.isLiked) MaterialTheme.colorScheme.primary else TextWhite,
+                                    contentDescription = stringResource(id = R.string.like)
+                              )
                         }
                   }
 
                   Spacer(modifier = Modifier.height(SpaceMedium))
 
-                  Text(
-                        text = comment.comment,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.fillMaxWidth()
-                  )
-                  Spacer(modifier = Modifier.height(SpaceMedium))
-                  Text(
-                        text = stringResource(id = R.string.liked_by_x_people, comment.likeCount),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                  )
+                  Column(
+                        modifier = Modifier
+                              .fillMaxWidth(),
+                  ) {
+                        Text(
+                              text = comment.comment,
+                              style = MaterialTheme.typography.bodyMedium,
+                              color = MaterialTheme.colorScheme.onBackground,
+                              modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(SpaceMedium))
+                        Text(
+                              text = stringResource(
+                                    id = R.string.liked_by_x_people,
+                                    comment.likeCount
+                              ),
+                              fontWeight = FontWeight.Bold,
+                              style = MaterialTheme.typography.bodyMedium,
+                              color = MaterialTheme.colorScheme.onBackground
+                        )
+                  }
             }
       }
 }

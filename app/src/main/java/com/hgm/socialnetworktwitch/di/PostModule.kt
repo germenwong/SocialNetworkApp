@@ -1,7 +1,7 @@
 package com.hgm.socialnetworktwitch.di
 
 import com.google.gson.Gson
-import com.hgm.socialnetworktwitch.core.data.remote.PostApi
+import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_post.data.repository.PostRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
@@ -11,6 +11,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetCommentForPos
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostDetailUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostsForFollowsUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.UpdateLikeParentUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,6 +51,7 @@ object PostModule {
                   createPostUseCase = CreatePostUseCase(repository),
                   addCommentUseCase = AddCommentUseCase(repository),
                   getPostDetailUseCase = GetPostDetailUseCase(repository),
+                  updateLikeParentUseCase = UpdateLikeParentUseCase(repository),
                   getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository),
                   getCommentForPostUseCase = GetCommentForPostUseCase(repository)
             )

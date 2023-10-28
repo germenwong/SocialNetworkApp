@@ -75,6 +75,7 @@ fun MainFeedScreen(
                                     onPostClick = {
                                           onNavigate(Screen.PostDetailScreen.route+"/${it.id}")
                                     },
+                                    //TODO：Click
                               )
                         }
                   }

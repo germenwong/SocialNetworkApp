@@ -50,6 +50,10 @@ import com.hgm.socialnetworktwitch.core.util.Constants.POST_DESCRIPTION_MAX_LINE
 fun PostView(
       post: Post,
       onPostClick: () -> Unit = {},
+      onShareClick: () -> Unit = {},
+      onCommentClick: () -> Unit = {},
+      onLikeClick: () -> Unit = {},
+      onUsernameClick: () -> Unit = {},
       modifier: Modifier = Modifier,
       showProfileImage: Boolean = true
 ) {
@@ -58,13 +62,15 @@ fun PostView(
                   .fillMaxWidth()
                   .padding(SpaceMedium)
       ) {
-            Column(modifier = Modifier
-                  .fillMaxWidth()
-                  .offset(y = if (showProfileImage) ProfilePictureSizeMedium / 2f else 0.dp)//内容偏移头像的一半
-                  .clip(RoundedCornerShape(RoundedCornerMedium))
-                  .shadow(5.dp)
-                  .background(MediumGray)
-                  .clickable { onPostClick() }) {
+            Column(
+                  modifier = Modifier
+                        .fillMaxWidth()
+                        .offset(y = if (showProfileImage) ProfilePictureSizeMedium / 2f else 0.dp)//内容偏移头像的一半
+                        .clip(RoundedCornerShape(RoundedCornerMedium))
+                        .shadow(5.dp)
+                        .background(MediumGray)
+                        .clickable { onPostClick() }
+            ) {
                   AsyncImage(
                         model = post.imageUrl,
                         contentDescription = stringResource(id = R.string.post_image),
@@ -78,34 +84,24 @@ fun PostView(
                               .fillMaxWidth()
                               .padding(SpaceMedium)
                   ) {
-                        ActionRow(username = "Germen Wong",
+                        ActionRow(
+                              username = "123",
                               modifier = Modifier.fillMaxWidth(),
-                              onUsernameClick = { username ->
-
-                              },
-                              onLikeClick = { isLiked ->
-
-                              },
-                              onCommentClick = {
-
-                              },
-                              onShareClick = {
-
-                              })
+                              onUsernameClick = onUsernameClick,
+                              onLikeClick = onLikeClick,
+                              onCommentClick = onCommentClick,
+                              onShareClick = onShareClick
+                        )
                         Spacer(modifier = Modifier.height(SpaceSmall))
                         Text(
                               text = buildAnnotatedString {
                                     append(post.description)
                                     withStyle(
-                                          SpanStyle(
-                                                color = HintGray,
-                                          )
+                                          SpanStyle(color = HintGray,)
                                     ) {
-                                          append(
-                                                LocalContext.current.getString(
+                                          append(LocalContext.current.getString(
                                                       R.string.read_more
-                                                )
-                                          )
+                                                ))
                                     }
                               },
                               style = MaterialTheme.typography.bodyMedium,
@@ -118,16 +114,12 @@ fun PostView(
                               horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                               Text(
-                                    text = stringResource(
-                                          id = R.string.liked_by_x_people, post.likeCount
-                                    ),
+                                    text = stringResource(id = R.string.liked_by_x_people, post.likeCount),
                                     style = MaterialTheme.typography.displayMedium,
                                     fontSize = 16.sp
                               )
                               Text(
-                                    text = stringResource(
-                                          id = R.string.x_comments, post.commentCount
-                                    ),
+                                    text = stringResource(id = R.string.x_comments, post.commentCount),
                                     style = MaterialTheme.typography.displayMedium,
                                     fontSize = 16.sp
                               )

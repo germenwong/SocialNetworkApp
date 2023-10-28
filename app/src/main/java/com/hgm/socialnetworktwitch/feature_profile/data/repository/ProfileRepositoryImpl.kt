@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.core.data.remote.PostApi
+import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.core.util.Resource

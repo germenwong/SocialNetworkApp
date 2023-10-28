@@ -12,6 +12,7 @@ import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
 import com.hgm.socialnetworktwitch.feature_post.util.CommentError
+import com.hgm.socialnetworktwitch.feature_post.util.ParentType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -28,9 +29,11 @@ class PostDetailViewModel @Inject constructor(
       private val _state = mutableStateOf(PostDetailState())
       val state: State<PostDetailState> = _state
 
+      //评论输入框状态
       private val _commentTextState = mutableStateOf(StandardTextFieldState())
       val commentTextState: State<StandardTextFieldState> = _commentTextState
 
+      //发表评论状态
       private val _commentState = mutableStateOf(CommentState())
       val commentState: State<CommentState> = _commentState
 
@@ -47,15 +50,30 @@ class PostDetailViewModel @Inject constructor(
 
       fun onEvent(event: PostDetailEvent) {
             when (event) {
-                  is PostDetailEvent.LikePost -> TODO()
-                  is PostDetailEvent.LikeComment -> TODO()
+                  is PostDetailEvent.LikePost -> {
+                        val isLiked = state.value.post?.isLiked == true
+                        updateLikeForParent(
+                              parentId = state.value.post?.id ?: return,
+                              parentType = ParentType.Post.type,
+                              isLiked = isLiked
+                        )
+                  }
+                  is PostDetailEvent.LikeComment -> {
+                        val isLiked = state.value.comments.find {
+                              it.id == event.commentId
+                        }?.isLiked == true
+                        updateLikeForParent(
+                              parentId = event.commentId,
+                              parentType = ParentType.Comment.type,
+                              isLiked = isLiked
+                        )
+                  }
                   is PostDetailEvent.Comment -> {
                         addComment(
                               postId = savedStateHandle.get<String>("postId") ?: "",
                               comment = commentTextState.value.text
                         )
                   }
-
                   is PostDetailEvent.SharedPost -> TODO()
                   is PostDetailEvent.EnteredComment -> {
                         _commentTextState.value = commentTextState.value.copy(
@@ -95,7 +113,6 @@ class PostDetailViewModel @Inject constructor(
             }
       }
 
-
       private fun loadCommentsForPost(postId: String) {
             viewModelScope.launch {
                   _state.value = state.value.copy(
@@ -123,7 +140,6 @@ class PostDetailViewModel @Inject constructor(
                   }
             }
       }
-
 
       private fun addComment(postId: String, comment: String) {
             viewModelScope.launch {
@@ -159,6 +175,67 @@ class PostDetailViewModel @Inject constructor(
                               )
                               _commentTextState.value = StandardTextFieldState()
                               loadCommentsForPost(postId)
+                        }
+                  }
+            }
+      }
+
+      private fun updateLikeForParent(
+            parentId: String,
+            parentType: Int,
+            isLiked: Boolean
+      ) {
+            viewModelScope.launch {
+                  when(parentType) {
+                        ParentType.Post.type -> {
+                              val post = state.value.post
+                              _state.value = state.value.copy(
+                                    post = state.value.post?.copy(
+                                          isLiked = !isLiked,
+                                    )
+                              )
+                        }
+                        ParentType.Comment.type -> {
+                              _state.value = state.value.copy(
+                                    comments = state.value.comments.map { comment ->
+                                          if(comment.id == parentId) {
+                                                comment.copy(
+                                                      isLiked = !isLiked
+                                                )
+                                          } else comment
+                                    }
+                              )
+                        }
+                  }
+                  val result = postUseCases.updateLikeParentUseCase(
+                        parentId = parentId,
+                        parentType = parentType,
+                        isLiked = isLiked
+                  )
+                  when(result) {
+                        is Resource.Success -> Unit
+                        is Resource.Error -> {
+                              when(parentType) {
+                                    ParentType.Post.type -> {
+                                          val post = state.value.post
+                                          _state.value = state.value.copy(
+                                                post = state.value.post?.copy(
+                                                      isLiked = isLiked,
+                                                )
+                                          )
+                                    }
+                                    ParentType.Comment.type -> {
+                                          _state.value = state.value.copy(
+                                                comments = state.value.comments.map { comment ->
+                                                      if(comment.id == parentId) {
+                                                            comment.copy(
+                                                                  isLiked = isLiked
+                                                            )
+                                                      } else comment
+                                                }
+                                          )
+                                    }
+                              }
                         }
                   }
             }

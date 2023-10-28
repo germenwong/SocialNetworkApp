@@ -95,7 +95,7 @@ class SearchViewModel @Inject constructor(
                         }
                   )
 
-                  val result = profileUseCases.updateFollowStateUseCase(
+                  val result = profileUseCases.updateFollowUseCase(
                         userId = userId,
                         isFollowing = isFollowing
                   )

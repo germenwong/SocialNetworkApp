@@ -1,11 +1,14 @@
-package com.hgm.socialnetworktwitch.core.data.remote
+package com.hgm.socialnetworktwitch.feature_post.data.remote
 
 import com.hgm.socialnetworktwitch.core.data.dto.BaseResponse
 import com.hgm.socialnetworktwitch.feature_post.data.dto.CommentDto
 import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.core.util.SimpleResource
 import com.hgm.socialnetworktwitch.feature_post.data.dto.AddCommentRequest
+import com.hgm.socialnetworktwitch.feature_post.data.dto.LikeUpdateRequest
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -55,4 +58,16 @@ interface PostApi {
       suspend fun addComment(
             @Body request:AddCommentRequest
       ):BaseResponse<Unit>
+
+
+      @POST("/api/like/likes")
+      suspend fun likeParent(
+            @Body request: LikeUpdateRequest
+      ): BaseResponse<Unit>
+
+      @DELETE("/api/like/unlike")
+      suspend fun unlikeParent(
+            @Query("parentId") parentId: String,
+            @Query("parentType") parentType: Int
+      ): BaseResponse<Unit>
 }
