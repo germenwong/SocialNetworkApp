@@ -1,7 +1,7 @@
-package com.hgm.socialnetworktwitch.feature_profile.domain.use_case
+package com.hgm.socialnetworktwitch.core.domain.use_case
 
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
-import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
+import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 
 /**
  * @auth：HGM

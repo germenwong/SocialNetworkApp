@@ -5,8 +5,11 @@ import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
+import com.hgm.socialnetworktwitch.core.domain.use_case.UpdateFollowUseCase
 import com.hgm.socialnetworktwitch.core.util.Constants
+import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +37,7 @@ object AppModule {
                   }
                   .addInterceptor(
                         HttpLoggingInterceptor().apply {
-                              level =HttpLoggingInterceptor.Level.BODY
+                              level = HttpLoggingInterceptor.Level.BODY
                         }
                   )
                   .build()
@@ -59,6 +62,12 @@ object AppModule {
       @Singleton
       fun provideGetOwnUserIdUseCase(sharedPreferences: SharedPreferences): GetOwnUserIdUseCase {
             return GetOwnUserIdUseCase(sharedPreferences)
+      }
+
+      @Provides
+      @Singleton
+      fun provideUpdateFollowUseCase(repository: ProfileRepository): UpdateFollowUseCase {
+            return UpdateFollowUseCase(repository)
       }
 
 }

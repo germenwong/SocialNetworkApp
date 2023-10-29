@@ -6,7 +6,7 @@ import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.UpdateProfileData
-import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
+import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 import com.hgm.socialnetworktwitch.feature_profile.util.ProfileConstants
 
 

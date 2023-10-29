@@ -1,5 +1,7 @@
 package com.hgm.socialnetworktwitch.feature_profile.domain.use_case
 
+import com.hgm.socialnetworktwitch.core.domain.use_case.UpdateFollowUseCase
+
 
 data class ProfileUseCases(
       val getProfileUseCase: GetProfileUseCase,

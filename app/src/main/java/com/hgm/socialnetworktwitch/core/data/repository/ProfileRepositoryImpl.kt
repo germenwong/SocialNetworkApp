@@ -1,18 +1,13 @@
-package com.hgm.socialnetworktwitch.feature_profile.data.repository
+package com.hgm.socialnetworktwitch.core.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
-import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
-import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
 import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.domain.model.UserItem
 import com.hgm.socialnetworktwitch.feature_profile.data.dto.FollowUpdateRequest
@@ -20,8 +15,7 @@ import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.UpdateProfileData
-import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
-import kotlinx.coroutines.flow.Flow
+import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
@@ -30,8 +24,8 @@ import java.io.IOException
 
 class ProfileRepositoryImpl(
       private val gson: Gson,
-      private val profileApi: ProfileApi,
-      private val postApi: PostApi
+      private val api: PostApi,
+      private val profileApi: ProfileApi
 ) : ProfileRepository {
       override suspend fun getProfile(userId: String): Resource<Profile> {
             return try {
@@ -54,13 +48,29 @@ class ProfileRepositoryImpl(
             }
       }
 
-      override fun getPostsForProfile(userId: String): Flow<PagingData<Post>> {
-            return Pager(
-                  config = PagingConfig(pageSize = Constants.PAGE_DEFAULT_SIZE)
-            ) {
-                  PostPagingSource(postApi, PostPagingSource.Source.Profile(userId))
-            }.flow
+      override suspend fun getPostsPaged(
+            page: Int,
+            pageSize: Int,
+            userId: String
+      ): Resource<List<Post>> {
+            return try {
+                  val posts = api.getPostsForProfile(
+                        userId = userId,
+                        page = page,
+                        pageSize = pageSize
+                  )
+                  Resource.Success(posts)
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
       }
+
 
       override suspend fun getSkills(): Resource<List<Skill>> {
             return try {

@@ -8,6 +8,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.AddCommentUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.CreatePostUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetCommentForPostUseCase
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetLikesForParentUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostDetailUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostsForFollowsUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
@@ -52,6 +53,7 @@ object PostModule {
                   addCommentUseCase = AddCommentUseCase(repository),
                   getPostDetailUseCase = GetPostDetailUseCase(repository),
                   updateLikeParentUseCase = UpdateLikeParentUseCase(repository),
+                  getLikesForParentUseCase = GetLikesForParentUseCase(repository),
                   getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository),
                   getCommentForPostUseCase = GetCommentForPostUseCase(repository)
             )

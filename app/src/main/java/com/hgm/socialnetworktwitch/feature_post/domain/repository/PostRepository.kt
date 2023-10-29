@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
 import com.hgm.socialnetworktwitch.core.util.SimpleResource
 import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.UserItem
 import com.hgm.socialnetworktwitch.core.util.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -24,4 +25,6 @@ interface PostRepository {
       suspend fun likeParent(parentId: String, parentType: Int): SimpleResource
 
       suspend fun unlikeParent(parentId: String, parentType: Int): SimpleResource
+
+      suspend fun getLikesForParent(parentId: String):Resource<List<UserItem>>
 }

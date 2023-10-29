@@ -124,6 +124,7 @@ fun Navigation(
             ) {
                   PostDetailScreen(
                         snackBarState = snackBarState,
+                        onNavigate = navController::navigate,
                         onNavigateUp = navController::navigateUp
                   )
             }
@@ -144,8 +145,17 @@ fun Navigation(
             }
 
             //用户列表页
-            composable(Screen.PersonListScreen.route) {
+            composable(
+                  route=Screen.PersonListScreen.route+"/{parentId}",
+                  arguments = listOf(
+                        navArgument("parentId"){
+                              type = NavType.StringType
+                        }
+                  )
+            ) {
                   PersonListScreen(
+                        snackBarState = snackBarState,
+                        onNavigate = navController::navigate,
                         onNavigateUp = navController::navigateUp
                   )
             }
@@ -154,8 +164,8 @@ fun Navigation(
             composable(Screen.SearchScreen.route) {
                   SearchScreen(
                         snackBarState = snackBarState,
-                        onNavigateUp = navController::navigateUp,
-                        onNavigate = navController::navigate
+                        onNavigate = navController::navigate,
+                        onNavigateUp = navController::navigateUp
                   )
             }
       }

@@ -10,6 +10,7 @@ data class PostUseCases(
       val addCommentUseCase: AddCommentUseCase,
       val getPostDetailUseCase: GetPostDetailUseCase,
       val updateLikeParentUseCase: UpdateLikeParentUseCase,
+      val getLikesForParentUseCase: GetLikesForParentUseCase,
       val getPostsForFollowsUseCase: GetPostsForFollowsUseCase,
       val getCommentForPostUseCase:GetCommentForPostUseCase
 )

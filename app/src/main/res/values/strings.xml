@@ -91,4 +91,5 @@
     <string name="like_button">点赞按钮</string>
     <string name="comment_button">评论按钮</string>
     <string name="share_button">分享按钮</string>
+    <string name="me">我</string>
 </resources>

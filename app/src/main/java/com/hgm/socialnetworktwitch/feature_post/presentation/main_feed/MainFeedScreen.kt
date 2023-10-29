@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +24,9 @@ import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
+import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
 import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -34,6 +37,16 @@ fun MainFeedScreen(
 ) {
       val posts = viewModel.posts.collectAsLazyPagingItems()
 
+
+      LaunchedEffect(key1 = true){
+            viewModel.eventFlow.collectLatest { event->
+                  when (event) {
+                        is PostEvent.Refresh -> {
+                              posts.refresh()
+                        }
+                  }
+            }
+      }
 
       Column(
             modifier = Modifier.fillMaxSize(),
@@ -73,9 +86,11 @@ fun MainFeedScreen(
                                     post = it,
                                     showProfileImage = true,
                                     onPostClick = {
-                                          onNavigate(Screen.PostDetailScreen.route+"/${it.id}")
+                                          onNavigate(Screen.PostDetailScreen.route + "/${it.id}")
                                     },
-                                    //TODO：Click
+                                    onLikeClick = {
+                                          viewModel.onEvent(MainFeedEvent.LikePost(post.id))
+                                    }
                               )
                         }
                   }

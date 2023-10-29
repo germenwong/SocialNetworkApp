@@ -159,7 +159,10 @@ fun PostDetailScreen(
                                                                   post.likeCount
                                                             ),
                                                             style = MaterialTheme.typography.displayMedium,
-                                                            fontSize = 16.sp
+                                                            fontSize = 16.sp,
+                                                            modifier = Modifier.clickable {
+                                                                  onNavigate(Screen.PersonListScreen.route + "/${post.id}")
+                                                            }
                                                       )
                                                 }
                                           }
@@ -182,6 +185,9 @@ fun PostDetailScreen(
                               comment = comment,
                               onLikeClick = {
                                     viewModel.onEvent(PostDetailEvent.LikeComment(comment.id))
+                              },
+                              onLikeByClick = {
+                                    onNavigate(Screen.PersonListScreen.route + "/${comment.id}")
                               },
                               modifier = Modifier
                                     .fillMaxWidth()

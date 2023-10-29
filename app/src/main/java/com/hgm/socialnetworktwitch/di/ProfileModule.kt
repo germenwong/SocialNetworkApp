@@ -4,15 +4,15 @@ import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_profile.data.remote.ProfileApi
-import com.hgm.socialnetworktwitch.feature_profile.data.repository.ProfileRepositoryImpl
-import com.hgm.socialnetworktwitch.feature_profile.domain.repository.ProfileRepository
+import com.hgm.socialnetworktwitch.core.data.repository.ProfileRepositoryImpl
+import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetPostsForProfileUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetProfileUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.GetSkillsUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.ProfileUseCases
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SearchUserUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SetSkillSelectedUseCase
-import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateFollowUseCase
+import com.hgm.socialnetworktwitch.core.domain.use_case.UpdateFollowUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateProfileUseCase
 import dagger.Module
 import dagger.Provides
@@ -46,7 +46,7 @@ object ProfileModule {
             postApi: PostApi,
             gson: Gson
       ): ProfileRepository {
-            return ProfileRepositoryImpl(gson, profileApi, postApi)
+            return ProfileRepositoryImpl(gson, postApi,profileApi)
       }
 
       @Provides

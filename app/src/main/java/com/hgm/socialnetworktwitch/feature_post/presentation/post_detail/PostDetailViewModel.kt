@@ -188,7 +188,6 @@ class PostDetailViewModel @Inject constructor(
             viewModelScope.launch {
                   when(parentType) {
                         ParentType.Post.type -> {
-                              val post = state.value.post
                               _state.value = state.value.copy(
                                     post = state.value.post?.copy(
                                           isLiked = !isLiked,
@@ -217,7 +216,6 @@ class PostDetailViewModel @Inject constructor(
                         is Resource.Error -> {
                               when(parentType) {
                                     ParentType.Post.type -> {
-                                          val post = state.value.post
                                           _state.value = state.value.copy(
                                                 post = state.value.post?.copy(
                                                       isLiked = isLiked,

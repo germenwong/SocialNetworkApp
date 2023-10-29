@@ -6,6 +6,7 @@ package com.hgm.socialnetworktwitch.feature_post.presentation.post_detail
  * @desc：评论区组件
  */
 import android.content.Context
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,8 +49,9 @@ import com.hgm.socialnetworktwitch.core.util.DateFormattedUtil
 fun CommentView(
       context: Context,
       comment: Comment,
-      modifier: Modifier = Modifier,
-      onLikeClick: () -> Unit = {}
+      onLikeClick: () -> Unit = {},
+      onLikeByClick: () -> Unit = {},
+      modifier: Modifier = Modifier
 ) {
       Card(
             modifier = modifier,
@@ -126,7 +128,10 @@ fun CommentView(
                               ),
                               fontWeight = FontWeight.Bold,
                               style = MaterialTheme.typography.bodyMedium,
-                              color = MaterialTheme.colorScheme.onBackground
+                              color = MaterialTheme.colorScheme.onBackground,
+                              modifier=Modifier.clickable {
+                                    onLikeByClick()
+                              }
                         )
                   }
             }

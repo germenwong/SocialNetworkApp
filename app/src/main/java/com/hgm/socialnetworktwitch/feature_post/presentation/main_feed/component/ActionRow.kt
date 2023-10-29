@@ -22,9 +22,9 @@ fun ActionRow(
     username: String,
     isLike: Boolean = false,
     modifier: Modifier = Modifier,
+    onLikeClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
-    onLikeClick: () -> Unit = {},
     onUsernameClick: () -> Unit = {}
 ) {
     Row(

@@ -16,6 +16,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_post.data.paging.PostPagingSource
 import com.hgm.socialnetworktwitch.core.domain.model.Post
+import com.hgm.socialnetworktwitch.core.domain.model.UserItem
 import com.hgm.socialnetworktwitch.feature_post.data.dto.AddCommentRequest
 import com.hgm.socialnetworktwitch.feature_post.data.dto.LikeUpdateRequest
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
@@ -27,7 +28,7 @@ import java.io.IOException
 
 
 class PostRepositoryImpl(
-      private val postApi: PostApi,
+      private val api: PostApi,
       private val gson: Gson,
 ) : PostRepository {
 
@@ -35,7 +36,7 @@ class PostRepositoryImpl(
             return Pager(
                   config = PagingConfig(pageSize = Constants.PAGE_DEFAULT_SIZE)
             ) {
-                  PostPagingSource(postApi, PostPagingSource.Source.Follows)
+                  PostPagingSource(api, PostPagingSource.Source.Follows)
             }.flow
       }
 
@@ -45,7 +46,7 @@ class PostRepositoryImpl(
             val file = imageUri.toFile()
 
             return try {
-                  val response = postApi.createPost(
+                  val response = api.createPost(
                         postData = MultipartBody.Part.createFormData(
                               "post_data",
                               gson.toJson(request)
@@ -76,7 +77,7 @@ class PostRepositoryImpl(
 
       override suspend fun getPostDetail(postId: String): Resource<Post> {
             return try {
-                  val response = postApi.getPostDetail(postId = postId)
+                  val response = api.getPostDetail(postId = postId)
                   if (response.successful) {
                         Resource.Success(response.data)
                   } else {
@@ -97,7 +98,7 @@ class PostRepositoryImpl(
 
       override suspend fun getCommentForPost(postId: String): Resource<List<Comment>> {
             return try {
-                  val comments = postApi.getCommentForPost(postId = postId).map { it.toComment() }
+                  val comments = api.getCommentForPost(postId = postId).map { it.toComment() }
                   Resource.Success(comments)
             } catch (e: IOException) {
                   Resource.Error(
@@ -112,7 +113,7 @@ class PostRepositoryImpl(
 
       override suspend fun addComment(postId: String, comment: String): SimpleResource {
             return try {
-                  val response = postApi.addComment(
+                  val response = api.addComment(
                         AddCommentRequest(postId, comment)
                   )
                   if (response.successful) {
@@ -136,7 +137,7 @@ class PostRepositoryImpl(
 
       override suspend fun likeParent(parentId: String, parentType: Int): SimpleResource {
             return try {
-                  val response = postApi.likeParent(
+                  val response = api.likeParent(
                         LikeUpdateRequest(parentId = parentId, parentType = parentType)
                   )
                   if (response.successful) {
@@ -159,7 +160,7 @@ class PostRepositoryImpl(
 
       override suspend fun unlikeParent(parentId: String, parentType: Int): SimpleResource {
             return try {
-                  val response = postApi.unlikeParent(
+                  val response = api.unlikeParent(
                         parentId = parentId,
                         parentType = parentType
                   )
@@ -170,6 +171,21 @@ class PostRepositoryImpl(
                               Resource.Error(UiText.DynamicString(msg))
                         } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
                   }
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun getLikesForParent(parentId: String): Resource<List<UserItem>> {
+            return try {
+                  val response = api.getLikesForParent(parentId)
+                  Resource.Success(response.map { it.toUserItem() })
             } catch (e: IOException) {
                   Resource.Error(
                         uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)

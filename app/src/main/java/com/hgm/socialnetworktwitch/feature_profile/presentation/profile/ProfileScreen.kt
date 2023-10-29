@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.paging.compose.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -31,20 +30,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.domain.model.User
 import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components.BannerSection
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.components.ProfileHeaderSection
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge
-import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
+import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
 import com.hgm.socialnetworktwitch.core.util.toPx
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -97,12 +95,23 @@ fun ProfileScreen(
             }
       }
       val state = viewModel.state.value
-      val posts = viewModel.posts.collectAsLazyPagingItems()
+      val pagingState = viewModel.pagingState.value
 
 
       LaunchedEffect(key1 = true) {
+            viewModel.setExpandedRatio(1f)//重置一下折叠状态
+
             viewModel.getProfile(userId)
+            viewModel.eventFlow.collectLatest { event ->
+                  when (event) {
+                        is PostEvent.Refresh -> {
+
+                        }
+                  }
+            }
       }
+
+
 
       Box(
             modifier = Modifier
@@ -133,66 +142,40 @@ fun ProfileScreen(
                                           followingCount = profile.followingCount,
                                           postCount = profile.postCount
                                     ),
-                                    isFollowing =profile.isFollowing,
+                                    isFollowing = profile.isFollowing,
                                     isOwnProfile = profile.isOwnProfile
                               ) {
                                     onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
                               }
                         }
                   }
-                  //items(posts) { post ->
-                  //      post?.let {
-                  //            Spacer(
-                  //                  modifier = Modifier
-                  //                        .height(SpaceMedium)
-                  //            )
-                  //            PostView(
-                  //                  post = Post(
-                  //                        id = it.id,
-                  //                        userId=it.userId,
-                  //                        username = it.username,
-                  //                        imageUrl = it.imageUrl,
-                  //                        profilePictureUrl = it.profilePictureUrl,
-                  //                        description = it.description,
-                  //                        likeCount = it.likeCount,
-                  //                        commentCount = it.commentCount,
-                  //                        isLiked = it.isLiked,
-                  //                        isOwnPost = it.isOwnPost
-                  //                  ),
-                  //                  showProfileImage = false,
-                  //                  onPostClick = {
-                  //                        onNavigate(Screen.PostDetailScreen.route+"/${it.id}")
-                  //                  },
-                  //            )
-                  //      }
-                  //}
-                  items(posts) {post ->
-                        //val post = pagingState.items[i]
-                        //if (i >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
-                        //      viewModel.loadNextPosts()
-                        //}
-                        post?.let {
-                              PostView(
-                                    post = it,
-                                    //imageLoader = imageLoader,
-                                    showProfileImage = false,
-                                    onPostClick = {
-                                          onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
-                                    },
-                                    //onCommentClick = {
-                                    //      onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
-                                    //},
-                                    //onLikeClick = {
-                                    //      viewModel.onEvent(ProfileEvent.LikePost(post.id))
-                                    //},
-                                    //onShareClick = {
-                                    //      context.sendSharePostIntent(post.id)
-                                    //},
-                                    //onDeleteClick = {
-                                    //      viewModel.onEvent(ProfileEvent.DeletePost(post))
-                                    //}
-                              )
+                  items(pagingState.items.size) { index ->
+                        val post = pagingState.items[index]
+                        //满足刷新下一页的条件：列表前一位、数据没有到底、不在刷新状态
+                        if (index >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
+                              viewModel.loadNextPosts()
                         }
+
+                        PostView(
+                              post = post,
+                              //imageLoader = imageLoader,
+                              showProfileImage = false,
+                              onPostClick = {
+                                    onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
+                              },
+                              onLikeClick = {
+                                    viewModel.onEvent(ProfileEvent.LikePost(post.id))
+                              },
+                              //onCommentClick = {
+                              //      onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                              //},
+                              //onShareClick = {
+                              //      context.sendSharePostIntent(post.id)
+                              //},
+                              //onDeleteClick = {
+                              //      viewModel.onEvent(ProfileEvent.DeletePost(post))
+                              //}
+                        )
                   }
             }
             Column(
