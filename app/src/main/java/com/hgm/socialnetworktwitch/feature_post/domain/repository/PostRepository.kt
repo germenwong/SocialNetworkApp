@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
 
-       fun getPostsForFollows(): Flow<PagingData<Post>>
+      suspend fun getPostsForFollows(page:Int,pageSize:Int): Resource<List<Post>>
 
       suspend fun createPost(description: String,imageUri: Uri): SimpleResource
 

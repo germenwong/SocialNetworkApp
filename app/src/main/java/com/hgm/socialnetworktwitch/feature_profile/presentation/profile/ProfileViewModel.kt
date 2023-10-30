@@ -10,9 +10,10 @@ import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
 import com.hgm.socialnetworktwitch.core.presentation.PagingState
 import com.hgm.socialnetworktwitch.core.presentation.util.Event
-import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
+import com.hgm.socialnetworktwitch.core.util.DefaultPaginator
+import com.hgm.socialnetworktwitch.core.util.PostLiker
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
 import com.hgm.socialnetworktwitch.feature_post.util.ParentType
@@ -29,7 +30,8 @@ class ProfileViewModel @Inject constructor(
       private val postUseCases: PostUseCases,
       private val profileUseCases: ProfileUseCases,
       private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
-      private val savedStateHandle: SavedStateHandle
+      private val savedStateHandle: SavedStateHandle,
+      private val postLiker: PostLiker
 ) : ViewModel() {
 
       private val _toolbarState = mutableStateOf(ProfileToolbarState())
@@ -44,7 +46,28 @@ class ProfileViewModel @Inject constructor(
       private val _pagingState = mutableStateOf<PagingState<Post>>(PagingState())
       val pagingState: State<PagingState<Post>> = _pagingState
 
-      private var page = 0
+
+      private val paginator = DefaultPaginator(onLoading = { isLoading ->
+            _pagingState.value = _pagingState.value.copy(
+                  isLoading = isLoading
+            )
+      }, onRequest = { page ->
+            val userId = savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
+            profileUseCases.getPostsForProfileUseCase(
+                  page = page, userId = userId
+            )
+      }, onSuccess = { newPosts ->
+            _pagingState.value = pagingState.value.copy(
+                  isLoading = false,
+                  endReached = newPosts.isEmpty(),
+                  items = pagingState.value.items + newPosts //在原有帖子上加上新的帖子
+            )
+      }, onError = { uiText ->
+            _eventFlow.emit(
+                  UiEvent.ShowSnackBar(uiText)
+            )
+      })
+
 
       init {
             loadNextPosts()
@@ -63,47 +86,16 @@ class ProfileViewModel @Inject constructor(
             when (event) {
                   is ProfileEvent.GetProfile -> TODO()
                   is ProfileEvent.LikePost -> {
-                        //updateLikePost()
+                        updateLikePost(parentId = event.postId)
                   }
             }
       }
 
       fun loadNextPosts() {
             viewModelScope.launch {
-                  _pagingState.value = _pagingState.value.copy(
-                        isLoading = true
-                  )
-                  val userId = savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
-                  val result = profileUseCases.getPostsForProfileUseCase(
-                        page = page,
-                        userId = userId
-                  )
-                  when (result) {
-                        is Resource.Error -> {
-                              _pagingState.value = pagingState.value.copy(
-                                    isLoading = false,
-                              )
-                              _eventFlow.emit(
-                                    UiEvent.ShowSnackBar(
-                                          result.uiText ?: UiText.unknownError()
-                                    )
-                              )
-                        }
-
-                        is Resource.Success -> {
-                              //新一页的帖子
-                              val posts = result.data ?: emptyList()
-                              _pagingState.value = pagingState.value.copy(
-                                    isLoading = false,
-                                    items = pagingState.value.items + posts, //在原有帖子上加上新的帖子
-                                    endReached = posts.isEmpty()
-                              )
-                              page++
-                        }
-                  }
+                  paginator.loadNextItems()
             }
       }
-
 
       fun getProfile(userId: String?) {
             viewModelScope.launch {
@@ -116,8 +108,7 @@ class ProfileViewModel @Inject constructor(
                   when (result) {
                         is Resource.Success -> {
                               _state.value = _state.value.copy(
-                                    profile = result.data,
-                                    isLoading = false
+                                    profile = result.data, isLoading = false
                               )
                         }
 
@@ -139,25 +130,23 @@ class ProfileViewModel @Inject constructor(
             }
       }
 
-      private fun updateLikePost(
-            postId: String,
-            isLiked: Boolean
-      ) {
+      private fun updateLikePost(parentId: String) {
             viewModelScope.launch {
-                  val result = postUseCases.updateLikeParentUseCase(
-                        parentId = postId,
-                        parentType = ParentType.Post.type,
-                        isLiked = isLiked
+                  postLiker.updateLikeState(posts = pagingState.value.items,
+                        parentId = parentId,
+                        onRequest = { isLiked ->
+                              postUseCases.updateLikeParentUseCase(
+                                    parentId = parentId,
+                                    parentType = ParentType.Post.type,
+                                    isLiked = isLiked
+                              )
+                        },
+                        onStateUpdated = { posts ->
+                              _pagingState.value = pagingState.value.copy(
+                                    items = posts
+                              )
+                        }
                   )
-                  when (result) {
-                        is Resource.Success -> {
-                              _eventFlow.emit(PostEvent.Refresh)
-                        }
-
-                        is Resource.Error -> {
-
-                        }
-                  }
             }
       }
 }

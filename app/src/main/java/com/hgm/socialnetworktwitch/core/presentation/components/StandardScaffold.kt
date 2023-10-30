@@ -71,10 +71,13 @@ fun StandardScaffold(
                                           navController.currentDestination?.route?.startsWith(item.route) == true
                                     StandardNavBarItem(
                                           icon = item.icon,
-                                          contentDescription = item.contentDescription,
                                           selected = selected,
-                                          alertCount = item.alertCount
+                                          alertCount = item.alertCount,
+                                          contentDescription = item.contentDescription
                                     ) {
+                                          //TODO：发现BUG，Profile页重复点击会一直创建新的页面，因为导航路由可选参数的原因
+                                          println("route：${navController.currentDestination?.route}")
+                                          println("route：${item.route}")
                                           if (navController.currentDestination?.route != item.route) {
                                                 navController.navigate(item.route)
                                           }

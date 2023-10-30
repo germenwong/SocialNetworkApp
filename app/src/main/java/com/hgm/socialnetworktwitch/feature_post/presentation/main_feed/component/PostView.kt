@@ -55,7 +55,7 @@ fun PostView(
       onLikeClick: () -> Unit = {},
       onUsernameClick: () -> Unit = {},
       modifier: Modifier = Modifier,
-      showProfileImage: Boolean = true
+      //showProfileImage: Boolean = true
 ) {
       Box(
             modifier = modifier
@@ -65,7 +65,7 @@ fun PostView(
             Column(
                   modifier = Modifier
                         .fillMaxWidth()
-                        .offset(y = if (showProfileImage) ProfilePictureSizeMedium / 2f else 0.dp)//内容偏移头像的一半
+                        //.offset(y = if (showProfileImage) ProfilePictureSizeMedium / 2f else 0.dp)//内容偏移头像的一半
                         .clip(RoundedCornerShape(RoundedCornerMedium))
                         .shadow(5.dp)
                         .background(MediumGray)
@@ -85,7 +85,7 @@ fun PostView(
                               .padding(SpaceMedium)
                   ) {
                         ActionRow(
-                              username = "123",//TODO
+                              username = "post.username",
                               isLike = post.isLiked,
                               modifier = Modifier.fillMaxWidth(),
                               onUsernameClick = onUsernameClick,
@@ -127,16 +127,16 @@ fun PostView(
                         }
                   }
             }
-            if (showProfileImage) {
-                  AsyncImage(
-                        model = post.profilePictureUrl,
-                        contentDescription = stringResource(id = R.string.profile_image),
-                        modifier = Modifier
-                              .size(ProfilePictureSizeMedium)
-                              .clip(CircleShape)
-                              .align(Alignment.TopCenter)
-                  )
-            }
+            //if (showProfileImage) {
+            //      AsyncImage(
+            //            model = post.profilePictureUrl,
+            //            contentDescription = stringResource(id = R.string.profile_image),
+            //            modifier = Modifier
+            //                  .size(ProfilePictureSizeMedium)
+            //                  .clip(CircleShape)
+            //                  .align(Alignment.TopCenter)
+            //      )
+            //}
       }
 }
 

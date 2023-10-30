@@ -159,7 +159,7 @@ fun ProfileScreen(
                         PostView(
                               post = post,
                               //imageLoader = imageLoader,
-                              showProfileImage = false,
+                              //showProfileImage = false,
                               onPostClick = {
                                     onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
                               },

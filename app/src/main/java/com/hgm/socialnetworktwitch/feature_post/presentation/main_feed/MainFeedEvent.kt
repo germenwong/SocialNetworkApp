@@ -6,7 +6,5 @@ package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed
  * @desc：
  */
 sealed class MainFeedEvent {
-      object LoadMorePosts : MainFeedEvent()
-      object LoadedPage : MainFeedEvent()
-      data class LikePost(val postId:String):MainFeedEvent()
+      data class LikePost(val postId: String) : MainFeedEvent()
 }

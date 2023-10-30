@@ -9,6 +9,8 @@ import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
 import com.hgm.socialnetworktwitch.core.domain.use_case.UpdateFollowUseCase
 import com.hgm.socialnetworktwitch.core.util.Constants
+import com.hgm.socialnetworktwitch.core.util.DefaultPostLiker
+import com.hgm.socialnetworktwitch.core.util.PostLiker
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 import dagger.Module
 import dagger.Provides
@@ -70,4 +72,9 @@ object AppModule {
             return UpdateFollowUseCase(repository)
       }
 
+      @Provides
+      @Singleton
+      fun providePostLiker():PostLiker{
+            return DefaultPostLiker()
+      }
 }

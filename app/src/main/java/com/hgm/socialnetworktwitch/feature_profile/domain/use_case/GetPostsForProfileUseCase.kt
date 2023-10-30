@@ -15,7 +15,7 @@ class GetPostsForProfileUseCase(
 
       suspend operator fun invoke(page: Int, userId: String): Resource<List<Post>> {
             return repository.getPostsPaged(
-                  page=page,
+                  page = page,
                   userId = userId
             )
       }

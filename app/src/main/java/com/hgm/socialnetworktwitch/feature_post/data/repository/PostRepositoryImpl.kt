@@ -32,14 +32,20 @@ class PostRepositoryImpl(
       private val gson: Gson,
 ) : PostRepository {
 
-      override fun getPostsForFollows(): Flow<PagingData<Post>> {
-            return Pager(
-                  config = PagingConfig(pageSize = Constants.PAGE_DEFAULT_SIZE)
-            ) {
-                  PostPagingSource(api, PostPagingSource.Source.Follows)
-            }.flow
+      override suspend fun getPostsForFollows(page: Int, pageSize: Int): Resource<List<Post>> {
+            return try {
+                  val posts = api.getPostsForFollows(page, pageSize)
+                  Resource.Success(posts)
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
       }
-
 
       override suspend fun createPost(description: String, imageUri: Uri): SimpleResource {
             val request = CreatePostRequest(description)

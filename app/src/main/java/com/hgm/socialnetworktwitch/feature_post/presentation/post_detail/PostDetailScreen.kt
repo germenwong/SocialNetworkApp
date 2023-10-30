@@ -108,6 +108,7 @@ fun PostDetailScreen(
                                     .background(MaterialTheme.colorScheme.background)
                         ) {
                               state.post?.let { post ->
+                                    println("Liked----------:${post.isLiked}")
                                     Box(
                                           modifier = Modifier.fillMaxSize(),
                                     ) {
@@ -122,8 +123,9 @@ fun PostDetailScreen(
                                                             .data(post.imageUrl)
                                                             .crossfade(true)
                                                             .build(),
-                                                      contentDescription = stringResource(id = R.string.post_image),
-                                                      modifier = Modifier.fillMaxWidth()
+                                                      contentScale = ContentScale.Crop,
+                                                      modifier = Modifier.fillMaxWidth(),
+                                                      contentDescription = stringResource(id = R.string.post_image)
                                                 )
                                                 Column(
                                                       modifier = Modifier
