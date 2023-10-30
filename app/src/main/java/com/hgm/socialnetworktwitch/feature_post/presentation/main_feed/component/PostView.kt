@@ -85,7 +85,7 @@ fun PostView(
                               .padding(SpaceMedium)
                   ) {
                         ActionRow(
-                              username = "post.username",
+                              username = post.username,
                               isLike = post.isLiked,
                               modifier = Modifier.fillMaxWidth(),
                               onUsernameClick = onUsernameClick,

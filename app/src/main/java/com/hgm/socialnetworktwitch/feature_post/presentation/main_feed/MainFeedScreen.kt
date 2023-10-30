@@ -74,7 +74,7 @@ fun MainFeedScreen(
             )
 
             Box(
-                modifier = Modifier.fillMaxSize(),
+                  modifier = Modifier.fillMaxSize(),
             ) {
                   LazyColumn(
                         modifier = Modifier.fillMaxWidth(),
@@ -89,12 +89,13 @@ fun MainFeedScreen(
                               PostView(
                                     post = post,
                                     //showProfileImage = true,
-                                    onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") },
-                                    onLikeClick = { viewModel.onEvent(MainFeedEvent.LikePost(post.id)) }
+                                    onLikeClick = { viewModel.onEvent(MainFeedEvent.LikePost(post.id)) },
+                                    onCommentClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}?showKeyboard=true") },
+                                    onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") }
                               )
                         }
                   }
-                  if (pagingState.isLoading){
+                  if (pagingState.isLoading) {
                         CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                   }
             }

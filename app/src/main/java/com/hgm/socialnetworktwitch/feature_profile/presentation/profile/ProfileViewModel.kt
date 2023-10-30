@@ -86,7 +86,7 @@ class ProfileViewModel @Inject constructor(
             when (event) {
                   is ProfileEvent.GetProfile -> TODO()
                   is ProfileEvent.LikePost -> {
-                        updateLikePost(parentId = event.postId)
+                        updateLikeState(parentId = event.postId)
                   }
             }
       }
@@ -130,7 +130,7 @@ class ProfileViewModel @Inject constructor(
             }
       }
 
-      private fun updateLikePost(parentId: String) {
+      private fun updateLikeState(parentId: String) {
             viewModelScope.launch {
                   postLiker.updateLikeState(posts = pagingState.value.items,
                         parentId = parentId,

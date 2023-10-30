@@ -166,9 +166,9 @@ fun ProfileScreen(
                               onLikeClick = {
                                     viewModel.onEvent(ProfileEvent.LikePost(post.id))
                               },
-                              //onCommentClick = {
-                              //      onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
-                              //},
+                              onCommentClick = {
+                                    onNavigate(Screen.PostDetailScreen.route + "/${post.id}?showKeyboard=true")
+                              },
                               //onShareClick = {
                               //      context.sendSharePostIntent(post.id)
                               //},

@@ -40,13 +40,12 @@ fun SendTextField(
             verticalAlignment = Alignment.CenterVertically
       ) {
             StandardTextField(
-                  text = state.text,
-                  onValueChange = onValueChange,
-                  backgroundColor = MaterialTheme.colorScheme.background,
-                  modifier = Modifier
-                        .weight(1f),
                   hint = hint,
-                  //focusRequester = focusRequester
+                  text = state.text,
+                  modifier = Modifier.weight(1f),
+                  onValueChange = onValueChange,
+                  focusRequester = focusRequester,
+                  backgroundColor = MaterialTheme.colorScheme.background
             )
             if (isLoading) {
                   CircularProgressIndicator(

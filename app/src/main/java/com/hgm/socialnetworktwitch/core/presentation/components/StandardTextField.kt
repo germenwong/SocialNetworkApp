@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.core.presentation.components
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -16,6 +17,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,8 +44,9 @@ fun StandardTextField(
       isShowPassword: Boolean = true,
       leadingIcon: ImageVector? = null,
       onPasswordToggleClick: (Boolean) -> Unit = {},
-      backgroundColor:Color=MaterialTheme.colorScheme.surface,
+      focusRequester:FocusRequester= FocusRequester(),
       keyboardType: KeyboardType = KeyboardType.Text,
+      backgroundColor:Color=MaterialTheme.colorScheme.surface,
       isShowPasswordToggle: Boolean = keyboardType == KeyboardType.Password
 ) {
       Column(
@@ -53,9 +57,7 @@ fun StandardTextField(
             TextField(
                   value = text,
                   onValueChange = onValueChange,
-                  placeholder = {
-                        Text(text = hint, style = MaterialTheme.typography.bodyLarge)
-                  },
+                  placeholder = { Text(text = hint, style = MaterialTheme.typography.bodyLarge) },
                   maxLines = maxLines,
                   singleLine = singleLine,
                   isError = error != "",
@@ -85,15 +87,13 @@ fun StandardTextField(
                                     Icon(
                                           imageVector = if (isShowPassword) {
                                                 Icons.Filled.Visibility
-                                          } else {
-                                                Icons.Filled.VisibilityOff
-                                          },
+                                          } else Icons.Filled.VisibilityOff,
                                           contentDescription = null
                                     )
                               }
                         }
                   },
-                  modifier = modifier.fillMaxWidth()
+                  modifier = modifier.fillMaxWidth().focusRequester(focusRequester=focusRequester)
             )
 
             if (error.isNotEmpty()) {

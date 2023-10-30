@@ -115,17 +115,22 @@ fun Navigation(
 
             //帖子详情页
             composable(
-                  route = Screen.PostDetailScreen.route+"/{postId}",
+                  route = Screen.PostDetailScreen.route + "/{postId}?showKeyboard={showKeyboard}",
                   arguments = listOf(
-                        navArgument("postId"){
+                        navArgument("postId") {
                               type = NavType.StringType
+                        },
+                        navArgument("showKeyboard") {
+                              type = NavType.BoolType
+                              defaultValue = false
                         }
                   )
             ) {
                   PostDetailScreen(
                         snackBarState = snackBarState,
                         onNavigate = navController::navigate,
-                        onNavigateUp = navController::navigateUp
+                        onNavigateUp = navController::navigateUp,
+                        showKeyboard = it.arguments?.getBoolean("showKeyboard") ?: false
                   )
             }
 
@@ -146,9 +151,9 @@ fun Navigation(
 
             //用户列表页
             composable(
-                  route=Screen.PersonListScreen.route+"/{parentId}",
+                  route = Screen.PersonListScreen.route + "/{parentId}",
                   arguments = listOf(
-                        navArgument("parentId"){
+                        navArgument("parentId") {
                               type = NavType.StringType
                         }
                   )

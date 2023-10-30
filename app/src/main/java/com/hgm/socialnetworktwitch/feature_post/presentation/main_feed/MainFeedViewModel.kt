@@ -7,10 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.presentation.PagingState
 import com.hgm.socialnetworktwitch.core.presentation.util.Event
-import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.DefaultPaginator
-import com.hgm.socialnetworktwitch.core.util.Resource
+import com.hgm.socialnetworktwitch.core.util.PostLiker
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
 import com.hgm.socialnetworktwitch.feature_post.util.ParentType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainFeedViewModel @Inject constructor(
-      private val postUseCases: PostUseCases
+      private val postUseCases: PostUseCases,
+      private val postLiker: PostLiker
 ) : ViewModel() {
 
       private val _eventFlow = MutableSharedFlow<Event>()
@@ -59,7 +59,7 @@ class MainFeedViewModel @Inject constructor(
       fun onEvent(event: MainFeedEvent) {
             when (event) {
                   is MainFeedEvent.LikePost -> {
-                        //updateLikePost(postId = event.postId)
+                        updateLikeState(parentId = event.postId)
                   }
             }
       }
@@ -72,25 +72,24 @@ class MainFeedViewModel @Inject constructor(
       }
 
 
-      private fun updateLikePost(
-            postId: String,
-            isLiked: Boolean
-      ) {
+      private fun updateLikeState(parentId: String) {
             viewModelScope.launch {
-                  val result = postUseCases.updateLikeParentUseCase(
-                        parentId = postId,
-                        parentType = ParentType.Post.type,
-                        isLiked = isLiked
+                  postLiker.updateLikeState(
+                        posts = pagingState.value.items,
+                        parentId = parentId,
+                        onRequest = { isLiked ->
+                              postUseCases.updateLikeParentUseCase(
+                                    parentId = parentId,
+                                    parentType = ParentType.Post.type,
+                                    isLiked = isLiked
+                              )
+                        },
+                        onStateUpdated = { posts ->
+                              _pagingState.value = pagingState.value.copy(
+                                    items = posts
+                              )
+                        }
                   )
-                  when (result) {
-                        is Resource.Success -> {
-                              _eventFlow.emit(PostEvent.Refresh)
-                        }
-
-                        is Resource.Error -> {
-
-                        }
-                  }
             }
       }
 
