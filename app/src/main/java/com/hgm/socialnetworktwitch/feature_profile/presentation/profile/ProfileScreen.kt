@@ -49,6 +49,7 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.MediumGray
 import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
+import com.hgm.socialnetworktwitch.core.util.sharePostIntent
 import com.hgm.socialnetworktwitch.core.util.toPx
 import kotlinx.coroutines.flow.collectLatest
 
@@ -181,9 +182,9 @@ fun ProfileScreen(
                               onCommentClick = {
                                     onNavigate(Screen.PostDetailScreen.route + "/${post.id}?showKeyboard=true")
                               },
-                              //onShareClick = {
-                              //      context.sendSharePostIntent(post.id)
-                              //},
+                              onShareClick = {
+                                    context.sharePostIntent(post.id)
+                              },
                               //onDeleteClick = {
                               //      viewModel.onEvent(ProfileEvent.DeletePost(post))
                               //}

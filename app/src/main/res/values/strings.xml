@@ -96,4 +96,7 @@
     <string name="are_you_should_logout">你确定要退出登录吗？</string>
     <string name="confirm">确认</string>
     <string name="cancel">我再想想</string>
+    <string name="share_intent_text">嘿！我在CodersHub发现了一篇很棒的帖子，查看一下：\n%s</string>
+    <string name="share_post">分享帖子</string>
+    <string name="user_not_login">您好像还没有登录哟</string>
 </resources>

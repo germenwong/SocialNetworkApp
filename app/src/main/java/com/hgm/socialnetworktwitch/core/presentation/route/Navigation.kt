@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.core.presentation.route
 
+import android.content.Intent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import com.hgm.socialnetworktwitch.core.domain.model.Post
@@ -138,6 +140,12 @@ fun Navigation(
                         navArgument("showKeyboard") {
                               type = NavType.BoolType
                               defaultValue = false
+                        }
+                  ),
+                  deepLinks = listOf(
+                        navDeepLink {
+                              action = Intent.ACTION_VIEW
+                              uriPattern = "https://www.coders-hub.com/{postId}"
                         }
                   )
             ) {

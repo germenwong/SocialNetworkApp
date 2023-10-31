@@ -10,6 +10,7 @@ import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
+import com.hgm.socialnetworktwitch.feature_auth.domain.use_case.AuthenticateUseCase
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
 import com.hgm.socialnetworktwitch.feature_post.util.CommentError
 import com.hgm.socialnetworktwitch.feature_post.util.ParentType
@@ -23,8 +24,11 @@ import javax.inject.Inject
 @HiltViewModel
 class PostDetailViewModel @Inject constructor(
       private val postUseCases: PostUseCases,
+      private val authUseCase: AuthenticateUseCase,
       private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+      private var isUserLoggedIn = false
 
       private val _state = mutableStateOf(PostDetailState())
       val state: State<PostDetailState> = _state
@@ -77,7 +81,6 @@ class PostDetailViewModel @Inject constructor(
                         )
                   }
 
-                  is PostDetailEvent.SharedPost -> TODO()
                   is PostDetailEvent.EnteredComment -> {
                         _commentTextState.value = commentTextState.value.copy(
                               text = event.comment,
@@ -146,6 +149,12 @@ class PostDetailViewModel @Inject constructor(
 
       private fun addComment(postId: String, comment: String) {
             viewModelScope.launch {
+                  isUserLoggedIn = authUseCase() is Resource.Success
+                  if (!isUserLoggedIn) {
+                        _eventFlow.emit(UiEvent.ShowSnackBar(UiText.StringResource(R.string.user_not_login)))
+                        return@launch
+                  }
+
                   _commentState.value = commentState.value.copy(
                         isLoading = true
                   )
@@ -189,6 +198,13 @@ class PostDetailViewModel @Inject constructor(
             isLiked: Boolean
       ) {
             viewModelScope.launch {
+                  isUserLoggedIn = authUseCase() is Resource.Success
+                  if (!isUserLoggedIn) {
+                        _eventFlow.emit(UiEvent.ShowSnackBar(UiText.StringResource(R.string.user_not_login)))
+                        return@launch
+                  }
+
+
                   val currentLikeCount = state.value.post?.likeCount ?: 0
 
                   when (parentType) {

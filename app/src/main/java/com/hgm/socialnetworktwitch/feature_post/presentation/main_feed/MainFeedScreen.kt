@@ -27,6 +27,7 @@ import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
+import com.hgm.socialnetworktwitch.core.util.sharePostIntent
 import com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component.PostView
 import kotlinx.coroutines.flow.collectLatest
 
@@ -37,7 +38,7 @@ fun MainFeedScreen(
       onNavigate: (String) -> Unit = {},
       viewModel: MainFeedViewModel = hiltViewModel()
 ) {
-      val context= LocalContext.current
+      val context = LocalContext.current
       val pagingState = viewModel.pagingState.value
 
       LaunchedEffect(key1 = true) {
@@ -92,10 +93,10 @@ fun MainFeedScreen(
                               PostView(
                                     post = post,
                                     context = context,
-                                    //showProfileImage = true,
+                                    onShareClick = { context.sharePostIntent(post.id) },
                                     onLikeClick = { viewModel.onEvent(MainFeedEvent.LikePost(post.id)) },
-                                    onCommentClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}?showKeyboard=true") },
-                                    onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") }
+                                    onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") },
+                                    onCommentClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}?showKeyboard=true") }
                               )
                         }
                   }

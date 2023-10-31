@@ -44,6 +44,7 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
+import com.hgm.socialnetworktwitch.core.util.sharePostIntent
 import com.hgm.socialnetworktwitch.core.util.showKeyboard
 import kotlinx.coroutines.flow.collectLatest
 
@@ -144,7 +145,7 @@ fun PostDetailScreen(
                                                                   focusRequester.requestFocus()
                                                             },
                                                             onShareClick = {
-                                                                  viewModel.onEvent(PostDetailEvent.SharedPost)
+                                                                  context.sharePostIntent(post.id)
                                                             }
                                                       )
                                                       Spacer(modifier = Modifier.height(SpaceSmall))
