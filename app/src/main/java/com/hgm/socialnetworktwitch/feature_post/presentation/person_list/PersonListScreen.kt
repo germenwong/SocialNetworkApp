@@ -86,7 +86,7 @@ fun PersonListScreen(
                               UserProfileItem(
                                     context = context,
                                     userItem = userItem,
-                                    ownUserId = viewModel.ownUserId.value + "1231",
+                                    ownUserId = viewModel.ownUserId.value,
                                     onItemClick = {
                                           onNavigate(Screen.ProfileScreen.route + "?${userItem.userId}")
                                     },

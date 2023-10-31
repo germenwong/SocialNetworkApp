@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
+import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-      private val profileUseCases: ProfileUseCases
+      private val profileUseCases: ProfileUseCases,
+      private val getOwnUserIdUseCase: GetOwnUserIdUseCase
 ) : ViewModel() {
 
       private val _searchFieldState = mutableStateOf(StandardTextFieldState())
@@ -33,7 +35,15 @@ class SearchViewModel @Inject constructor(
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
 
+      private val _ownUserId = mutableStateOf("")
+      val ownUserId: State<String> = _ownUserId
+
       private var searchJob: Job? = null
+
+
+      init {
+            _ownUserId.value = getOwnUserIdUseCase()
+      }
 
 
       fun onEvent(event: SearchEvent) {

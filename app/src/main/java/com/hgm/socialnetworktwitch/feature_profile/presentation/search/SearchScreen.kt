@@ -101,8 +101,9 @@ fun SearchScreen(
                         ) {
                               items(state.userItems) { userItem ->
                                     UserProfileItem(
-                                          context=context,
+                                          context = context,
                                           userItem = userItem,
+                                          ownUserId = viewModel.ownUserId.value,
                                           onItemClick = {
                                                 onNavigate(
                                                       Screen.ProfileScreen.route + "?userId=${userItem.userId}"
