@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
+import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
@@ -25,7 +26,8 @@ import javax.inject.Inject
 class PostDetailViewModel @Inject constructor(
       private val postUseCases: PostUseCases,
       private val authUseCase: AuthenticateUseCase,
-      private val savedStateHandle: SavedStateHandle
+      private val savedStateHandle: SavedStateHandle,
+      private val getOwnUserIdUseCase: GetOwnUserIdUseCase
 ) : ViewModel() {
 
       private var isUserLoggedIn = false
@@ -46,7 +48,7 @@ class PostDetailViewModel @Inject constructor(
 
       init {
             savedStateHandle.get<String>("postId")?.let { postId ->
-                  loadPostDetail(postId)
+                  loadPostDetail(getOwnUserIdUseCase(), postId)
                   loadCommentsForPost(postId)
             }
       }
@@ -91,12 +93,12 @@ class PostDetailViewModel @Inject constructor(
       }
 
 
-      private fun loadPostDetail(postId: String) {
+      private fun loadPostDetail(userId: String, postId: String) {
             viewModelScope.launch {
                   _state.value = state.value.copy(
                         isLoadingPost = true
                   )
-                  when (val result = postUseCases.getPostDetailUseCase(postId)) {
+                  when (val result = postUseCases.getPostDetailUseCase(userId, postId)) {
                         is Resource.Success -> {
                               _state.value = state.value.copy(
                                     post = result.data,

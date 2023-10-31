@@ -81,9 +81,9 @@ class PostRepositoryImpl(
             }
       }
 
-      override suspend fun getPostDetail(postId: String): Resource<Post> {
+      override suspend fun getPostDetail(userId:String,postId: String): Resource<Post> {
             return try {
-                  val response = api.getPostDetail(postId = postId)
+                  val response = api.getPostDetail(userId = userId,postId = postId)
                   if (response.successful) {
                         Resource.Success(response.data)
                   } else {

@@ -42,6 +42,7 @@ interface PostApi {
 
       @GET("/api/post/detail")
       suspend fun getPostDetail(
+            @Query("userId") userId: String,
             @Query("postId") postId: String
       ): BaseResponse<Post>
 

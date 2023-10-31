@@ -11,7 +11,6 @@ import com.hgm.socialnetworktwitch.core.util.Constants
 class GetOwnUserIdUseCase(
       private val sharedPreferences: SharedPreferences
 ) {
-
       operator fun invoke(): String {
             return sharedPreferences.getString(Constants.KEY_USER_ID, "") ?: ""
       }
