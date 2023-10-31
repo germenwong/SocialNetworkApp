@@ -11,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_activity.presentation.ActivityScreen
@@ -61,7 +62,13 @@ fun Navigation(
             composable(Screen.LoginScreen.route) {
                   LoginScreen(
                         snackBarState = snackBarState,
-                        onNavigate = navController::navigate
+                        onNavigate = { route ->
+                              navController.navigate(route) {
+                                    popUpTo(Screen.LoginScreen.route) {
+                                          inclusive = true
+                                    }
+                              }
+                        }
                   )
             }
 
@@ -95,8 +102,16 @@ fun Navigation(
                   )
             ) {
                   ProfileScreen(
+                        onNavigate = navController::navigate,
                         userId = it.arguments?.getString("userId"),
-                        onNavigate = navController::navigate
+                        onLogout = {
+                              navController.navigate(Screen.SplashScreen.route) {
+                                    //清除给定目标往后的栈
+                                    popUpTo(Screen.MainFeedScreen.route) {
+                                          inclusive = true//包括该目标
+                                    }
+                              }
+                        }
                   )
             }
 

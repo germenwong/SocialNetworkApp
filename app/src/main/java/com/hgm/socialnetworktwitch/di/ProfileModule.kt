@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.di
 
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
@@ -13,6 +14,7 @@ import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.ProfileUseCas
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SearchUserUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.SetSkillSelectedUseCase
 import com.hgm.socialnetworktwitch.core.domain.use_case.UpdateFollowUseCase
+import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.LogoutUseCase
 import com.hgm.socialnetworktwitch.feature_profile.domain.use_case.UpdateProfileUseCase
 import dagger.Module
 import dagger.Provides
@@ -31,22 +33,20 @@ object ProfileModule {
       @Provides
       @Singleton
       fun provideProfileApi(client: OkHttpClient): ProfileApi {
-            return Retrofit.Builder()
-                  .baseUrl(BASE_URL)
-                  .client(client)
-                  .addConverterFactory(GsonConverterFactory.create())
-                  .build()
+            return Retrofit.Builder().baseUrl(BASE_URL).client(client)
+                  .addConverterFactory(GsonConverterFactory.create()).build()
                   .create(ProfileApi::class.java)
       }
 
       @Provides
       @Singleton
       fun provideProfileRepository(
-            profileApi: ProfileApi,
+            gson: Gson,
             postApi: PostApi,
-            gson: Gson
+            profileApi: ProfileApi,
+            sharedPreferences: SharedPreferences
       ): ProfileRepository {
-            return ProfileRepositoryImpl(gson, postApi,profileApi)
+            return ProfileRepositoryImpl(gson, postApi, profileApi, sharedPreferences)
       }
 
       @Provides
@@ -59,7 +59,8 @@ object ProfileModule {
                   setSkillSelectedUseCase = SetSkillSelectedUseCase(),
                   getPostsForProfileUseCase = GetPostsForProfileUseCase(repository),
                   searchUserUseCase = SearchUserUseCase(repository),
-                  updateFollowUseCase = UpdateFollowUseCase(repository)
+                  updateFollowUseCase = UpdateFollowUseCase(repository),
+                  logoutUseCase = LogoutUseCase(repository)
             )
       }
 }

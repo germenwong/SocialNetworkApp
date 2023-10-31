@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.google.gson.Gson
 import com.hgm.socialnetworktwitch.core.domain.repository.ProfileRepository
 import com.hgm.socialnetworktwitch.core.domain.use_case.GetOwnUserIdUseCase
@@ -74,7 +77,8 @@ object AppModule {
 
       @Provides
       @Singleton
-      fun providePostLiker():PostLiker{
+      fun providePostLiker(): PostLiker {
             return DefaultPostLiker()
       }
+
 }

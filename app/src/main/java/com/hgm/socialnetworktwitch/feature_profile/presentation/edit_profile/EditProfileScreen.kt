@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.hgm.socialnetworktwitch.R
@@ -136,6 +137,7 @@ fun EditProfileScreen(
                         .verticalScroll(rememberScrollState())
             ) {
                   BannerEditSection(
+                        context=context,
                         bannerImageUrl = viewModel.bannerPictureUri.value
                               ?: profileState.profile?.bannerUrl,
                         profileImageUrl = viewModel.profilePictureUri.value

@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.ImageLoader
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.GreenAccent
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
@@ -70,19 +72,15 @@ fun SplashScreen(
             }
       }
 
-
-
       Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
       ) {
             Icon(
-                  painter = painterResource(id = R.drawable.ic_logo),
-                  contentDescription = "Logo",
                   tint = GreenAccent,
+                  painter = painterResource(id = R.drawable.ic_logo),
+                  contentDescription = null,
                   modifier = Modifier.scale(scale.value)
             )
       }
-
-
 }

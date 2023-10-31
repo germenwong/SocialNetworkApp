@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
@@ -35,6 +37,7 @@ fun MainFeedScreen(
       onNavigate: (String) -> Unit = {},
       viewModel: MainFeedViewModel = hiltViewModel()
 ) {
+      val context= LocalContext.current
       val pagingState = viewModel.pagingState.value
 
       LaunchedEffect(key1 = true) {
@@ -88,6 +91,7 @@ fun MainFeedScreen(
                               }
                               PostView(
                                     post = post,
+                                    context = context,
                                     //showProfileImage = true,
                                     onLikeClick = { viewModel.onEvent(MainFeedEvent.LikePost(post.id)) },
                                     onCommentClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}?showKeyboard=true") },

@@ -27,18 +27,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
+      private val postLiker: PostLiker,
       private val postUseCases: PostUseCases,
       private val profileUseCases: ProfileUseCases,
-      private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
       private val savedStateHandle: SavedStateHandle,
-      private val postLiker: PostLiker
+      private val getOwnUserIdUseCase: GetOwnUserIdUseCase
 ) : ViewModel() {
+      private val _state = mutableStateOf(ProfileState())
+      val state: State<ProfileState> = _state
 
       private val _toolbarState = mutableStateOf(ProfileToolbarState())
       val toolbarState: State<ProfileToolbarState> = _toolbarState
-
-      private val _state = mutableStateOf(ProfileState())
-      val state: State<ProfileState> = _state
 
       private val _eventFlow = MutableSharedFlow<Event>()
       val eventFlow = _eventFlow.asSharedFlow()
@@ -85,8 +84,21 @@ class ProfileViewModel @Inject constructor(
       fun onEvent(event: ProfileEvent) {
             when (event) {
                   is ProfileEvent.GetProfile -> TODO()
+                  is ProfileEvent.Logout-> {
+                        profileUseCases.logoutUseCase()
+                  }
                   is ProfileEvent.LikePost -> {
                         updateLikeState(parentId = event.postId)
+                  }
+                  is ProfileEvent.ShowLogoutDialog->{
+                        _state.value=state.value.copy(
+                              isShowLogoutDialog = true
+                        )
+                  }
+                  is ProfileEvent.DismissLogoutDialog->{
+                        _state.value=state.value.copy(
+                              isShowLogoutDialog = false
+                        )
                   }
             }
       }

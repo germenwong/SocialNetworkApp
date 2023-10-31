@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_post.presentation.main_feed.component
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +31,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.HintGray
@@ -49,6 +54,7 @@ import com.hgm.socialnetworktwitch.core.util.Constants.POST_DESCRIPTION_MAX_LINE
 @Composable
 fun PostView(
       post: Post,
+      context:Context,
       onPostClick: () -> Unit = {},
       onShareClick: () -> Unit = {},
       onCommentClick: () -> Unit = {},
@@ -72,7 +78,11 @@ fun PostView(
                         .clickable { onPostClick() }
             ) {
                   AsyncImage(
-                        model = post.imageUrl,
+                        model = ImageRequest.Builder(context)
+                              .data(post.imageUrl)
+                              .crossfade(true)
+                              .decoderFactory(SvgDecoder.Factory())
+                              .build(),
                         contentDescription = stringResource(id = R.string.post_image),
                         modifier = Modifier
                               .fillMaxWidth()
@@ -98,11 +108,13 @@ fun PostView(
                               text = buildAnnotatedString {
                                     append(post.description)
                                     withStyle(
-                                          SpanStyle(color = HintGray,)
+                                          SpanStyle(color = HintGray)
                                     ) {
-                                          append(LocalContext.current.getString(
+                                          append(
+                                                LocalContext.current.getString(
                                                       R.string.read_more
-                                                ))
+                                                )
+                                          )
                                     }
                               },
                               style = MaterialTheme.typography.bodyMedium,
@@ -115,12 +127,18 @@ fun PostView(
                               horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                               Text(
-                                    text = stringResource(id = R.string.liked_by_x_people, post.likeCount),
+                                    text = stringResource(
+                                          id = R.string.liked_by_x_people,
+                                          post.likeCount
+                                    ),
                                     style = MaterialTheme.typography.displayMedium,
                                     fontSize = 16.sp
                               )
                               Text(
-                                    text = stringResource(id = R.string.x_comments, post.commentCount),
+                                    text = stringResource(
+                                          id = R.string.x_comments,
+                                          post.commentCount
+                                    ),
                                     style = MaterialTheme.typography.displayMedium,
                                     fontSize = 16.sp
                               )

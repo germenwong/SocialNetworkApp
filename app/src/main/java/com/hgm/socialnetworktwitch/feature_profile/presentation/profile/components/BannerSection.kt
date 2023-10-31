@@ -29,7 +29,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
@@ -91,8 +93,8 @@ fun BannerSection(
                         AsyncImage(
                               model = ImageRequest.Builder(context)
                                     .data(skillUrl)
-                                    .crossfade(true)
                                     .decoderFactory(SvgDecoder.Factory())
+                                    .crossfade(true)
                                     .build(),
                               contentDescription = null,
                               modifier = Modifier.height(iconSize)

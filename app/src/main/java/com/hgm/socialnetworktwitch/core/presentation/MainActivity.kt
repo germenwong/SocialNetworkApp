@@ -13,14 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
+import coil.imageLoader
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardScaffold
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SocialNetworkTwitchTheme
 import com.hgm.socialnetworktwitch.core.presentation.route.Navigation
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
       override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContent {
@@ -62,8 +66,9 @@ class MainActivity : ComponentActivity() {
                   Screen.ChatScreen.route,
                   Screen.ActivityScreen.route
             )
-            val isOwnProfile = backStackEntry?.destination?.route == "${Screen.ProfileScreen.route}?userId={userId}" &&
-                    backStackEntry.arguments?.getString("userId") == null
+            val isOwnProfile =
+                  backStackEntry?.destination?.route == "${Screen.ProfileScreen.route}?userId={userId}" &&
+                          backStackEntry.arguments?.getString("userId") == null
             return doesRouteMatch || isOwnProfile
       }
 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.model.User
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
@@ -83,8 +84,9 @@ fun PersonListScreen(
                   ) {
                         items(state.users) { userItem ->
                               UserProfileItem(
+                                    context = context,
                                     userItem = userItem,
-                                    ownUserId = viewModel.ownUserId.value+"1231",
+                                    ownUserId = viewModel.ownUserId.value + "1231",
                                     onItemClick = {
                                           onNavigate(Screen.ProfileScreen.route + "?${userItem.userId}")
                                     },

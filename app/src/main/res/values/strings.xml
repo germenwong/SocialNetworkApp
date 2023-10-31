@@ -92,4 +92,8 @@
     <string name="comment_button">评论按钮</string>
     <string name="share_button">分享按钮</string>
     <string name="me">我</string>
+    <string name="logout">退出登录</string>
+    <string name="are_you_should_logout">你确定要退出登录吗？</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">我再想想</string>
 </resources>

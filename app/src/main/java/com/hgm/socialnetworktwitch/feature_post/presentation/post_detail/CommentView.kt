@@ -35,7 +35,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.feature_post.domain.model.Comment
@@ -74,6 +77,7 @@ fun CommentView(
                               AsyncImage(
                                     model = ImageRequest.Builder(context)
                                           .data(comment.profilePictureUrl)
+                                          .decoderFactory(SvgDecoder.Factory())
                                           .crossfade(true)
                                           .build(),
                                     contentDescription = stringResource(id = R.string.profile_image),

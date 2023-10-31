@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -29,8 +32,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.model.User
@@ -40,6 +47,7 @@ import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.componen
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
+import com.hgm.socialnetworktwitch.core.presentation.ui.theme.MediumGray
 import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
 import com.hgm.socialnetworktwitch.core.util.toPx
 import kotlinx.coroutines.flow.collectLatest
@@ -48,6 +56,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ProfileScreen(
       userId: String? = null,
+      onLogout: () -> Unit = {},
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
       viewModel: ProfileViewModel = hiltViewModel(),
@@ -100,7 +109,6 @@ fun ProfileScreen(
 
       LaunchedEffect(key1 = true) {
             viewModel.setExpandedRatio(1f)//重置一下折叠状态
-
             viewModel.getProfile(userId)
             viewModel.eventFlow.collectLatest { event ->
                   when (event) {
@@ -143,10 +151,14 @@ fun ProfileScreen(
                                           postCount = profile.postCount
                                     ),
                                     isFollowing = profile.isFollowing,
-                                    isOwnProfile = profile.isOwnProfile
-                              ) {
-                                    onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
-                              }
+                                    isOwnProfile = profile.isOwnProfile,
+                                    onEditClick = {
+                                          onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
+                                    },
+                                    onLogoutClick = {
+                                          viewModel.onEvent(ProfileEvent.ShowLogoutDialog)
+                                    }
+                              )
                         }
                   }
                   items(pagingState.items.size) { index ->
@@ -158,7 +170,7 @@ fun ProfileScreen(
 
                         PostView(
                               post = post,
-                              //imageLoader = imageLoader,
+                              context = context,
                               //showProfileImage = false,
                               onPostClick = {
                                     onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
@@ -215,6 +227,7 @@ fun ProfileScreen(
                         AsyncImage(
                               model = ImageRequest.Builder(context)
                                     .data(profile.profilePictureUrl)
+                                    .decoderFactory(SvgDecoder.Factory())
                                     .crossfade(true)
                                     .build(),
                               contentDescription = stringResource(id = R.string.profile_image),
@@ -240,6 +253,44 @@ fun ProfileScreen(
                                     )
                         )
                   }
+            }
+
+
+            if (state.isShowLogoutDialog) {
+                  AlertDialog(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        onDismissRequest = { viewModel.onEvent(ProfileEvent.DismissLogoutDialog) },
+                        text = {
+                              Text(
+                                    text = stringResource(id = R.string.are_you_should_logout),
+                                    color = MaterialTheme.colorScheme.onBackground
+                              )
+                        },
+                        confirmButton = {
+                              TextButton(
+                                    onClick = {
+                                          viewModel.onEvent(ProfileEvent.Logout)
+                                          viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+                                          onLogout()
+                                    }
+                              ) {
+                                    Text(
+                                          text = stringResource(id = R.string.confirm),
+                                          color = MaterialTheme.colorScheme.errorContainer
+                                    )
+                              }
+                        },
+                        dismissButton = {
+                              TextButton(
+                                    onClick = { viewModel.onEvent(ProfileEvent.DismissLogoutDialog) }
+                              ) {
+                                    Text(
+                                          text = stringResource(id = R.string.cancel),
+                                          color = MaterialTheme.colorScheme.onBackground
+                                    )
+                              }
+                        }
+                  )
             }
       }
 }

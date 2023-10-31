@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_post.presentation.person_list
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.model.User
 import com.hgm.socialnetworktwitch.core.domain.model.UserItem
@@ -53,6 +58,7 @@ import com.hgm.socialnetworktwitch.feature_profile.presentation.search.SearchEve
 
 @Composable
 fun UserProfileItem(
+      context:Context,
       userItem: UserItem,
       ownUserId: String = "",
       onItemClick: () -> Unit = {},
@@ -79,7 +85,10 @@ fun UserProfileItem(
                   horizontalArrangement = Arrangement.SpaceBetween
             ) {
                   AsyncImage(
-                        model = userItem.profilePictureUrl,
+                        model = ImageRequest.Builder(context)
+                              .data(userItem.profilePictureUrl)
+                              .crossfade(true)
+                              .build(),
                         contentDescription = stringResource(id = R.string.profile_image),
                         modifier = Modifier
                               .size(ProfilePictureSizeSmall)
@@ -88,7 +97,6 @@ fun UserProfileItem(
                   Column(
                         modifier = Modifier
                               .fillMaxHeight()
-                              //.fillMaxWidth(0.8f)
                               .padding(horizontal = SpaceSmall)
                               .weight(1f)
                   ) {

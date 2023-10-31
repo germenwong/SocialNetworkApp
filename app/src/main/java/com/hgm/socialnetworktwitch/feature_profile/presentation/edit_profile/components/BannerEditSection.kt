@@ -1,6 +1,7 @@
 package com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile.components
 
 
+import android.content.Context
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,12 +19,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge
 
 @Composable
 fun BannerEditSection(
+    context:Context,
     bannerImageUrl: Any?,
     profileImageUrl: Any?,
     profilePictureSize: Dp = ProfilePictureSizeLarge,
@@ -38,7 +43,10 @@ fun BannerEditSection(
             .height(bannerHeight + profilePictureSize / 2f)
     ) {
         AsyncImage(
-            model =bannerImageUrl,
+            model = ImageRequest.Builder(context)
+                .data(bannerImageUrl)
+                .crossfade(true)
+                .build(),
             contentDescription = stringResource(id = R.string.banner_image),
             modifier = Modifier
                 .fillMaxWidth()
@@ -47,7 +55,10 @@ fun BannerEditSection(
             contentScale = ContentScale.Crop
         )
         AsyncImage(
-            model =profileImageUrl,
+            model = ImageRequest.Builder(context)
+                .data(profileImageUrl)
+                .crossfade(true)
+                .build(),
             contentDescription = stringResource(id = R.string.profile_image),
             modifier = Modifier
                 .align(Alignment.BottomCenter)

@@ -35,19 +35,16 @@ object ValidationUtil {
       }
 
       fun validatePassword(password: String): AuthError? {
-            if (password.trim().isBlank()) {
-                  return AuthError.FieldEmpty
+            val capitalLettersInPassword = password.any { it.isUpperCase() }
+            val numberInPassword = password.any { it.isDigit() }
+            if(!capitalLettersInPassword || !numberInPassword) {
+                  return AuthError.InvalidPassword
             }
-
-            if (password.trim().length < Constants.MIN_PASSWORD_LENGTH) {
+            if(password.length < Constants.MIN_PASSWORD_LENGTH) {
                   return AuthError.FieldTooShort
             }
-
-            //密码是否包含大写、小写、数字三种字符
-            val doesPwdContainChar =
-                  password.any { it.isUpperCase() && it.isLowerCase() && it.isDigit() }
-            if (!doesPwdContainChar) {
-                  return AuthError.InvalidPassword
+            if(password.isBlank()) {
+                  return AuthError.FieldEmpty
             }
             return null
       }

@@ -4,6 +4,7 @@ import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
 
 
 data class ProfileState(
-      val profile:Profile?=null,
-      val isLoading:Boolean=false
+      val profile: Profile? = null,
+      val isLoading: Boolean = false,
+      val isShowLogoutDialog: Boolean = false
 )

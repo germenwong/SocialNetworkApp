@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTextField
@@ -40,22 +41,22 @@ import kotlinx.coroutines.launch
 @ExperimentalCoilApi
 @Composable
 fun SearchScreen(
-      //imageLoader: ImageLoader,
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
       snackBarState: SnackbarHostState,
       viewModel: SearchViewModel = hiltViewModel()
 ) {
       val state = viewModel.searchState.value
-      val context= LocalContext.current
+      val context = LocalContext.current
 
-      LaunchedEffect(key1 = true){
-            viewModel.eventFlow.collectLatest { event->
+      LaunchedEffect(key1 = true) {
+            viewModel.eventFlow.collectLatest { event ->
                   when (event) {
                         is UiEvent.ShowSnackBar -> {
                               snackBarState.showSnackbar(message = event.uiText.asString(context))
                         }
-                        else ->Unit
+
+                        else -> Unit
                   }
             }
       }
@@ -100,8 +101,8 @@ fun SearchScreen(
                         ) {
                               items(state.userItems) { userItem ->
                                     UserProfileItem(
-                                          userItem=userItem,
-                                          //imageLoader = imageLoader,
+                                          context=context,
+                                          userItem = userItem,
                                           onItemClick = {
                                                 onNavigate(
                                                       Screen.ProfileScreen.route + "?userId=${userItem.userId}"
