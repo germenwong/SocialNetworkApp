@@ -13,7 +13,7 @@ val RoundedCornerMedium = 8.dp
 val RoundedCornerLarge = 16.dp
 
 val ProfilePictureSizeLarge = 110.dp
-val ProfilePictureSizeMedium = 70.dp
+val ProfilePictureSizeMedium = 50.dp
 val ProfilePictureSizeSmall = 35.dp
 
 val IconSizeSmall = 15.dp

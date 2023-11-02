@@ -13,11 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
-import com.hgm.socialnetworktwitch.core.domain.model.Post
 import com.hgm.socialnetworktwitch.feature_activity.presentation.ActivityScreen
-import com.hgm.socialnetworktwitch.feature_chat.presentation.ChatScreen
+import com.hgm.socialnetworktwitch.feature_chat.presentation.chat.ChatScreen
 import com.hgm.socialnetworktwitch.feature_post.presentation.create_post.CreatePostScreen
 import com.hgm.socialnetworktwitch.feature_profile.presentation.edit_profile.EditProfileScreen
 import com.hgm.socialnetworktwitch.feature_auth.presentation.login.LoginScreen
@@ -27,6 +25,7 @@ import com.hgm.socialnetworktwitch.feature_post.presentation.post_detail.PostDet
 import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.ProfileScreen
 import com.hgm.socialnetworktwitch.feature_auth.presentation.register.RegisterScreen
 import com.hgm.socialnetworktwitch.feature_auth.presentation.splash.SplashScreen
+import com.hgm.socialnetworktwitch.feature_chat.presentation.message.MessageScreen
 import com.hgm.socialnetworktwitch.feature_profile.presentation.search.SearchScreen
 
 /**
@@ -87,9 +86,12 @@ fun Navigation(
                   )
             }
 
-            //聊天页
+            //对话页
             composable(Screen.ChatScreen.route) {
-                  ChatScreen()
+                  ChatScreen(
+                        onNavigate = navController::navigate,
+                        onNavigateUp = navController::navigateUp
+                  )
             }
 
             //个人页
@@ -192,6 +194,17 @@ fun Navigation(
             composable(Screen.SearchScreen.route) {
                   SearchScreen(
                         snackBarState = snackBarState,
+                        onNavigate = navController::navigate,
+                        onNavigateUp = navController::navigateUp
+                  )
+            }
+
+
+            //消息页
+            composable(
+                  route = Screen.MessageScreen.route
+            ){
+                  MessageScreen(
                         onNavigate = navController::navigate,
                         onNavigateUp = navController::navigateUp
                   )

@@ -72,10 +72,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
     implementation "androidx.navigation:navigation-compose:2.7.2"
     implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.27.0"
 
     // Paging3
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha18"//版本太高LazyColumn的items会丢失
+    implementation "androidx.paging:paging-compose:1.0.0-alpha18"//这个版本才有适配paging3的items
 
     // Dagger - Hilt
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

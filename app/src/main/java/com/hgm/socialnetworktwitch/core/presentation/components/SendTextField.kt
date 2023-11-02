@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SendTextField(
+      hint: String = "",
+      onSend: () -> Unit,
+      isLoading: Boolean = false,
       state: StandardTextFieldState,
       onValueChange: (String) -> Unit,
-      onSend: () -> Unit,
-      hint: String = "",
       canSendMessage: Boolean = true,
-      isLoading: Boolean = false,
       focusRequester: FocusRequester = FocusRequester()
 ) {
       Row(
@@ -64,7 +64,7 @@ fun SendTextField(
                               tint = if (state.error == null && canSendMessage) {
                                     MaterialTheme.colorScheme.primary
                               } else MaterialTheme.colorScheme.background,
-                              contentDescription = stringResource(id = R.string.send_comment)
+                              contentDescription = stringResource(id = R.string.send)
                         )
                   }
             }

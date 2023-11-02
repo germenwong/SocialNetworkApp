@@ -24,23 +24,23 @@
     <string name="profile">我的</string>
     <string name="make_post">写帖子</string>
     <string name="back">返回</string>
-    <string name="your_feed">你的关注</string>
+    <string name="your_feed">推荐</string>
     <string name="search_post">搜索帖子</string>
     <string name="like">喜欢</string>
     <string name="liked">点赞了</string>
     <string name="comment_on">评论了</string>
     <string name="your_comment">你的评论</string>
     <string name="your_post">你的帖子</string>
-    <string name="your_activity">你的动态</string>
+    <string name="your_activity">动态</string>
     <string name="your_profile">你的资料</string>
     <string name="banner_image">背景图</string>
     <string name="profile_image">头像</string>
     <string name="edit">编辑</string>
     <string name="follower">关注</string>
     <string name="following">粉丝</string>
-    <string name="posts">发布</string>
+    <string name="posts">帖子</string>
     <string name="unfollow">取消关注</string>
-    <string name="edit_your_profile">编辑你的资料</string>
+    <string name="edit_your_profile">编辑资料</string>
     <string name="save_changes">保存</string>
     <string name="select_top_3_skills">选择3个你最熟悉的技能</string>
     <string name="your_bio">个人描述</string>
@@ -80,11 +80,11 @@
     <string name="error_couldnt_load_skills">无法加载个人技能</string>
     <string name="update_profile_data_fail">更新个人信息失败了</string>
     <string name="update_profile_successful">更新个人信息成功了</string>
-    <string name="error_max_selected_is_3">你的技能已经超出3个</string>
+    <string name="error_max_selected_is_3">只能选3个哟</string>
     <string name="error_invalid_github_url">无效的 GitHub 链接</string>
     <string name="error_invalid_instagram_url">无效的 Instagram 链接</string>
     <string name="error_invalid_linked_in_url">无效的 LinkedIn 链接</string>
-    <string name="send_comment">发表评论</string>
+    <string name="send">发送</string>
     <string name="comment_hint">说点什么…</string>
     <string name="comment_is_empty">你的评论内容是空的呢</string>
     <string name="send_comment_successful">发表评论成功</string>
@@ -99,4 +99,5 @@
     <string name="share_intent_text">嘿！我在CodersHub发现了一篇很棒的帖子，查看一下：\n%s</string>
     <string name="share_post">分享帖子</string>
     <string name="user_not_login">您好像还没有登录哟</string>
+    <string name="your_chat">消息</string>
 </resources>

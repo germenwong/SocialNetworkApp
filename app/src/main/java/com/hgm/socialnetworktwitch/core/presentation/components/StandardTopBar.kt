@@ -3,6 +3,7 @@ package com.hgm.socialnetworktwitch.core.presentation.components
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,7 +32,7 @@ fun StandardTopBar(
       title: @Composable () -> Unit = {},
       navAction: @Composable RowScope.() -> Unit = {},
 ) {
-      TopAppBar(
+      CenterAlignedTopAppBar(
             modifier = modifier,
             title = title,
             navigationIcon =  {
@@ -51,6 +52,28 @@ fun StandardTopBar(
             colors = TopAppBarDefaults.smallTopAppBarColors(
                   navigationIconContentColor = TextWhite,
                   containerColor = Color.Transparent
-            ),
+            )
       )
+      //TopAppBar(
+      //      modifier = modifier,
+      //      title = title,
+      //      navigationIcon =  {
+      //            if (showBackIcon) {
+      //                  IconButton(onClick = {
+      //                        onNavigateUp()
+      //                  }) {
+      //                        Icon(
+      //                              imageVector = Icons.Default.ArrowBack,
+      //                              contentDescription = stringResource(id = R.string.back),
+      //                              tint = MaterialTheme.colorScheme.onBackground
+      //                        )
+      //                  }
+      //            }
+      //      },
+      //      actions = navAction,
+      //      colors = TopAppBarDefaults.smallTopAppBarColors(
+      //            navigationIconContentColor = TextWhite,
+      //            containerColor = Color.Transparent
+      //      ),
+      //)
 }
