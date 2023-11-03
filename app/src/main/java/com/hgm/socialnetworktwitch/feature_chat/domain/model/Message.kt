@@ -10,6 +10,5 @@ data class Message(
       val receiveId: String,
       val text: String,
       val formattedTime: String,
-      val chatId:String,
-      val id: String
+      val chatId:String?,
 )

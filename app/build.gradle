@@ -108,4 +108,12 @@ dependencies {
     implementation "io.ktor:ktor-client-gson:1.6.5"
     implementation "io.ktor:ktor-client-logging:1.6.5"
     implementation "ch.qos.logback:logback-classic:1.2.6"
+
+    //scarlet
+    def scarletVersion = "0.1.12"
+    implementation "com.tinder.scarlet:scarlet:$scarletVersion"
+    implementation "com.tinder.scarlet:websocket-okhttp:$scarletVersion"
+    implementation "com.tinder.scarlet:lifecycle-android:$scarletVersion"
+    implementation "com.tinder.scarlet:message-adapter-gson:$scarletVersion"
+    implementation "com.tinder.scarlet:stream-adapter-coroutines:$scarletVersion"
 }
