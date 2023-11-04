@@ -29,12 +29,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeMedium
-import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSS
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
-import com.hgm.socialnetworktwitch.core.util.DateFormattedUtil
-import com.hgm.socialnetworktwitch.feature_chat.domain.model.ChatItem
+import com.hgm.socialnetworktwitch.feature_chat.domain.model.Chat
 
 /**
  * @auth：HGM
@@ -43,13 +41,13 @@ import com.hgm.socialnetworktwitch.feature_chat.domain.model.ChatItem
  */
 @Composable
 fun ChatView(
+      chat: Chat,
       context: Context,
-      chatItem: ChatItem,
       modifier: Modifier = Modifier,
-      onItemClick: (/*ChatItem*/) -> Unit = {}
+      onItemClick: (Chat) -> Unit = {}
 ) {
       Card(
-            modifier = modifier.clickable { onItemClick(/*chatItem*/) },
+            modifier = modifier.clickable { onItemClick(chat) },
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(
                   containerColor = MaterialTheme.colorScheme.surface
@@ -67,7 +65,7 @@ fun ChatView(
             ) {
                   AsyncImage(
                         model = ImageRequest.Builder(context)
-                              .data(chatItem.profilePictureUrl)
+                              .data(chat.remoteProfilePictureUrl)
                               .crossfade(true)
                               .build(),
                         contentDescription = stringResource(id = R.string.profile_image),
@@ -87,19 +85,19 @@ fun ChatView(
                               horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                               Text(
-                                    text = chatItem.username,
+                                    text = chat.remoteUsername,
                                     style = MaterialTheme.typography.bodyLarge.copy(
                                           fontWeight = FontWeight.Bold
                                     )
                               )
                               Text(
-                                    text = chatItem.lastMessageTime,
+                                    text = chat.formattedTime,
                                     style = MaterialTheme.typography.bodyLarge
                               )
                         }
                         Spacer(modifier = Modifier.height(SpaceSS))
                         Text(
-                              text = chatItem.lastMessage,
+                              text = chat.lastMessage,
                               style = MaterialTheme.typography.bodyMedium.copy(
                                     fontSize = 10.sp
                               ),

@@ -1,8 +1,19 @@
 package com.hgm.socialnetworktwitch.feature_chat.di
 
 import android.app.Application
-import com.hgm.socialnetworktwitch.feature_chat.data.remote.ws.util.CustomGsonMessageAdapter
-import com.hgm.socialnetworktwitch.feature_chat.data.remote.ws.util.FlowStreamAdapter
+import com.hgm.socialnetworktwitch.core.util.Constants
+import com.hgm.socialnetworktwitch.feature_chat.data.remote.ChatApi
+import com.hgm.socialnetworktwitch.feature_chat.data.remote.ChatService
+import com.hgm.socialnetworktwitch.feature_chat.data.remote.util.CustomGsonMessageAdapter
+import com.hgm.socialnetworktwitch.feature_chat.data.remote.util.FlowStreamAdapter
+import com.hgm.socialnetworktwitch.feature_chat.data.repository.ChatRepositoryImpl
+import com.hgm.socialnetworktwitch.feature_chat.domain.repository.ChatRepository
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ChatUseCases
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.GetChatsForUser
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ObserveChatEvents
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ReceiveMessage
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.SendMessage
+import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import com.tinder.scarlet.websocket.okhttp.newWebSocketFactory
@@ -11,6 +22,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 /**
@@ -21,6 +34,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ChatModule {
+
+      @Provides
+      @Singleton
+      fun provideChatApi(client: OkHttpClient): ChatApi {
+            return Retrofit.Builder()
+                  .baseUrl(Constants.BASE_URL)
+                  .client(client)
+                  .addConverterFactory(GsonConverterFactory.create())
+                  .build()
+                  .create(ChatApi::class.java)
+      }
 
       @Provides
       @Singleton
@@ -36,5 +60,28 @@ object ChatModule {
       }
 
 
+      @Provides
+      @Singleton
+      fun provideChatService(scarlet: Scarlet): ChatService {
+            return scarlet.create(ChatService::class.java)
+      }
+
+      @Provides
+      @Singleton
+      fun provideChatUseCases(repository: ChatRepository): ChatUseCases {
+            return ChatUseCases(
+                  sendMessage = SendMessage(repository),
+                  receiveMessage = ReceiveMessage(repository),
+                  getChatsForUser = GetChatsForUser(repository),
+                  observeChatEvents = ObserveChatEvents(repository)
+            )
+      }
+
+
+      @Provides
+      @Singleton
+      fun provideChatRepository(chatService: ChatService, chatApi: ChatApi): ChatRepository {
+            return ChatRepositoryImpl(chatService, chatApi)
+      }
 
 }

@@ -5,14 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ChatUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MessageVM @Inject constructor(
-
+class MessageViewModel @Inject constructor(
+      private val chatUseCases: ChatUseCases
 ) : ViewModel() {
 
       //消息状态

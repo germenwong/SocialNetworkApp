@@ -1,4 +1,4 @@
-package com.hgm.socialnetworktwitch.feature_chat.data.remote.ws.data
+package com.hgm.socialnetworktwitch.feature_chat.data.remote.dto
 
 import com.hgm.socialnetworktwitch.core.util.DateFormattedUtil
 import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
@@ -6,9 +6,9 @@ import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
 /**
  * @auth：HGM
  * @date：2023-11-03 16:01
- * @desc：
+ * @desc：用于接收服务器发送的消息
  */
-data class MessageDto(
+data class WsServerMessage(
       val sendId: String,
       val receiveId: String,
       val text: String,

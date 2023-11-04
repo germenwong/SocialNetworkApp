@@ -89,10 +89,31 @@ fun Navigation(
             //对话页
             composable(Screen.ChatScreen.route) {
                   ChatScreen(
+                        snackBarState = snackBarState,
                         onNavigate = navController::navigate,
                         onNavigateUp = navController::navigateUp
                   )
             }
+
+
+            //消息页
+            composable(
+                  route = Screen.MessageScreen.route+"/{chatId}/{remoteUserId}",
+                  arguments = listOf(
+                        navArgument("chatId"){
+                              type= NavType.StringType
+                        },
+                        navArgument("remoteUserId"){
+                              type= NavType.StringType
+                        }
+                  )
+            ){
+                  MessageScreen(
+                        onNavigate = navController::navigate,
+                        onNavigateUp = navController::navigateUp
+                  )
+            }
+
 
             //个人页
             composable(
@@ -194,17 +215,6 @@ fun Navigation(
             composable(Screen.SearchScreen.route) {
                   SearchScreen(
                         snackBarState = snackBarState,
-                        onNavigate = navController::navigate,
-                        onNavigateUp = navController::navigateUp
-                  )
-            }
-
-
-            //消息页
-            composable(
-                  route = Screen.MessageScreen.route
-            ){
-                  MessageScreen(
                         onNavigate = navController::navigate,
                         onNavigateUp = navController::navigateUp
                   )

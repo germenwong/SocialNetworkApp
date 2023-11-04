@@ -14,14 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.components.SendTextField
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
-import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
 import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.OwnMessage
 import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.RemoteMessage
@@ -32,47 +30,11 @@ fun MessageScreen(
       //chatItem: ChatItem,
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
-      viewModel: MessageVM = hiltViewModel()
+      viewModel: MessageViewModel = hiltViewModel()
 ) {
       val context = LocalContext.current
       val focusRequester = remember {
             FocusRequester()
-      }
-      val messages = remember {
-            listOf(
-                  Message(
-                        sendId = "",
-                        receiveId = "",
-                        text = "12312121212121212121212121212121212124141414142142353461341",
-                        formattedTime = "11:54",
-                        chatId = "",
-                        id = ""
-                  ),
-                  Message(
-                        sendId = "",
-                        receiveId = "",
-                        text = "12312121212121212121212121212121212124141414142142353461341",
-                        formattedTime = "11:54",
-                        chatId = "",
-                        id = ""
-                  ),
-                  Message(
-                        sendId = "",
-                        receiveId = "",
-                        text = "12312121212121212121212121212121212124141414142142353461341",
-                        formattedTime = "11:54",
-                        chatId = "",
-                        id = ""
-                  ),
-                  Message(
-                        sendId = "",
-                        receiveId = "",
-                        text = "12312121212121212121212121212121212124141414142142353461341",
-                        formattedTime = "11:54",
-                        chatId = "",
-                        id = ""
-                  )
-            )
       }
 
       Column(
@@ -92,18 +54,18 @@ fun MessageScreen(
                         .padding(SpaceMedium),
                   verticalArrangement = Arrangement.spacedBy(SpaceLarge)
             ) {
-                  items(messages) { message ->
-                        RemoteMessage(
-                              color = MaterialTheme.colorScheme.surface,
-                              message = message.text,
-                              formattedTime = message.formattedTime
-                        )
-                        OwnMessage(
-                              color = MaterialTheme.colorScheme.primary,
-                              message = message.text,
-                              formattedTime = message.formattedTime
-                        )
-                  }
+                  //items(messages) { message ->
+                  //      RemoteMessage(
+                  //            color = MaterialTheme.colorScheme.surface,
+                  //            message = message.text,
+                  //            formattedTime = message.formattedTime
+                  //      )
+                  //      OwnMessage(
+                  //            color = MaterialTheme.colorScheme.primary,
+                  //            message = message.text,
+                  //            formattedTime = message.formattedTime
+                  //      )
+                  //}
             }
 
             SendTextField(

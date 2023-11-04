@@ -1,33 +1,57 @@
 package com.hgm.socialnetworktwitch.feature_chat.presentation.chat
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
-import com.hgm.socialnetworktwitch.feature_chat.domain.model.ChatItem
+import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
 fun ChatScreen(
       onNavigateUp: () -> Unit = {},
-      onNavigate: (String) -> Unit = {}
+      onNavigate: (String) -> Unit = {},
+      snackBarState: SnackbarHostState,
+      viewModel: ChatViewModel = hiltViewModel()
 ) {
       val context = LocalContext.current
+      val state = viewModel.state.value
+      println("Screen：${state.chats.size}")
+
+      LaunchedEffect(key1 = true) {
+            viewModel.eventFlow.collectLatest { event ->
+                  when (event) {
+                        is UiEvent.Navigate -> {
+                              onNavigate(event.route)
+                        }
+
+                        is UiEvent.ShowSnackBar -> {
+                              snackBarState.showSnackbar(event.uiText.asString(context))
+                        }
+
+                        else -> Unit
+                  }
+            }
+      }
+
 
       Column(
             modifier = Modifier.fillMaxSize()
@@ -50,17 +74,12 @@ fun ChatScreen(
                         .padding(SpaceMedium),
                   verticalArrangement = Arrangement.spacedBy(SpaceMedium)
             ) {
-                  items(15) { i ->
+                  items(state.chats) { chat ->
                         ChatView(
                               context = context,
-                              chatItem = ChatItem(
-                                    username = "Germen Wong",
-                                    lastMessage = "你吃饭了没？",
-                                    profilePictureUrl = "http://192.168.31.161:8080/profile_pictures/5090e802-3692-4374-970c-2983ff70d3be.jpg",
-                                    lastMessageTime = "2023.11.1 10:00"
-                              ),
+                              chat = chat,
                               onItemClick = {
-                                    onNavigate(Screen.MessageScreen.route)
+                                    onNavigate(Screen.MessageScreen.route + "/${chat.chatId}/${chat.remoteUserId}")
                               }
                         )
                   }
