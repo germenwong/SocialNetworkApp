@@ -27,8 +27,30 @@ class ChatRepositoryImpl(
       override suspend fun getChatsForUser(): Resource<List<Chat>> {
             return try {
                   val chats = chatApi.getChatsForUser().mapNotNull { it.toChat() }
-                  println("Repository：$chats")
                   Resource.Success(data = chats)
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun getMessagesForChat(
+            chatId: String,
+            page: Int,
+            pageSize: Int
+      ): Resource<List<Message>> {
+            return try {
+                  val messages = chatApi.getMessagesForChat(
+                        chatId = chatId,
+                        page = page,
+                        pageSize = pageSize
+                  ).map { it.toMessage() }
+                  Resource.Success(messages)
             } catch (e: IOException) {
                   Resource.Error(
                         uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)

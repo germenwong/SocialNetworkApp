@@ -41,25 +41,25 @@ fun OwnMessage(
       Row(
             modifier = modifier
                   .fillMaxWidth()
-                  .drawBehind {
-                        val cornerRadiusPx = cornerRadius.toPx(
-                              shapeSize = size,
-                              density = Density(density)
-                        )
-                        val path = Path().apply {
-                              moveTo(size.width, size.height - cornerRadiusPx)
-                              lineTo(size.width, size.height + triangleHeight.toPx())
-                              lineTo(
-                                    size.width - triangleWidth.toPx(),
-                                    size.height - cornerRadiusPx
-                              )
-                              close()
-                        }
-                        drawPath(
-                              path = path,
-                              color = color
-                        )
-                  }
+                  //.drawBehind {
+                  //      val cornerRadiusPx = cornerRadius.toPx(
+                  //            shapeSize = size,
+                  //            density = Density(density)
+                  //      )
+                  //      val path = Path().apply {
+                  //            moveTo(size.width, size.height - cornerRadiusPx)
+                  //            lineTo(size.width, size.height + triangleHeight.toPx())
+                  //            lineTo(
+                  //                  size.width - triangleWidth.toPx(),
+                  //                  size.height - cornerRadiusPx
+                  //            )
+                  //            close()
+                  //      }
+                  //      drawPath(
+                  //            path = path,
+                  //            color = color
+                  //      )
+                  //}
       ) {
             Text(text = formattedTime, modifier = Modifier.align(Alignment.Bottom))
             Spacer(modifier = Modifier.width(SpaceMedium))

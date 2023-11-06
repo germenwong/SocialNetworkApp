@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_chat.presentation.chat
 
+import android.util.Base64
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -79,7 +80,9 @@ fun ChatScreen(
                               context = context,
                               chat = chat,
                               onItemClick = {
-                                    onNavigate(Screen.MessageScreen.route + "/${chat.chatId}/${chat.remoteUserId}")
+                                    onNavigate(
+                                          Screen.MessageScreen.route + "/${chat.chatId}/${chat.remoteUserId}/${chat.remoteUsername}/${Base64.encodeToString(chat.remoteProfilePictureUrl.encodeToByteArray(),0)}"
+                                    )
                               }
                         )
                   }

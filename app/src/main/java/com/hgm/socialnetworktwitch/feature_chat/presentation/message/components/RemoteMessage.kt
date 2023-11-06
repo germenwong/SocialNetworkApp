@@ -42,22 +42,22 @@ fun RemoteMessage(
       Row(
             modifier = modifier
                   .fillMaxWidth()
-                  .drawBehind {
-                        val cornerRadiusPx = cornerRadius.toPx(
-                              shapeSize = size,
-                              density = Density(density)
-                        )
-                        val path = Path().apply {
-                              moveTo(0f, size.height - cornerRadiusPx)
-                              lineTo(0f, size.height + triangleHeight.toPx())
-                              lineTo(triangleWidth.toPx(), size.height - cornerRadiusPx)
-                              close()
-                        }
-                        drawPath(
-                              path = path,
-                              color = color
-                        )
-                  }
+                  //.drawBehind {
+                  //      val cornerRadiusPx = cornerRadius.toPx(
+                  //            shapeSize = size,
+                  //            density = Density(density)
+                  //      )
+                  //      val path = Path().apply {
+                  //            moveTo(0f, size.height - cornerRadiusPx)
+                  //            lineTo(0f, size.height + triangleHeight.toPx())
+                  //            lineTo(triangleWidth.toPx(), size.height - cornerRadiusPx)
+                  //            close()
+                  //      }
+                  //      drawPath(
+                  //            path = path,
+                  //            color = color
+                  //      )
+                  //}
       ) {
             Box(
                   modifier = Modifier

@@ -10,6 +10,7 @@ import com.hgm.socialnetworktwitch.feature_chat.data.repository.ChatRepositoryIm
 import com.hgm.socialnetworktwitch.feature_chat.domain.repository.ChatRepository
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ChatUseCases
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.GetChatsForUser
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.GetMessagesForChat
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ObserveChatEvents
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ReceiveMessage
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.SendMessage
@@ -73,7 +74,8 @@ object ChatModule {
                   sendMessage = SendMessage(repository),
                   receiveMessage = ReceiveMessage(repository),
                   getChatsForUser = GetChatsForUser(repository),
-                  observeChatEvents = ObserveChatEvents(repository)
+                  observeChatEvents = ObserveChatEvents(repository),
+                  getMessagesForChat = GetMessagesForChat(repository)
             )
       }
 

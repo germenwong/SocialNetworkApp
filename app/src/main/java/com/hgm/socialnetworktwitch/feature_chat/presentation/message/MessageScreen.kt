@@ -27,12 +27,14 @@ import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.
 
 @Composable
 fun MessageScreen(
-      //chatItem: ChatItem,
+      remoteUsername: String,
+      remoteUserProfilePictureUrl: String,
       onNavigateUp: () -> Unit = {},
       onNavigate: (String) -> Unit = {},
       viewModel: MessageViewModel = hiltViewModel()
 ) {
       val context = LocalContext.current
+      val pagingState = viewModel.pagingState.value
       val focusRequester = remember {
             FocusRequester()
       }
@@ -44,28 +46,34 @@ fun MessageScreen(
                   showBackIcon = true,
                   onNavigateUp = onNavigateUp,
                   title = {
-                        Text(text = "Germen"/*chatItem.username*/)
+                        Text(text = remoteUsername)
                   }
             )
 
             LazyColumn(
                   modifier = Modifier
                         .fillMaxSize()
+                        .weight(1f)
                         .padding(SpaceMedium),
                   verticalArrangement = Arrangement.spacedBy(SpaceLarge)
             ) {
-                  //items(messages) { message ->
-                  //      RemoteMessage(
-                  //            color = MaterialTheme.colorScheme.surface,
-                  //            message = message.text,
-                  //            formattedTime = message.formattedTime
-                  //      )
-                  //      OwnMessage(
-                  //            color = MaterialTheme.colorScheme.primary,
-                  //            message = message.text,
-                  //            formattedTime = message.formattedTime
-                  //      )
-                  //}
+                  items(pagingState.items.size) { index ->
+                        val message = pagingState.items[index]
+                        //满足刷新下一页的条件：列表前一位、数据没有到底、不在刷新状态
+                        if (index >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
+                              viewModel.loadNextMessages()
+                        }
+                        RemoteMessage(
+                              color = MaterialTheme.colorScheme.surface,
+                              message = message.text,
+                              formattedTime = message.formattedTime
+                        )
+                        OwnMessage(
+                              color = MaterialTheme.colorScheme.primary,
+                              message = message.text,
+                              formattedTime = message.formattedTime
+                        )
+                  }
             }
 
             SendTextField(

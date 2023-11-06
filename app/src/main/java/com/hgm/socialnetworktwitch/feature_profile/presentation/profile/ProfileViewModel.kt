@@ -46,7 +46,8 @@ class ProfileViewModel @Inject constructor(
       val pagingState: State<PagingState<Post>> = _pagingState
 
 
-      private val paginator = DefaultPaginator(onLoading = { isLoading ->
+      private val paginator = DefaultPaginator(
+            onLoading = { isLoading ->
             _pagingState.value = _pagingState.value.copy(
                   isLoading = isLoading
             )
@@ -84,19 +85,22 @@ class ProfileViewModel @Inject constructor(
       fun onEvent(event: ProfileEvent) {
             when (event) {
                   is ProfileEvent.GetProfile -> TODO()
-                  is ProfileEvent.Logout-> {
+                  is ProfileEvent.Logout -> {
                         profileUseCases.logoutUseCase()
                   }
+
                   is ProfileEvent.LikePost -> {
                         updateLikeState(parentId = event.postId)
                   }
-                  is ProfileEvent.ShowLogoutDialog->{
-                        _state.value=state.value.copy(
+
+                  is ProfileEvent.ShowLogoutDialog -> {
+                        _state.value = state.value.copy(
                               isShowLogoutDialog = true
                         )
                   }
-                  is ProfileEvent.DismissLogoutDialog->{
-                        _state.value=state.value.copy(
+
+                  is ProfileEvent.DismissLogoutDialog -> {
+                        _state.value = state.value.copy(
                               isShowLogoutDialog = false
                         )
                   }
