@@ -81,7 +81,7 @@ fun ChatScreen(
                               chat = chat,
                               onItemClick = {
                                     onNavigate(
-                                          Screen.MessageScreen.route + "/${chat.chatId}/${chat.remoteUserId}/${chat.remoteUsername}/${Base64.encodeToString(chat.remoteProfilePictureUrl.encodeToByteArray(),0)}"
+                                          Screen.MessageScreen.route + "/${chat.remoteUserId}/${chat.remoteUsername}/${Base64.encodeToString(chat.remoteProfilePictureUrl.encodeToByteArray(),0)}?chatId=${chat.chatId}"
                                     )
                               }
                         )

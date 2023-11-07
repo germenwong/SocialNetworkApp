@@ -1,12 +1,14 @@
 package com.hgm.socialnetworktwitch.feature_chat.presentation.message.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,8 +42,8 @@ fun RemoteMessage(
 
 
       Row(
-            modifier = modifier
-                  .fillMaxWidth()
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
                   //.drawBehind {
                   //      val cornerRadiusPx = cornerRadius.toPx(
                   //            shapeSize = size,
@@ -61,7 +63,8 @@ fun RemoteMessage(
       ) {
             Box(
                   modifier = Modifier
-                        .weight(1f)
+                        //.weight(1f)
+                        .wrapContentWidth()
                         .background(
                               color = MaterialTheme.colorScheme.surface,
                               shape = MaterialTheme.shapes.small

@@ -1,6 +1,5 @@
 package com.hgm.socialnetworktwitch.feature_chat.di
 
-import android.app.Application
 import com.hgm.socialnetworktwitch.core.util.Constants
 import com.hgm.socialnetworktwitch.feature_chat.data.remote.ChatApi
 import com.hgm.socialnetworktwitch.feature_chat.data.remote.ChatService
@@ -14,9 +13,7 @@ import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.GetMessagesForCh
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ObserveChatEvents
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ReceiveMessage
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.SendMessage
-import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.tinder.scarlet.Scarlet
-import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import com.tinder.scarlet.websocket.okhttp.newWebSocketFactory
 import dagger.Module
 import dagger.Provides
@@ -49,14 +46,14 @@ object ChatModule {
 
       @Provides
       @Singleton
-      fun provideScarlet(app: Application, client: OkHttpClient): Scarlet {
+      fun provideScarlet(/*app: Application,*/ client: OkHttpClient): Scarlet {
             return Scarlet.Builder()
                   .addMessageAdapterFactory(CustomGsonMessageAdapter.Factory())
                   .addStreamAdapterFactory(FlowStreamAdapter.Factory)
                   .webSocketFactory(
-                        client.newWebSocketFactory("ws://192.168.31.161:8080")
+                        client.newWebSocketFactory("ws://172.20.10.4:8080/api/chat/websocket")
                   )
-                  .lifecycle(AndroidLifecycle.ofApplicationForeground(app))
+                  //.lifecycle(AndroidLifecycle.ofApplicationForeground(app))
                   .build()
       }
 

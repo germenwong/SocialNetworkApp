@@ -1,12 +1,14 @@
 package com.hgm.socialnetworktwitch.feature_chat.presentation.message.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +42,8 @@ fun OwnMessage(
 
       Row(
             modifier = modifier
-                  .fillMaxWidth()
+                  .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
                   //.drawBehind {
                   //      val cornerRadiusPx = cornerRadius.toPx(
                   //            shapeSize = size,
@@ -65,7 +68,8 @@ fun OwnMessage(
             Spacer(modifier = Modifier.width(SpaceMedium))
             Box(
                   modifier = Modifier
-                        .weight(1f)
+                        //.weight(1f)
+                        .wrapContentWidth()
                         .background(
                               color = color,
                               shape = MaterialTheme.shapes.small

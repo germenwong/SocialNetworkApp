@@ -100,4 +100,5 @@
     <string name="share_post">分享帖子</string>
     <string name="user_not_login">您好像还没有登录哟</string>
     <string name="your_chat">消息</string>
+    <string name="message">发起聊天</string>
 </resources>

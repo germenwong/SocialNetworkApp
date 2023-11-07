@@ -1,8 +1,8 @@
 package com.hgm.socialnetworktwitch.feature_chat.data.remote.util
 
 import com.google.gson.Gson
+import com.hgm.socialnetworktwitch.feature_chat.data.remote.dto.WsClientMessage
 import com.hgm.socialnetworktwitch.feature_chat.data.remote.dto.WsServerMessage
-import com.hgm.utils.WebSocketObject
 import com.tinder.scarlet.Message
 import com.tinder.scarlet.MessageAdapter
 import java.lang.reflect.Type
@@ -15,6 +15,7 @@ import java.lang.reflect.Type
 class CustomGsonMessageAdapter<T> private constructor(
       private val gson: Gson
 ) : MessageAdapter<T> {
+      //接收消息
       override fun fromMessage(message: Message): T {
             val payload = when (message) {
                   is Message.Text -> message.value
@@ -36,13 +37,14 @@ class CustomGsonMessageAdapter<T> private constructor(
             return gson.fromJson(json, clazz) as T
       }
 
+      //发送消息
       override fun toMessage(data: T): Message {
             val clazz = when (data) {
-                  is WsServerMessage -> WsServerMessage::class.java
+                  is WsClientMessage -> WsClientMessage::class.java
                   else -> Any::class.java
             }
             val type = when (data) {
-                  is WsServerMessage -> WebSocketObject.MESSAGE.ordinal
+                  is WsClientMessage -> WebSocketObject.MESSAGE.ordinal
                   else -> -1
             }
             val socketString = "$type#${gson.toJson(data, clazz)}"

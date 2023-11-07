@@ -2,7 +2,9 @@ package com.hgm.socialnetworktwitch.feature_chat.presentation.message
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -27,6 +29,7 @@ import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.
 
 @Composable
 fun MessageScreen(
+      remoteUserId:String,
       remoteUsername: String,
       remoteUserProfilePictureUrl: String,
       onNavigateUp: () -> Unit = {},
@@ -63,16 +66,22 @@ fun MessageScreen(
                         if (index >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
                               viewModel.loadNextMessages()
                         }
-                        RemoteMessage(
-                              color = MaterialTheme.colorScheme.surface,
-                              message = message.text,
-                              formattedTime = message.formattedTime
-                        )
-                        OwnMessage(
-                              color = MaterialTheme.colorScheme.primary,
-                              message = message.text,
-                              formattedTime = message.formattedTime
-                        )
+
+                        if (message.sendId==remoteUserId){
+                              RemoteMessage(
+                                    color = MaterialTheme.colorScheme.surface,
+                                    message = message.text,
+                                    formattedTime = message.formattedTime
+                              )
+                              Spacer(modifier = Modifier.height(SpaceMedium))
+                        }else{
+                              OwnMessage(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    message = message.text,
+                                    formattedTime = message.formattedTime
+                              )
+                              Spacer(modifier = Modifier.height(SpaceMedium))
+                        }
                   }
             }
 

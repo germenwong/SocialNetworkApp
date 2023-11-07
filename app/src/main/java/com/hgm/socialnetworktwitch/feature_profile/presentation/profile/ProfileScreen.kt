@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_profile.presentation.profile
 
+import android.util.Base64
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -160,6 +161,12 @@ fun ProfileScreen(
                                     },
                                     onLogoutClick = {
                                           viewModel.onEvent(ProfileEvent.ShowLogoutDialog)
+                                    },
+                                    onMessageClick = {
+                                          val profilePictureUrl=Base64.encodeToString(profile.profilePictureUrl.encodeToByteArray(), 0)
+                                          onNavigate(
+                                                Screen.MessageScreen.route + "/$userId/${profile.username}/$profilePictureUrl"
+                                          )
                                     }
                               )
                         }

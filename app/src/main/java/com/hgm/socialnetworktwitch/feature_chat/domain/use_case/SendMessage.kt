@@ -14,6 +14,6 @@ class SendMessage(
             if (text.isBlank()) {
                   return
             }
-            chatRepository.sendMessage(receiveId = receiveId, text = text, chatId = chatId)
+            chatRepository.sendMessage(receiveId = receiveId, text = text.trim(), chatId = chatId)
       }
 }

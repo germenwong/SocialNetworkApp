@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Message
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +41,8 @@ fun ProfileHeaderSection(
       isOwnProfile: Boolean = true,
       isFollowing: Boolean = true,
       onEditClick: () -> Unit = {},
-      onLogoutClick: () -> Unit = {}
+      onLogoutClick: () -> Unit = {},
+      onMessageClick: () -> Unit = {}
 ) {
       Column(
             modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
@@ -78,6 +80,18 @@ fun ProfileHeaderSection(
                               Icon(
                                     imageVector = Icons.Default.Logout,
                                     contentDescription = stringResource(id = R.string.logout)
+                              )
+                        }
+                  }
+                  if (!isOwnProfile){
+                        Spacer(modifier = Modifier.width(SpaceSmall))
+                        IconButton(
+                              onClick = onMessageClick,
+                              modifier = Modifier.size(30.dp)
+                        ) {
+                              Icon(
+                                    imageVector = Icons.Default.Message,
+                                    contentDescription = stringResource(id = R.string.message)
                               )
                         }
                   }
