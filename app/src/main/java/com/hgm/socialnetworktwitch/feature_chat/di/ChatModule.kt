@@ -10,6 +10,7 @@ import com.hgm.socialnetworktwitch.feature_chat.domain.repository.ChatRepository
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ChatUseCases
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.GetChatsForUser
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.GetMessagesForChat
+import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.InitializeRepository
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ObserveChatEvents
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ReceiveMessage
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.SendMessage
@@ -47,7 +48,7 @@ object ChatModule {
 
       @Provides
       @Singleton
-      fun provideScarlet(/*app: Application,*/ client: OkHttpClient): Scarlet {
+      fun provideScarlet(client: OkHttpClient): Scarlet {
             return Scarlet.Builder()
                   .addMessageAdapterFactory(CustomGsonMessageAdapter.Factory())
                   .addStreamAdapterFactory(CoroutinesStreamAdapterFactory())
@@ -55,7 +56,6 @@ object ChatModule {
                         //client.newWebSocketFactory("ws://172.20.10.4:8080/api/chat/websocket")
                         client.newWebSocketFactory("ws://192.168.31.163:8080/api/chat/websocket")
                   )
-                  //.lifecycle(AndroidLifecycle.ofApplicationForeground(app))
                   .build()
       }
 
@@ -74,6 +74,7 @@ object ChatModule {
                   receiveMessage = ReceiveMessage(repository),
                   getChatsForUser = GetChatsForUser(repository),
                   observeChatEvents = ObserveChatEvents(repository),
+                  initializeRepository = InitializeRepository(repository),
                   getMessagesForChat = GetMessagesForChat(repository)
             )
       }
@@ -81,8 +82,8 @@ object ChatModule {
 
       @Provides
       @Singleton
-      fun provideChatRepository(chatService: ChatService, chatApi: ChatApi): ChatRepository {
-            return ChatRepositoryImpl(chatService, chatApi)
+      fun provideChatRepository( chatApi: ChatApi,client: OkHttpClient): ChatRepository {
+            return ChatRepositoryImpl(chatApi,client)
       }
 
 }

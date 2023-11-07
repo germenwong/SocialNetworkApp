@@ -7,6 +7,7 @@ import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.feature_chat.data.remote.ChatApi
 import com.hgm.socialnetworktwitch.feature_chat.data.remote.ChatService
 import com.hgm.socialnetworktwitch.feature_chat.data.remote.dto.WsClientMessage
+import com.hgm.socialnetworktwitch.feature_chat.di.ScarletInstance
 import com.hgm.socialnetworktwitch.feature_chat.domain.model.Chat
 import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
 import com.hgm.socialnetworktwitch.feature_chat.domain.repository.ChatRepository
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -25,9 +27,16 @@ import java.io.IOException
  * @desc：
  */
 class ChatRepositoryImpl(
-      private val chatService: ChatService,
-      private val chatApi: ChatApi
+      private val chatApi: ChatApi,
+      private val client: OkHttpClient
 ) : ChatRepository {
+
+      private var chatService: ChatService? = null
+
+      override fun initialize() {
+            chatService = ScarletInstance.getNewInstance(client)
+      }
+
       override suspend fun getChatsForUser(): Resource<List<Chat>> {
             return try {
                   val chats = chatApi.getChatsForUser().mapNotNull { it.toChat() }
@@ -67,7 +76,7 @@ class ChatRepositoryImpl(
       }
 
       override fun sendMessage(receiveId: String, text: String, chatId: String?) {
-            chatService.sendMessage(
+            chatService?.sendMessage(
                   WsClientMessage(
                         receiveId = receiveId,
                         chatId = chatId,
@@ -78,15 +87,15 @@ class ChatRepositoryImpl(
 
       override fun receiveMessage(): Flow<Message> {
             return chatService
-                  .observeMessages()
-                  .receiveAsFlow()
-                  .onEach { message->
+                  ?.observeMessages()
+                  ?.receiveAsFlow()
+                  ?.onEach { message ->
                         Log.d("Receiver", "接收到了来自服务器的消息：$message")
                   }
-                  .map { it.toMessage() }
+                  ?.map { it.toMessage() } ?: flow { }
       }
 
       override fun observeChatEvents(): Flow<WebSocket.Event> {
-            return chatService.observeEvents().receiveAsFlow()
+            return chatService?.observeEvents()?.receiveAsFlow() ?: flow { }
       }
 }

@@ -66,6 +66,7 @@ class MessageViewModel @Inject constructor(
 
 
       init {
+            chatUseCases.initializeRepository()
             loadNextMessages()
             observeChatEvents()
             observeChatMessage()
