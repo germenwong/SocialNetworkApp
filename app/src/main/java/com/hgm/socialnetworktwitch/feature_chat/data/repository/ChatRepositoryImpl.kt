@@ -1,5 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_chat.data.repository
 
+import android.util.Log
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.core.util.Resource
@@ -11,7 +12,10 @@ import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
 import com.hgm.socialnetworktwitch.feature_chat.domain.repository.ChatRepository
 import com.tinder.scarlet.WebSocket
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -73,10 +77,16 @@ class ChatRepositoryImpl(
       }
 
       override fun receiveMessage(): Flow<Message> {
-            return chatService.observeMessages().map { it.toMessage() }
+            return chatService
+                  .observeMessages()
+                  .receiveAsFlow()
+                  .onEach { message->
+                        Log.d("Receiver", "接收到了来自服务器的消息：$message")
+                  }
+                  .map { it.toMessage() }
       }
 
       override fun observeChatEvents(): Flow<WebSocket.Event> {
-            return chatService.observeEvents()
+            return chatService.observeEvents().receiveAsFlow()
       }
 }

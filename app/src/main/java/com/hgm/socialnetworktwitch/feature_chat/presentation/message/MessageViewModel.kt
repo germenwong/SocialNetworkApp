@@ -18,6 +18,7 @@ import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -67,15 +68,19 @@ class MessageViewModel @Inject constructor(
       init {
             loadNextMessages()
             observeChatEvents()
+            observeChatMessage()
       }
 
       private fun observeChatMessage() {
-            chatUseCases.receiveMessage()
-                  .onEach { message ->
-                        _state.value = state.value.copy(
-                              messages = state.value.messages + message
-                        )
-                  }.launchIn(viewModelScope)
+            viewModelScope.launch {
+                  chatUseCases.receiveMessage()
+                        .collect { message ->
+                              Log.d("Receiver", "在MessageViewModel:接收到了消息：$message")
+                              _pagingState.value = pagingState.value.copy(
+                                    items = pagingState.value.items + message
+                              )
+                        }
+            }
       }
 
       private fun observeChatEvents() {
@@ -84,15 +89,14 @@ class MessageViewModel @Inject constructor(
                         when (event) {
                               is WebSocket.Event.OnConnectionOpened<*> -> {
                                     Log.d("WebSocketEvent", "连接成功")
-                                    observeChatMessage()
                               }
-
-                              is WebSocket.Event.OnMessageReceived -> TODO()
-                              is WebSocket.Event.OnConnectionClosing -> TODO()
-                              is WebSocket.Event.OnConnectionClosed -> TODO()
                               is WebSocket.Event.OnConnectionFailed -> {
-                                    Log.d("WebSocketEvent", "连接失败  原因：${event.throwable.localizedMessage}")
+                                    Log.d(
+                                          "WebSocketEvent",
+                                          "连接失败  原因：${event.throwable.localizedMessage}"
+                                    )
                               }
+                              else ->Unit
                         }
                   }.launchIn(viewModelScope)
       }

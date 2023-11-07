@@ -15,6 +15,7 @@ import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.ReceiveMessage
 import com.hgm.socialnetworktwitch.feature_chat.domain.use_case.SendMessage
 import com.tinder.scarlet.Scarlet
 import com.tinder.scarlet.websocket.okhttp.newWebSocketFactory
+import com.tinder.streamadapter.coroutines.CoroutinesStreamAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,9 +50,10 @@ object ChatModule {
       fun provideScarlet(/*app: Application,*/ client: OkHttpClient): Scarlet {
             return Scarlet.Builder()
                   .addMessageAdapterFactory(CustomGsonMessageAdapter.Factory())
-                  .addStreamAdapterFactory(FlowStreamAdapter.Factory)
+                  .addStreamAdapterFactory(CoroutinesStreamAdapterFactory())
                   .webSocketFactory(
-                        client.newWebSocketFactory("ws://172.20.10.4:8080/api/chat/websocket")
+                        //client.newWebSocketFactory("ws://172.20.10.4:8080/api/chat/websocket")
+                        client.newWebSocketFactory("ws://192.168.31.163:8080/api/chat/websocket")
                   )
                   //.lifecycle(AndroidLifecycle.ofApplicationForeground(app))
                   .build()
