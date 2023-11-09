@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.hgm.socialnetworktwitch.R
 import com.hgm.socialnetworktwitch.core.domain.states.PasswordTextFieldState
 import com.hgm.socialnetworktwitch.core.domain.states.StandardTextFieldState
+import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.core.presentation.util.UiText
 import com.hgm.socialnetworktwitch.feature_auth.domain.use_case.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -41,7 +43,6 @@ class RegisterViewModel @Inject constructor(
       //事件流
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
-
 
 
       /** 处理UI发送过来的事件 */

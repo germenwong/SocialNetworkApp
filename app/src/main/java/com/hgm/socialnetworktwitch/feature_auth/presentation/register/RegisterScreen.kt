@@ -37,6 +37,7 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.RoundedCornerMediu
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Constants
+import com.hgm.socialnetworktwitch.core.util.autoHideKeyboard
 import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -60,14 +61,11 @@ fun RegisterScreen(
                   when (event) {
                         is UiEvent.ShowSnackBar -> {
                               scope.launch {
-                                    snackBarState.showSnackbar(
-                                          event.uiText.asString(context),
-                                          duration = SnackbarDuration.Long
-                                    )
+                                    snackBarState.showSnackbar(event.uiText.asString(context))
                               }
                         }
 
-                        else -> {}
+                        else -> Unit
                   }
             }
       }
@@ -85,7 +83,8 @@ fun RegisterScreen(
             Column(
                   modifier = Modifier
                         .fillMaxSize()
-                        .align(Alignment.Center),
+                        .align(Alignment.Center)
+                        .autoHideKeyboard(),
                   verticalArrangement = Arrangement.Center
             ) {
                   Text(
@@ -156,13 +155,14 @@ fun RegisterScreen(
                               viewModel.onEvent(RegisterEvent.Register)
                         }
                   ) {
-                        Text(
-                              text = stringResource(id = R.string.register),
-                              color = MaterialTheme.colorScheme.onPrimary
-                        )
-                  }
-                  if (isLoading) {
-                        CircularProgressIndicator(modifier = Modifier.align(CenterHorizontally))
+                        if (isLoading) {
+                              CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
+                        } else {
+                              Text(
+                                    text = stringResource(id = R.string.register),
+                                    color = MaterialTheme.colorScheme.onPrimary
+                              )
+                        }
                   }
             }
 

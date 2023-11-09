@@ -18,7 +18,6 @@ import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -26,48 +25,50 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MessageViewModel @Inject constructor(
-      private val chatUseCases: ChatUseCases,
-      private val savedStateHandle: SavedStateHandle
+      private val chatUseCases: ChatUseCases, private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-      private val _state = mutableStateOf(MessageState())
-      val state: State<MessageState> = _state
+      //发送按钮状态
+      private val _buttonState = mutableStateOf(false)
+      val buttonState: State<Boolean> = _buttonState
 
       //输入框状态
       private val _messageTextFieldState = mutableStateOf(StandardTextFieldState())
       val messageTextFieldState: State<StandardTextFieldState> = _messageTextFieldState
 
+      //分页状态
       private val _pagingState = mutableStateOf<PagingState<Message>>(PagingState())
       val pagingState: State<PagingState<Message>> = _pagingState
 
+      //事件流
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
 
+      //接收信息状态
       private val _messageReceiver = MutableSharedFlow<MessageReceiverEvent>(replay = 1)
       val messageReceiver = _messageReceiver.asSharedFlow()
 
-      private val paginator = DefaultPaginator(
-            onLoading = { isLoading ->
-                  _pagingState.value = pagingState.value.copy(
-                        isLoading = isLoading
-                  )
-            }, onRequest = { nextPage ->
-                  savedStateHandle.get<String>("chatId")?.let { chatId ->
-                        chatUseCases.getMessagesForChat(chatId, nextPage)
-                  } ?: Resource.Error(UiText.unknownError())
-            }, onSuccess = { newPosts ->
-                  _pagingState.value = pagingState.value.copy(
-                        isLoading = false,
-                        endReached = newPosts.isEmpty(),
-                        items = pagingState.value.items + newPosts //在原有帖子上加上新的帖子
-                  )
+      private val paginator = DefaultPaginator(onLoading = { isLoading ->
+            _pagingState.value = pagingState.value.copy(
+                  isLoading = isLoading
+            )
+      }, onRequest = { nextPage ->
+            savedStateHandle.get<String>("chatId")?.let { chatId ->
+                  chatUseCases.getMessagesForChat(chatId, nextPage)
+            } ?: Resource.Error(UiText.unknownError())
+      }, onSuccess = { newPosts ->
+            _pagingState.value = pagingState.value.copy(
+                  isLoading = false,
+                  endReached = newPosts.isEmpty(),
+                  items = pagingState.value.items + newPosts //在原有帖子上加上新的帖子
+            )
 
-                  viewModelScope.launch { _messageReceiver.emit(MessageReceiverEvent.MessagePageLoaded) }
-            }, onError = { uiText ->
-                  _eventFlow.emit(
-                        UiEvent.ShowSnackBar(uiText)
-                  )
-            })
+            viewModelScope.launch { _messageReceiver.emit(MessageReceiverEvent.MessagePageLoaded) }
+      }, onError = { uiText ->
+            _eventFlow.emit(
+                  UiEvent.ShowSnackBar(uiText)
+            )
+      })
 
 
       init {
@@ -80,35 +81,33 @@ class MessageViewModel @Inject constructor(
 
       private fun observeChatMessage() {
             viewModelScope.launch {
-                  chatUseCases.receiveMessage()
-                        .collect { message ->
-                              Log.d("Receiver", "在MessageViewModel:接收到了消息：$message")
-                              _pagingState.value = pagingState.value.copy(
-                                    items = pagingState.value.items + message
-                              )
-                              _messageReceiver.emit(MessageReceiverEvent.SingleMessageReceiver)
-                        }
+                  chatUseCases.receiveMessage().collect { message ->
+                        Log.d("Receiver", "在MessageViewModel:接收到了消息：$message")
+                        _pagingState.value = pagingState.value.copy(
+                              items = pagingState.value.items + message
+                        )
+                        _messageReceiver.emit(MessageReceiverEvent.SingleMessageReceiver)
+                  }
             }
       }
 
       private fun observeChatEvents() {
-            chatUseCases.observeChatEvents()
-                  .onEach { event ->
-                        when (event) {
-                              is WebSocket.Event.OnConnectionOpened<*> -> {
-                                    Log.d("WebSocketEvent", "连接成功")
-                              }
-
-                              is WebSocket.Event.OnConnectionFailed -> {
-                                    Log.d(
-                                          "WebSocketEvent",
-                                          "连接失败  原因：${event.throwable.localizedMessage}"
-                                    )
-                              }
-
-                              else -> Unit
+            chatUseCases.observeChatEvents().onEach { event ->
+                  when (event) {
+                        is WebSocket.Event.OnConnectionOpened<*> -> {
+                              Log.d("WebSocketEvent", "连接成功")
                         }
-                  }.launchIn(viewModelScope)
+
+                        is WebSocket.Event.OnConnectionFailed -> {
+                              Log.d(
+                                    "WebSocketEvent",
+                                    "连接失败  原因：${event.throwable.localizedMessage}"
+                              )
+                        }
+
+                        else -> Unit
+                  }
+            }.launchIn(viewModelScope)
       }
 
       fun loadNextMessages() {
@@ -121,11 +120,10 @@ class MessageViewModel @Inject constructor(
             val receiveId = savedStateHandle.get<String>("remoteUserId") ?: return
             val chatId = savedStateHandle.get<String>("chatId")
             chatUseCases.sendMessage(
-                  receiveId = receiveId,
-                  text = messageTextFieldState.value.text,
-                  chatId = chatId
+                  receiveId = receiveId, text = messageTextFieldState.value.text, chatId = chatId
             )
             _messageTextFieldState.value = StandardTextFieldState()
+            _buttonState.value = false
       }
 
       fun onEvent(event: MessageEvent) {
@@ -134,6 +132,7 @@ class MessageViewModel @Inject constructor(
                         _messageTextFieldState.value = messageTextFieldState.value.copy(
                               text = event.message
                         )
+                        _buttonState.value = event.message.isNotBlank()
                   }
 
                   is MessageEvent.SendMessage -> {

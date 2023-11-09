@@ -24,6 +24,7 @@ import com.hgm.socialnetworktwitch.core.presentation.components.SendTextField
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
+import com.hgm.socialnetworktwitch.core.util.autoHideKeyboard
 import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
 import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.OwnMessage
 import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.RemoteMessage
@@ -42,22 +43,19 @@ fun MessageScreen(
       viewModel: MessageViewModel = hiltViewModel()
 ) {
       val context = LocalContext.current
+      val listState = rememberLazyListState()
       val pagingState = viewModel.pagingState.value
-      val focusRequester = remember {
-            FocusRequester()
-      }
       val decodedRemoteUserProfilePictureUrl = remember {
             remoteUserProfilePictureUrl.decodeBase64()?.string(Charset.defaultCharset())
       }
-      val listState = rememberLazyListState()
 
 
       LaunchedEffect(key1 = pagingState) {
-            viewModel.messageReceiver.collect {event->
+            viewModel.messageReceiver.collect { event ->
                   when (event) {
-                        is MessageViewModel.MessageReceiverEvent.MessagePageLoaded ,
+                        is MessageViewModel.MessageReceiverEvent.MessagePageLoaded,
                         is MessageViewModel.MessageReceiverEvent.SingleMessageReceiver -> {
-                              if (pagingState.items.isEmpty()){
+                              if (pagingState.items.isEmpty()) {
                                     return@collect
                               }
                               listState.scrollToItem(pagingState.items.lastIndex)
@@ -68,7 +66,9 @@ fun MessageScreen(
 
 
       Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                  .fillMaxSize()
+                  .autoHideKeyboard()
       ) {
             StandardTopBar(
                   showBackIcon = true,
@@ -114,15 +114,15 @@ fun MessageScreen(
             }
 
             SendTextField(
+                  hint = stringResource(id = R.string.comment_hint),
                   state = viewModel.messageTextFieldState.value,
+                  canSendMessage = viewModel.buttonState.value,
                   onValueChange = {
                         viewModel.onEvent(MessageEvent.EnterMessage(it))
                   },
                   onSend = {
                         viewModel.onEvent(MessageEvent.SendMessage)
-                  },
-                  hint = stringResource(id = R.string.comment_hint),
-                  //focusRequester = focusRequester
+                  }
             )
       }
 }

@@ -37,6 +37,7 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
 import com.hgm.socialnetworktwitch.core.util.Constants
+import com.hgm.socialnetworktwitch.core.util.autoHideKeyboard
 import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -89,7 +90,8 @@ fun LoginScreen(
             Column(
                   modifier = Modifier
                         .fillMaxSize()
-                        .align(Alignment.Center),
+                        .align(Alignment.Center)
+                        .autoHideKeyboard(),
                   verticalArrangement = Arrangement.Center
             ) {
                   Text(
@@ -141,13 +143,14 @@ fun LoginScreen(
                               viewModel.onEvent(LoginEvent.Login)
                         }
                   ) {
-                        Text(
-                              text = stringResource(id = R.string.login),
-                              color = MaterialTheme.colorScheme.onPrimary
-                        )
-                  }
-                  if (isLoading) {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                        if (isLoading) {
+                              CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
+                        } else {
+                              Text(
+                                    text = stringResource(id = R.string.login),
+                                    color = MaterialTheme.colorScheme.onPrimary
+                              )
+                        }
                   }
             }
 

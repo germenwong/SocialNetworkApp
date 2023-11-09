@@ -175,13 +175,13 @@ fun CreatePostScreen(
                         },
                         modifier = Modifier.align(Alignment.End)
                   ) {
-                        Text(
-                              text = stringResource(id = R.string.post),
-                              color = MaterialTheme.colorScheme.onPrimary
-                        )
-                        Spacer(modifier = Modifier.width(SpaceSmall))
                         if (viewModel.isLoading.value) {
                               CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
+                        }else{
+                              Text(
+                                    text = stringResource(id = R.string.post),
+                                    color = MaterialTheme.colorScheme.onPrimary
+                              )
                         }
                   }
             }

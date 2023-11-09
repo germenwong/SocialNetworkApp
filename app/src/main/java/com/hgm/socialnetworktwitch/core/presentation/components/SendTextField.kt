@@ -29,13 +29,14 @@ fun SendTextField(
       isLoading: Boolean = false,
       state: StandardTextFieldState,
       onValueChange: (String) -> Unit,
-      canSendMessage: Boolean = true,
+      canSendMessage: Boolean = false,
       focusRequester: FocusRequester = FocusRequester()
 ) {
       Row(
             modifier = Modifier
                   .background(MaterialTheme.colorScheme.surface)
-                  .fillMaxWidth().height(100.dp)
+                  .fillMaxWidth()
+                  .height(100.dp)
                   .padding(SpaceLarge),
             verticalAlignment = Alignment.CenterVertically
       ) {

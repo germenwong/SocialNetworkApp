@@ -3,10 +3,14 @@ package com.hgm.socialnetworktwitch.core.util
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.inputmethodservice.InputMethodService
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.Dp
 import com.hgm.socialnetworktwitch.R
 
@@ -33,7 +37,7 @@ fun Context.showKeyboard() {
 }
 
 
-/** 分享帖子l链接 */
+/** 分享帖子链接 */
 fun Context.sharePostIntent(postId: String) {
       val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
@@ -48,5 +52,19 @@ fun Context.sharePostIntent(postId: String) {
 
       if (intent.resolveActivity(packageManager) != null) {
             startActivity(Intent.createChooser(intent, R.string.share_post.toString()))
+      }
+}
+
+/** 点击输入框以外区域隐藏键盘 */
+@OptIn(ExperimentalComposeUiApi::class)
+fun Modifier.autoHideKeyboard(): Modifier = composed {
+      //LocalSoftwareKeyboardController 这个是compose 组件，必须在compose 函数内才能使用
+      val keyboardController = LocalSoftwareKeyboardController.current
+      pointerInput(this) {
+            detectTapGestures(
+                  onPress = {
+                        keyboardController?.hide()
+                  }
+            )
       }
 }
