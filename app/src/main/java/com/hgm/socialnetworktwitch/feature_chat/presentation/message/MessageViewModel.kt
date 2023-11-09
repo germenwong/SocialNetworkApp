@@ -43,6 +43,9 @@ class MessageViewModel @Inject constructor(
       private val _eventFlow = MutableSharedFlow<UiEvent>()
       val eventFlow = _eventFlow.asSharedFlow()
 
+      private val _messageReceiver = MutableSharedFlow<MessageReceiverEvent>(replay = 1)
+      val messageReceiver = _messageReceiver.asSharedFlow()
+
       private val paginator = DefaultPaginator(
             onLoading = { isLoading ->
                   _pagingState.value = pagingState.value.copy(
@@ -58,6 +61,8 @@ class MessageViewModel @Inject constructor(
                         endReached = newPosts.isEmpty(),
                         items = pagingState.value.items + newPosts //在原有帖子上加上新的帖子
                   )
+
+                  viewModelScope.launch { _messageReceiver.emit(MessageReceiverEvent.MessagePageLoaded) }
             }, onError = { uiText ->
                   _eventFlow.emit(
                         UiEvent.ShowSnackBar(uiText)
@@ -66,6 +71,7 @@ class MessageViewModel @Inject constructor(
 
 
       init {
+            // 每次退出必须重新初始化对象，否则scarlet持有原来的导致WebSocket错误
             chatUseCases.initializeRepository()
             loadNextMessages()
             observeChatEvents()
@@ -80,6 +86,7 @@ class MessageViewModel @Inject constructor(
                               _pagingState.value = pagingState.value.copy(
                                     items = pagingState.value.items + message
                               )
+                              _messageReceiver.emit(MessageReceiverEvent.SingleMessageReceiver)
                         }
             }
       }
@@ -91,13 +98,15 @@ class MessageViewModel @Inject constructor(
                               is WebSocket.Event.OnConnectionOpened<*> -> {
                                     Log.d("WebSocketEvent", "连接成功")
                               }
+
                               is WebSocket.Event.OnConnectionFailed -> {
                                     Log.d(
                                           "WebSocketEvent",
                                           "连接失败  原因：${event.throwable.localizedMessage}"
                                     )
                               }
-                              else ->Unit
+
+                              else -> Unit
                         }
                   }.launchIn(viewModelScope)
       }
@@ -116,6 +125,7 @@ class MessageViewModel @Inject constructor(
                   text = messageTextFieldState.value.text,
                   chatId = chatId
             )
+            _messageTextFieldState.value = StandardTextFieldState()
       }
 
       fun onEvent(event: MessageEvent) {
@@ -130,5 +140,11 @@ class MessageViewModel @Inject constructor(
                         sendMessage()
                   }
             }
+      }
+
+
+      sealed class MessageReceiverEvent {
+            object SingleMessageReceiver : MessageReceiverEvent()
+            object MessagePageLoaded : MessageReceiverEvent()
       }
 }

@@ -18,7 +18,7 @@ data class ChatDto(
             remoteUsername=remoteUsername  ?: return null,
             remoteProfilePictureUrl = remoteProfilePictureUrl  ?: return null,
             lastMessage=lastMessage  ?: return null,
-            formattedTime=DateFormattedUtil.timestampToString(timestamp  ?: return null,"HH:mm")
+            formattedTime=DateFormattedUtil.timestampToString(timestamp  ?: return null,"MM.dd  HH:mm")
         )
     }
 }

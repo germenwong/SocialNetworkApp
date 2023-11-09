@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -25,11 +27,14 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.feature_chat.domain.model.Message
 import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.OwnMessage
 import com.hgm.socialnetworktwitch.feature_chat.presentation.message.components.RemoteMessage
+import kotlinx.coroutines.flow.collectLatest
+import okio.ByteString.Companion.decodeBase64
+import java.nio.charset.Charset
 
 
 @Composable
 fun MessageScreen(
-      remoteUserId:String,
+      remoteUserId: String,
       remoteUsername: String,
       remoteUserProfilePictureUrl: String,
       onNavigateUp: () -> Unit = {},
@@ -41,6 +46,26 @@ fun MessageScreen(
       val focusRequester = remember {
             FocusRequester()
       }
+      val decodedRemoteUserProfilePictureUrl = remember {
+            remoteUserProfilePictureUrl.decodeBase64()?.string(Charset.defaultCharset())
+      }
+      val listState = rememberLazyListState()
+
+
+      LaunchedEffect(key1 = pagingState) {
+            viewModel.messageReceiver.collect {event->
+                  when (event) {
+                        is MessageViewModel.MessageReceiverEvent.MessagePageLoaded ,
+                        is MessageViewModel.MessageReceiverEvent.SingleMessageReceiver -> {
+                              if (pagingState.items.isEmpty()){
+                                    return@collect
+                              }
+                              listState.scrollToItem(pagingState.items.lastIndex)
+                        }
+                  }
+            }
+      }
+
 
       Column(
             modifier = Modifier.fillMaxSize()
@@ -54,6 +79,7 @@ fun MessageScreen(
             )
 
             LazyColumn(
+                  state = listState,
                   modifier = Modifier
                         .fillMaxSize()
                         .weight(1f)
@@ -67,18 +93,20 @@ fun MessageScreen(
                               viewModel.loadNextMessages()
                         }
 
-                        if (message.sendId==remoteUserId){
+                        if (message.sendId == remoteUserId) {
                               RemoteMessage(
-                                    color = MaterialTheme.colorScheme.surface,
+                                    context = context,
                                     message = message.text,
-                                    formattedTime = message.formattedTime
+                                    formattedTime = message.formattedTime,
+                                    remoteUserProfilePictureUrl = decodedRemoteUserProfilePictureUrl
                               )
                               Spacer(modifier = Modifier.height(SpaceMedium))
-                        }else{
+                        } else {
                               OwnMessage(
-                                    color = MaterialTheme.colorScheme.primary,
+                                    context = context,
                                     message = message.text,
-                                    formattedTime = message.formattedTime
+                                    formattedTime = message.formattedTime,
+                                    color = MaterialTheme.colorScheme.primary
                               )
                               Spacer(modifier = Modifier.height(SpaceMedium))
                         }

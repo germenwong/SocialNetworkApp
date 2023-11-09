@@ -48,7 +48,7 @@ fun StandardScaffold(
                   route = Screen.ActivityScreen.route,
                   icon = Icons.Default.Notifications,
                   contentDescription = "Activity",
-                  alertCount = 42
+                  alertCount = 3
             ),
             BottomNavItem(
                   route = Screen.ProfileScreen.route,
