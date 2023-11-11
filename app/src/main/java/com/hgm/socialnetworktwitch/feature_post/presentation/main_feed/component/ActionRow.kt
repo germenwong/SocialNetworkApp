@@ -19,33 +19,37 @@ import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun ActionRow(
-    username: String,
-    isLike: Boolean = false,
-    modifier: Modifier = Modifier,
-    onLikeClick: () -> Unit = {},
-    onShareClick: () -> Unit = {},
-    onCommentClick: () -> Unit = {},
-    onUsernameClick: () -> Unit = {}
+      username: String,
+      isLike: Boolean = false,
+      isOwnPost: Boolean = false,
+      modifier: Modifier = Modifier,
+      onLikeClick: () -> Unit = {},
+      onShareClick: () -> Unit = {},
+      onCommentClick: () -> Unit = {},
+      onUsernameClick: () -> Unit = {},
+      onDeleteClick: () -> Unit = {}
 ) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = username,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            ),
-            modifier = Modifier.clickable { onUsernameClick() }
-        )
-        EngagementButton(
-            isLike = isLike,
-            onLikeClick = onLikeClick,
-            onCommentClick = onCommentClick,
-            onShareClick = onShareClick
-        )
-    }
+      Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+      ) {
+            Text(
+                  text = username,
+                  style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                  ),
+                  modifier = Modifier.clickable { onUsernameClick() }
+            )
+            EngagementButton(
+                  isLike = isLike,
+                  isOwnPost = isOwnPost,
+                  onLikeClick = onLikeClick,
+                  onCommentClick = onCommentClick,
+                  onShareClick = onShareClick,
+                  onDeleteClick = onDeleteClick
+            )
+      }
 }
 

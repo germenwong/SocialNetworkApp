@@ -46,8 +46,7 @@ class ProfileViewModel @Inject constructor(
       val pagingState: State<PagingState<Post>> = _pagingState
 
 
-      private val paginator = DefaultPaginator(
-            onLoading = { isLoading ->
+      private val paginator = DefaultPaginator(onLoading = { isLoading ->
             _pagingState.value = _pagingState.value.copy(
                   isLoading = isLoading
             )
@@ -104,6 +103,38 @@ class ProfileViewModel @Inject constructor(
                               isShowLogoutDialog = false
                         )
                   }
+
+                  is ProfileEvent.DeletePost -> {
+                        deletePost(event.postId)
+                  }
+            }
+      }
+
+      private fun deletePost(postId: String) {
+            viewModelScope.launch {
+                  when (val result = postUseCases.deletePost(postId)) {
+                        is Resource.Error -> {
+                              _eventFlow.emit(
+                                    UiEvent.ShowSnackBar(
+                                          result.uiText
+                                                ?: UiText.StringResource(R.string.error_unknown)
+                                    )
+                              )
+                        }
+
+                        is Resource.Success -> {
+                              _pagingState.value = pagingState.value.copy(
+                                    items = pagingState.value.items.filter {
+                                          it.id != postId
+                                    }
+                              )
+                              _eventFlow.emit(
+                                    UiEvent.ShowSnackBar(
+                                          UiText.StringResource(R.string.delete_post_successful)
+                                    )
+                              )
+                        }
+                  }
             }
       }
 
@@ -151,7 +182,7 @@ class ProfileViewModel @Inject constructor(
                   postLiker.updateLikeState(posts = pagingState.value.items,
                         parentId = parentId,
                         onRequest = { isLiked ->
-                              postUseCases.updateLikeParentUseCase(
+                              postUseCases.updateLikeParent(
                                     parentId = parentId,
                                     parentType = ParentType.Post.type,
                                     isLiked = isLiked

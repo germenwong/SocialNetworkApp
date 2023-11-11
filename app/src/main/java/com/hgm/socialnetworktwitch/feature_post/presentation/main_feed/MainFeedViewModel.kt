@@ -38,7 +38,7 @@ class MainFeedViewModel @Inject constructor(
                   )
             },
             onRequest = { page ->
-                  postUseCases.getPostsForFollowsUseCase(page)
+                  postUseCases.getPostsForFollows(page)
             },
             onSuccess = { newPosts ->
                   _pagingState.value = pagingState.value.copy(
@@ -78,7 +78,7 @@ class MainFeedViewModel @Inject constructor(
                         posts = pagingState.value.items,
                         parentId = parentId,
                         onRequest = { isLiked ->
-                              postUseCases.updateLikeParentUseCase(
+                              postUseCases.updateLikeParent(
                                     parentId = parentId,
                                     parentType = ParentType.Post.type,
                                     isLiked = isLiked

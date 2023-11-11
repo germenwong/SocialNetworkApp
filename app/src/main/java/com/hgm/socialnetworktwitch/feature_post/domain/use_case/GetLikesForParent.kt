@@ -9,7 +9,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
  * @date：2023-10-29 13:17
  * @desc：获取父项点赞的用户列表
  */
-class GetLikesForParentUseCase(
+class GetLikesForParent(
       private val repository: PostRepository
 ) {
 

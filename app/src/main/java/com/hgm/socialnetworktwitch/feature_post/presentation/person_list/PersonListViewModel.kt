@@ -53,7 +53,7 @@ class PersonListViewModel @Inject constructor(
             viewModelScope.launch {
                   _state.value = state.value.copy(isLoading = true)
 
-                  when (val result = postUseCases.getLikesForParentUseCase(parentId)) {
+                  when (val result = postUseCases.getLikesForParent(parentId)) {
                         is Resource.Error -> {
                               _eventFlow.emit(
                                     UiEvent.ShowSnackBar(result.uiText ?: UiText.unknownError())

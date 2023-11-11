@@ -12,7 +12,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
  * @date：2023-10-19 18:05
  * @desc：创建帖子用例
  */
-class CreatePostUseCase(
+class CreatePost(
       private val repository: PostRepository
 ) {
 

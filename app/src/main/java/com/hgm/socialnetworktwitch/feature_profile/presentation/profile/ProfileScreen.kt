@@ -33,11 +33,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.hgm.socialnetworktwitch.R
@@ -48,7 +45,6 @@ import com.hgm.socialnetworktwitch.feature_profile.presentation.profile.componen
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
-import com.hgm.socialnetworktwitch.core.presentation.ui.theme.MediumGray
 import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
 import com.hgm.socialnetworktwitch.core.util.sharePostIntent
 import com.hgm.socialnetworktwitch.core.util.toPx
@@ -150,8 +146,8 @@ fun ProfileScreen(
                                           profilePictureUrl = profile.profilePictureUrl,
                                           username = profile.username,
                                           description = profile.bio,
-                                          followerCount = profile.followerCount,
                                           followingCount = profile.followingCount,
+                                          followedCount = profile.followedCount,
                                           postCount = profile.postCount
                                     ),
                                     isFollowing = profile.isFollowing,
@@ -163,7 +159,10 @@ fun ProfileScreen(
                                           viewModel.onEvent(ProfileEvent.ShowLogoutDialog)
                                     },
                                     onMessageClick = {
-                                          val profilePictureUrl=Base64.encodeToString(profile.profilePictureUrl.encodeToByteArray(), 0)
+                                          val profilePictureUrl = Base64.encodeToString(
+                                                profile.profilePictureUrl.encodeToByteArray(),
+                                                0
+                                          )
                                           onNavigate(
                                                 Screen.MessageScreen.route + "/$userId/${profile.username}/$profilePictureUrl"
                                           )
@@ -194,9 +193,9 @@ fun ProfileScreen(
                               onShareClick = {
                                     context.sharePostIntent(post.id)
                               },
-                              //onDeleteClick = {
-                              //      viewModel.onEvent(ProfileEvent.DeletePost(post))
-                              //}
+                              onDeleteClick = {
+                                    viewModel.onEvent(ProfileEvent.DeletePost(post.id))
+                              }
                         )
                   }
             }

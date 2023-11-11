@@ -1,7 +1,6 @@
 package com.hgm.socialnetworktwitch.feature_profile.data.dto
 
 import com.hgm.socialnetworktwitch.feature_profile.domain.model.Profile
-import com.hgm.socialnetworktwitch.feature_profile.domain.model.Skill
 
 data class ProfileResponse(
     val userId:String,
@@ -13,8 +12,8 @@ data class ProfileResponse(
     val githubUrl: String?,
     val instagramUrl: String?,
     val linkedInUrl: String?,
-    val followingCount: Int,
-    val followedCount: Int,
+    val followingCount: Int,//关注量
+    val followedCount: Int,//粉丝量
     val postCount: Int,
     val isOwnProfile: Boolean,
     val isFollowing: Boolean
@@ -25,7 +24,7 @@ data class ProfileResponse(
             username = username,
             bio = bio,
             followingCount = followingCount,
-            followerCount = followedCount,
+            followedCount = followedCount,
             postCount = postCount,
             profilePictureUrl = profilePictureUrl,
             bannerUrl = bannerUrl,

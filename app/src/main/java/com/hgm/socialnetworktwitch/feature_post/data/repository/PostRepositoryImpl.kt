@@ -81,9 +81,9 @@ class PostRepositoryImpl(
             }
       }
 
-      override suspend fun getPostDetail(userId:String,postId: String): Resource<Post> {
+      override suspend fun getPostDetail(userId: String, postId: String): Resource<Post> {
             return try {
-                  val response = api.getPostDetail(userId = userId,postId = postId)
+                  val response = api.getPostDetail(userId = userId, postId = postId)
                   if (response.successful) {
                         Resource.Success(response.data)
                   } else {
@@ -192,6 +192,27 @@ class PostRepositoryImpl(
             return try {
                   val response = api.getLikesForParent(parentId)
                   Resource.Success(response.map { it.toUserItem() })
+            } catch (e: IOException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)
+                  )
+            } catch (e: HttpException) {
+                  Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_something_wrong)
+                  )
+            }
+      }
+
+      override suspend fun deletePost(postId: String): SimpleResource {
+            return try {
+                  val response = api.deletePost(postId)
+                  if (response.successful) {
+                        Resource.Success(Unit)
+                  } else {
+                        response.message?.let { msg ->
+                              Resource.Error(UiText.DynamicString(msg))
+                        } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
+                  }
             } catch (e: IOException) {
                   Resource.Error(
                         uiText = UiText.StringResource(R.string.error_couldnt_reach_srver)

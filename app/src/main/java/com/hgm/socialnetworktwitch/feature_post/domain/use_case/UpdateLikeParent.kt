@@ -8,7 +8,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
  * @date：2023-10-25 16:22
  * @desc：更新点赞的用例
  */
-class UpdateLikeParentUseCase(
+class UpdateLikeParent(
       private val repository: PostRepository
 ) {
       suspend operator fun invoke(

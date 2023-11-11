@@ -7,7 +7,7 @@ import com.hgm.socialnetworktwitch.core.util.SimpleResource
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 
 
-class AddCommentUseCase(
+class AddComment(
       private val repository: PostRepository
 ) {
       suspend operator fun invoke(postId: String, comment: String): SimpleResource {

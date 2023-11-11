@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
 
-      suspend fun getPostsForFollows(page:Int,pageSize:Int): Resource<List<Post>>
+      suspend fun getPostsForFollows(page: Int, pageSize: Int): Resource<List<Post>>
 
-      suspend fun createPost(description: String,imageUri: Uri): SimpleResource
+      suspend fun createPost(description: String, imageUri: Uri): SimpleResource
 
-      suspend fun getPostDetail(userId:String,postId: String): Resource<Post>
+      suspend fun getPostDetail(userId: String, postId: String): Resource<Post>
 
-      suspend fun addComment(postId: String,comment:String): SimpleResource
+      suspend fun addComment(postId: String, comment: String): SimpleResource
 
       suspend fun getCommentForPost(postId: String): Resource<List<Comment>>
 
@@ -26,5 +26,7 @@ interface PostRepository {
 
       suspend fun unlikeParent(parentId: String, parentType: Int): SimpleResource
 
-      suspend fun getLikesForParent(parentId: String):Resource<List<UserItem>>
+      suspend fun getLikesForParent(parentId: String): Resource<List<UserItem>>
+
+      suspend fun deletePost(postId: String): SimpleResource
 }

@@ -75,6 +75,7 @@ fun PostDetailScreen(
                         is UiEvent.ShowSnackBar -> {
                               snackBarState.showSnackbar(event.uiText.asString(context))
                         }
+                        else->Unit
                   }
             }
       }

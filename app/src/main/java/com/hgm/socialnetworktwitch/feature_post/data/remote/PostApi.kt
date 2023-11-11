@@ -54,8 +54,8 @@ interface PostApi {
 
       @POST("/api/comment/add")
       suspend fun addComment(
-            @Body request:AddCommentRequest
-      ):BaseResponse<Unit>
+            @Body request: AddCommentRequest
+      ): BaseResponse<Unit>
 
 
       @POST("/api/like/likes")
@@ -72,6 +72,11 @@ interface PostApi {
 
       @GET("/api/like/parent")
       suspend fun getLikesForParent(
-            @Query("parentId") parentId:String
-      ):List<UserItemDto>
+            @Query("parentId") parentId: String
+      ): List<UserItemDto>
+
+      @DELETE("/api/post/delete")
+      suspend fun deletePost(
+            @Query("postId") postId: String
+      ): BaseResponse<Unit>
 }

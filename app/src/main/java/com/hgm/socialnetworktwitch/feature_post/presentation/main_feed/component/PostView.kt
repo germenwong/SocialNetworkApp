@@ -54,11 +54,12 @@ import com.hgm.socialnetworktwitch.core.util.Constants.POST_DESCRIPTION_MAX_LINE
 @Composable
 fun PostView(
       post: Post,
-      context:Context,
+      context: Context,
       onPostClick: () -> Unit = {},
       onShareClick: () -> Unit = {},
       onCommentClick: () -> Unit = {},
       onLikeClick: () -> Unit = {},
+      onDeleteClick: () -> Unit = {},
       onUsernameClick: () -> Unit = {},
       modifier: Modifier = Modifier,
       //showProfileImage: Boolean = true
@@ -95,13 +96,15 @@ fun PostView(
                               .padding(SpaceMedium)
                   ) {
                         ActionRow(
-                              username = post.username,
                               isLike = post.isLiked,
+                              username = post.username,
+                              isOwnPost = post.isOwnPost,
                               modifier = Modifier.fillMaxWidth(),
                               onUsernameClick = onUsernameClick,
                               onLikeClick = onLikeClick,
                               onCommentClick = onCommentClick,
-                              onShareClick = onShareClick
+                              onShareClick = onShareClick,
+                              onDeleteClick = onDeleteClick
                         )
                         Spacer(modifier = Modifier.height(SpaceSmall))
                         Text(

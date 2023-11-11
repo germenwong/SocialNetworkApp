@@ -40,12 +40,12 @@ fun ProfileStats(
             verticalAlignment = Alignment.CenterVertically
       ) {
             ProfileNumber(
-                  number = user.followerCount,
+                  number = user.followingCount,
                   text = stringResource(id = R.string.follower)
             )
             Spacer(modifier = Modifier.width(SpaceMedium))
             ProfileNumber(
-                  number = user.followingCount,
+                  number = user.followedCount,
                   text = stringResource(id = R.string.following)
             )
             Spacer(modifier = Modifier.width(SpaceMedium))

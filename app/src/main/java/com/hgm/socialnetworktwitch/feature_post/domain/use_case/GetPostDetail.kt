@@ -9,7 +9,7 @@ import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
  * @date：2023-10-27 9:48
  * @desc：获取帖子详情
  */
-class GetPostDetailUseCase(
+class GetPostDetail(
       private val repository: PostRepository
 ) {
       suspend operator fun invoke(userId:String,postId: String): Resource<Post> {

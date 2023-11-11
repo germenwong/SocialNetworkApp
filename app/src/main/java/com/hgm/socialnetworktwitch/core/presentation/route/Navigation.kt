@@ -63,8 +63,9 @@ fun Navigation(
             composable(Screen.LoginScreen.route) {
                   LoginScreen(
                         snackBarState = snackBarState,
-                        onNavigate = { route ->
-                              navController.navigate(route) {
+                        onNavigate = navController::navigate,
+                        onLogin = {
+                              navController.navigate(Screen.MainFeedScreen.route) {
                                     popUpTo(Screen.LoginScreen.route) {
                                           inclusive = true
                                     }
@@ -75,7 +76,11 @@ fun Navigation(
 
             //注册页
             composable(Screen.RegisterScreen.route) {
-                  RegisterScreen(navController = navController, snackBarState = snackBarState)
+                  RegisterScreen(
+                        navController = navController,
+                        snackBarState = snackBarState,
+                        onNavigateUp = navController::navigateUp
+                  )
             }
 
             //首页
@@ -102,7 +107,7 @@ fun Navigation(
                   arguments = listOf(
                         navArgument("chatId") {
                               type = NavType.StringType
-                              nullable=true
+                              nullable = true
                         },
                         navArgument("remoteUserId") {
                               type = NavType.StringType
@@ -119,7 +124,7 @@ fun Navigation(
                   val remoteUsername = it.arguments?.getString("remoteUsername")!!
                   val remoteProfilePictureUrl = it.arguments?.getString("remoteProfilePictureUrl")!!
                   MessageScreen(
-                        remoteUserId=remoteUserId,
+                        remoteUserId = remoteUserId,
                         remoteUsername = remoteUsername,
                         remoteUserProfilePictureUrl = remoteProfilePictureUrl,
                         onNavigate = navController::navigate,

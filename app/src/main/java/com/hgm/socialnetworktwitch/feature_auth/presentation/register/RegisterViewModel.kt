@@ -117,6 +117,8 @@ class RegisterViewModel @Inject constructor(
                               _eventFlow.emit(
                                     UiEvent.ShowSnackBar(UiText.StringResource(R.string.register_successful))
                               )
+                              delay(500L)
+                              _eventFlow.emit(UiEvent.NavigateUp)
                               _state.value = false
                               _emailState.value = StandardTextFieldState()
                               _usernameState.value = StandardTextFieldState()

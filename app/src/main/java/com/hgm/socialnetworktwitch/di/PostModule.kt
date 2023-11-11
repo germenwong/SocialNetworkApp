@@ -5,14 +5,15 @@ import com.hgm.socialnetworktwitch.feature_post.data.remote.PostApi
 import com.hgm.socialnetworktwitch.core.util.Constants.BASE_URL
 import com.hgm.socialnetworktwitch.feature_post.data.repository.PostRepositoryImpl
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.AddCommentUseCase
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.CreatePostUseCase
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetCommentForPostUseCase
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetLikesForParentUseCase
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostDetailUseCase
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostsForFollowsUseCase
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.AddComment
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.CreatePost
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.DeletePost
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetCommentForPost
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetLikesForParent
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostDetail
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.GetPostsForFollows
 import com.hgm.socialnetworktwitch.feature_post.domain.use_case.PostUseCases
-import com.hgm.socialnetworktwitch.feature_post.domain.use_case.UpdateLikeParentUseCase
+import com.hgm.socialnetworktwitch.feature_post.domain.use_case.UpdateLikeParent
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,13 +50,14 @@ object PostModule {
       @Singleton
       fun providePostUseCase(repository: PostRepository): PostUseCases {
             return PostUseCases(
-                  createPostUseCase = CreatePostUseCase(repository),
-                  addCommentUseCase = AddCommentUseCase(repository),
-                  getPostDetailUseCase = GetPostDetailUseCase(repository),
-                  updateLikeParentUseCase = UpdateLikeParentUseCase(repository),
-                  getLikesForParentUseCase = GetLikesForParentUseCase(repository),
-                  getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository),
-                  getCommentForPostUseCase = GetCommentForPostUseCase(repository)
+                  createPost = CreatePost(repository),
+                  addComment = AddComment(repository),
+                  getPostDetail = GetPostDetail(repository),
+                  updateLikeParent = UpdateLikeParent(repository),
+                  getLikesForParent = GetLikesForParent(repository),
+                  getPostsForFollows = GetPostsForFollows(repository),
+                  getCommentForPost = GetCommentForPost(repository),
+                  deletePost = DeletePost(repository)
             )
       }
 }

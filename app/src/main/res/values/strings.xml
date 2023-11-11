@@ -68,7 +68,7 @@
     <string name="error_unknown">未知错误</string>
     <string name="error_couldnt_reach_srver">哎呀无法访问服务器，请检查你的网络！</string>
     <string name="error_something_wrong">哎呀出了点小问题，请再试一次！</string>
-    <string name="register_successful">注册成功！2秒后自动登录</string>
+    <string name="register_successful">Nice 注册成功了！</string>
     <string name="error_file_not_found">找不到文件</string>
     <string name="post_image">帖子照片</string>
     <string name="error_no_image_picked">你还没有添加照片</string>
@@ -101,4 +101,6 @@
     <string name="user_not_login">您好像还没有登录哟</string>
     <string name="your_chat">消息</string>
     <string name="message">发起聊天</string>
+    <string name="delete_button">删除帖子</string>
+    <string name="delete_post_successful">帖子删除成功</string>
 </resources>

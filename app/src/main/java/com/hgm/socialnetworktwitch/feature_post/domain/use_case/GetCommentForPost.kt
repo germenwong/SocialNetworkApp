@@ -5,7 +5,7 @@ import com.hgm.socialnetworktwitch.core.util.Resource
 import com.hgm.socialnetworktwitch.feature_post.domain.repository.PostRepository
 
 
-class GetCommentForPostUseCase(
+class GetCommentForPost(
       private val repository: PostRepository
 ) {
 

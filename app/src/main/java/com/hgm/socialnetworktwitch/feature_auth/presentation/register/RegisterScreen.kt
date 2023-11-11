@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(
+      onNavigateUp: () -> Unit = {},
       navController: NavController,
       snackBarState: SnackbarHostState,
       viewModel: RegisterViewModel = hiltViewModel()
@@ -53,7 +54,7 @@ fun RegisterScreen(
       val usernameState = viewModel.usernameState.value
       val passwordState = viewModel.passwordState.value
       val isLoading = viewModel.state.value
-      val context= LocalContext.current
+      val context = LocalContext.current
       val scope = rememberCoroutineScope()
 
       LaunchedEffect(key1 = true) {
@@ -65,6 +66,7 @@ fun RegisterScreen(
                               }
                         }
 
+                        is UiEvent.NavigateUp -> onNavigateUp()
                         else -> Unit
                   }
             }
@@ -183,7 +185,7 @@ fun RegisterScreen(
                   modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .clickable {
-                              navController.popBackStack()
+                              navController.navigateUp()
                         }
             )
       }

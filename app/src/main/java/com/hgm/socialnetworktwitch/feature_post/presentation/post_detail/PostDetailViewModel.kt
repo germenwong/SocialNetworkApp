@@ -98,7 +98,7 @@ class PostDetailViewModel @Inject constructor(
                   _state.value = state.value.copy(
                         isLoadingPost = true
                   )
-                  when (val result = postUseCases.getPostDetailUseCase(userId, postId)) {
+                  when (val result = postUseCases.getPostDetail(userId, postId)) {
                         is Resource.Success -> {
                               _state.value = state.value.copy(
                                     post = result.data,
@@ -126,7 +126,7 @@ class PostDetailViewModel @Inject constructor(
                   _state.value = state.value.copy(
                         isLoadingComment = true
                   )
-                  when (val result = postUseCases.getCommentForPostUseCase(postId)) {
+                  when (val result = postUseCases.getCommentForPost(postId)) {
                         is Resource.Success -> {
                               _state.value = state.value.copy(
                                     comments = result.data ?: emptyList(),
@@ -161,7 +161,7 @@ class PostDetailViewModel @Inject constructor(
                         isLoading = true
                   )
 
-                  val result = postUseCases.addCommentUseCase(
+                  val result = postUseCases.addComment(
                         postId = postId,
                         comment = comment
                   )
@@ -237,7 +237,7 @@ class PostDetailViewModel @Inject constructor(
                               )
                         }
                   }
-                  val result = postUseCases.updateLikeParentUseCase(
+                  val result = postUseCases.updateLikeParent(
                         parentId = parentId,
                         parentType = parentType,
                         isLiked = isLiked

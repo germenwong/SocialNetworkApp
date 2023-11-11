@@ -2,6 +2,7 @@ package com.hgm.socialnetworktwitch.feature_auth.presentation.login
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hgm.socialnetworktwitch.R
@@ -21,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-      private val loginUseCase: LoginUseCase
+      private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
       //邮箱
       private val _emailState = mutableStateOf(StandardTextFieldState())
@@ -99,9 +100,7 @@ class LoginViewModel @Inject constructor(
                         }
 
                         is Resource.Success -> {
-                              _eventFlow.emit(
-                                    UiEvent.Navigate(Screen.MainFeedScreen.route)
-                              )
+                              _eventFlow.emit(UiEvent.OnLogin)
                               _state.value = false
                               _emailState.value = StandardTextFieldState()
                               _passwordState.value = PasswordTextFieldState()
