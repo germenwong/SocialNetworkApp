@@ -46,6 +46,7 @@ import com.hgm.socialnetworktwitch.core.presentation.ui.theme.ProfilePictureSize
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceSmall
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
 import com.hgm.socialnetworktwitch.core.presentation.util.PostEvent
+import com.hgm.socialnetworktwitch.core.util.openUrlInBrowser
 import com.hgm.socialnetworktwitch.core.util.sharePostIntent
 import com.hgm.socialnetworktwitch.core.util.toPx
 import kotlinx.coroutines.flow.collectLatest
@@ -232,6 +233,15 @@ fun ProfileScreen(
                               hasGithub = !profile.gitHubUrl.isNullOrBlank(),
                               hasInstagram = !profile.instagramUrl.isNullOrEmpty(),
                               hasLinkedIn = !profile.linkedInUrl.isNullOrEmpty(),
+                              onGithubClick = {
+                                    context.openUrlInBrowser(profile.gitHubUrl ?: return@BannerSection)
+                              },
+                              onInstagramClick = {
+                                    context.openUrlInBrowser(profile.instagramUrl ?: return@BannerSection)
+                              },
+                              onLinkedInClick = {
+                                    context.openUrlInBrowser(profile.linkedInUrl ?: return@BannerSection)
+                              }
                         )
                         AsyncImage(
                               model = ImageRequest.Builder(context)

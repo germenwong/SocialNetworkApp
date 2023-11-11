@@ -3,6 +3,7 @@ package com.hgm.socialnetworktwitch.core.util
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -14,11 +15,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.Dp
 import com.hgm.socialnetworktwitch.R
 
-/**
- * @auth：HGM
- * @date：2023-10-11 16:20
- * @desc：扩展
- */
+
 
 /** Dp转Px */
 fun Dp.toPx(): Float {
@@ -67,4 +64,11 @@ fun Modifier.autoHideKeyboard(): Modifier = composed {
                   }
             )
       }
+}
+
+
+/** 跳转外部浏览器 */
+fun Context.openUrlInBrowser(url:String){
+      val intent=Intent(Intent.ACTION_VIEW, Uri.parse(url))
+      startActivity(intent)
 }
