@@ -7,7 +7,7 @@ package com.hgm.socialnetworktwitch.core.util
  */
 object Constants {
       //const val BASE_URL = "http://192.168.31.163:8080"
-      const val BASE_URL = "http://172.20.10.4:8080"
+      const val BASE_URL = "http://192.168.31.169:8080"
       const val DEEP_LINK="https://www.coders-hub.com"
       const val SPLASH_SCREEN_DURATION = 2000L
       const val POST_DESCRIPTION_MAX_LINE = 3
