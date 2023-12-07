@@ -54,7 +54,7 @@ object ChatModule {
                   .addStreamAdapterFactory(CoroutinesStreamAdapterFactory())
                   .webSocketFactory(
                         //client.newWebSocketFactory("ws://172.20.10.4:8080/api/chat/websocket")
-                        client.newWebSocketFactory("ws://192.168.31.163:8080/api/chat/websocket")
+                        client.newWebSocketFactory("ws://192.168.31.169/api/chat/websocket")
                   )
                   .build()
       }
