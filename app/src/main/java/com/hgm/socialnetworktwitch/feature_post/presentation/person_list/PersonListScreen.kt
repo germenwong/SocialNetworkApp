@@ -7,11 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -24,12 +21,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.ImageLoader
 import com.hgm.socialnetworktwitch.R
-import com.hgm.socialnetworktwitch.core.domain.model.User
 import com.hgm.socialnetworktwitch.core.presentation.components.StandardTopBar
 import com.hgm.socialnetworktwitch.core.presentation.route.Screen
-import com.hgm.socialnetworktwitch.core.presentation.ui.theme.IconSizeMedium
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceLarge
 import com.hgm.socialnetworktwitch.core.presentation.ui.theme.SpaceMedium
 import com.hgm.socialnetworktwitch.core.presentation.util.UiEvent
@@ -54,7 +48,8 @@ fun PersonListScreen(
                         is UiEvent.ShowSnackBar -> {
                               snackBarState.showSnackbar(event.uiText.asString(context))
                         }
-                        else->Unit
+
+                        else -> Unit
                   }
             }
       }
@@ -68,7 +63,7 @@ fun PersonListScreen(
                   showBackIcon = true,
                   title = {
                         Text(
-                              text = stringResource(id = R.string.liked_by),
+                              text = stringResource(id = R.string.liked_by ),
                               fontWeight = FontWeight.Bold,
                               color = MaterialTheme.colorScheme.onBackground
                         )

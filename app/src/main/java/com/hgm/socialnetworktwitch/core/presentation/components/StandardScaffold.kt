@@ -75,11 +75,15 @@ fun StandardScaffold(
                                           alertCount = item.alertCount,
                                           contentDescription = item.contentDescription
                                     ) {
-                                          //TODO：发现BUG，Profile页重复点击会一直创建新的页面，因为导航路由可选参数的原因
-                                          println("route：${navController.currentDestination?.route}")
-                                          println("route：${item.route}")
-                                          if (navController.currentDestination?.route != item.route) {
-                                                navController.navigate(item.route)
+                                          navController.navigate(item.route) {
+                                                // 弹出到主页起始页面，以避免当用户选择项目时在返回堆栈上建立一大堆目的地
+                                                popUpTo(/*navController.graph.findStartDestination().id*/
+                                                      Screen.MainFeedScreen.route
+                                                ) {
+                                                      saveState = true// 保存状态
+                                                }
+                                                launchSingleTop = true// 重新选择同一项目时避免同一目的地的多个副本
+                                                restoreState = true // 重新选择先前选择的项目时恢复状态
                                           }
                                     }
                               }

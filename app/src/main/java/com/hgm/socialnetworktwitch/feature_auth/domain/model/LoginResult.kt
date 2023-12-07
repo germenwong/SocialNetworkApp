@@ -9,7 +9,7 @@ import com.hgm.socialnetworktwitch.feature_auth.util.AuthError
  * @desc：登录返回的错误
  */
 data class LoginResult(
-      val emailError:AuthError?=null,
-      val passwordError:AuthError?=null,
-      val result:SimpleResource?=null
+      val emailError: AuthError? = null,
+      val passwordError: AuthError? = null,
+      val result: SimpleResource? = null
 )
